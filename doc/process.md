@@ -10,6 +10,9 @@ Yongli Liang 0998676829
 
 Xin Zheng 1002826249
 
+# Team picture
+![](./group%207.jpeg)
+
 # Methods of communication
 Discord as the primary communication channel, phones used only to contact members when immediate response needed. Email used as last resort if nothing else works. Phone call and texting message will be used in the emergency situation if one member cannot meet the deadline or absent before meeting. 
 
