@@ -46,8 +46,15 @@ As for priority, core functionalities have the highest priority for example the 
 
 As for difficulty, depending on the how long it would take to implement and how much thinking it requires.
 
+# Naming convention
+We will use the branch name with format like '<action verb>-<work to be done>' based on different tasks.
+
 # Division of work
-We will divide the work as even as possible, and should hold a small meeting as a group if there is a disagreement on the work division. Each of the group member should create a new branch for his own work and later makes pull request to let others merge the work after reviewing.
+We will divide the work as even as possible, and should hold a small meeting as a group if there is a disagreement on the work division.
+
+Each of the group member should create a new branch for his own feature. Before making pull request which let others merge the work after three people in the team reviewing, we should do git pull to ensure our local version is up-to-date.
+
+We are going to use recursive merge rather than fast forward one.
 
 # Submitting work
 Submit the final version of work one day before the deadline. Every group member should review the final version of work on bitbucket before the deadline.  
