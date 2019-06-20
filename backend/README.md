@@ -5,7 +5,7 @@ This backend will provide analyzed data based on request(query) from frontend
 ## Dependencies
 
 * Apache Lucene
-* jsoup
+* crawler4j
 * Spring framework
 * MySQL
 * OpenNLP(TBD)
