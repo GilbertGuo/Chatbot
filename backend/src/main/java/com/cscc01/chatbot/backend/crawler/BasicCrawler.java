@@ -4,8 +4,6 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
-import org.apache.http.Header;
-
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
@@ -13,19 +11,18 @@ import edu.uci.ics.crawler4j.url.WebURL;
 
 public class BasicCrawler extends WebCrawler {
 
-    private static final Pattern IMAGE_EXTENSIONS = Pattern.compile(".*\\.(bmp|gif|jpg|png)$");
-
-    private final AtomicInteger numSeenImages;
+    private static final Pattern FILTERS = Pattern.compile(
+        ".*(\\.(css|js|bmp|gif|jpe?g|png|tiff?|mid|mp2|mp3|mp4|wav|avi|mov|mpeg|ram|m4v|pdf" +
+        "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
+    private final AtomicInteger numSeenFiltered;
 
     /**
      * Creates a new crawler instance.
      *
-     * @param numSeenImages This is just an example to demonstrate how you can pass objects to crawlers. In this
-     * example, we pass an AtomicInteger to all crawlers and they increment it whenever they see a url which points
-     * to an image.
+     * @param numSeenFiltered This is just an example to demonstrate how you can pass objects to crawlers. 
      */
-    public BasicCrawler(AtomicInteger numSeenImages) {
-        this.numSeenImages = numSeenImages;
+    public BasicCrawler(AtomicInteger numSeenFiltered) {
+        this.numSeenFiltered = numSeenFiltered;
     }
 
     /**
@@ -35,14 +32,14 @@ public class BasicCrawler extends WebCrawler {
     @Override
     public boolean shouldVisit(Page referringPage, WebURL url) {
         String href = url.getURL().toLowerCase();
-        // Ignore the url if it has an extension that matches our defined set of image extensions.
-        if (IMAGE_EXTENSIONS.matcher(href).matches()) {
-            numSeenImages.incrementAndGet();
+        // Ignore the url if it has an extension that matches our defined filters.
+        if (FILTERS.matcher(href).matches()) {
+            numSeenFiltered.incrementAndGet();
             return false;
         }
 
-        // Only accept the url if it is in the "www.ics.uci.edu" domain and protocol is "http".
-        return href.startsWith("https://www.ics.uci.edu/");
+        // Only accept the url if it is in the "www.utsc.utoronto.ca" domain and protocol is "https".
+        return href.startsWith("https://www.utsc.utoronto.ca/");
     }
 
     /**
@@ -51,21 +48,8 @@ public class BasicCrawler extends WebCrawler {
      */
     @Override
     public void visit(Page page) {
-        int docid = page.getWebURL().getDocid();
         String url = page.getWebURL().getURL();
-        String domain = page.getWebURL().getDomain();
-        String path = page.getWebURL().getPath();
-        String subDomain = page.getWebURL().getSubDomain();
-        String parentUrl = page.getWebURL().getParentUrl();
-        String anchor = page.getWebURL().getAnchor();
-
-        logger.debug("Docid: {}", docid);
         logger.info("URL: {}", url);
-        logger.debug("Domain: '{}'", domain);
-        logger.debug("Sub-domain: '{}'", subDomain);
-        logger.debug("Path: '{}'", path);
-        logger.debug("Parent page: {}", parentUrl);
-        logger.debug("Anchor text: {}", anchor);
 
         if (page.getParseData() instanceof HtmlParseData) {
             HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
@@ -73,17 +57,14 @@ public class BasicCrawler extends WebCrawler {
             String html = htmlParseData.getHtml();
             Set<WebURL> links = htmlParseData.getOutgoingUrls();
 
+            // Need to add further parsing steps
+            // htmlParseData.getText() is available to user for convenience 
+            // jsoup should be added for more precise parsing
+            // crawler4j is only used for scheduling
+            logger.debug("Text : {}", text);
             logger.debug("Text length: {}", text.length());
             logger.debug("Html length: {}", html.length());
             logger.debug("Number of outgoing links: {}", links.size());
-        }
-
-        Header[] responseHeaders = page.getFetchResponseHeaders();
-        if (responseHeaders != null) {
-            logger.debug("Response headers:");
-            for (Header header : responseHeaders) {
-                logger.debug("\t{}: {}", header.getName(), header.getValue());
-            }
         }
 
         logger.debug("=============");
