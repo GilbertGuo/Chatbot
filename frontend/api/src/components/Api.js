@@ -10,7 +10,6 @@ class Api extends Component{
 
         }
     }
-
     componentDidMount() {
         axios.get('http://localhost:9000/helloworld')
             .then(response=>{
@@ -20,8 +19,6 @@ class Api extends Component{
                 this.setState({errorMsg:'Error retrieving data'})
             })
     }
-
-
     render() {
         const {result}=this.state;
         return (
@@ -34,7 +31,5 @@ class Api extends Component{
             </div>
         )
     }
-
-
 }
 export default Api;
