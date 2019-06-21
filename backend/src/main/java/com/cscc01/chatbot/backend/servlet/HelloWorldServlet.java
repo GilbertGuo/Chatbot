@@ -26,8 +26,12 @@ public class HelloWorldServlet extends HttpServlet {
 
         String resJson = new Gson().toJson(res);
         PrintWriter out = response.getWriter();
+
+        response.addHeader("Access-Control-Allow-Origin", "http://localhost:3000"); //added CORS---Kyle
+
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+
         response.setStatus(200);
 
         LOGGER.info("Response: " + resJson);
