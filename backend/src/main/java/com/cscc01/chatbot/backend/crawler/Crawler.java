@@ -1,30 +1,17 @@
 package com.cscc01.chatbot.backend.crawler;
 
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.regex.Pattern;
 
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 
-public class BasicCrawler extends WebCrawler {
-
-    private static final Pattern FILTERS = Pattern.compile(
-        ".*(\\.(css|js|bmp|gif|jpe?g|png|tiff?|mid|mp2|mp3|mp4|wav|avi|mov|mpeg|ram|m4v|pdf" +
-        "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
-    private final AtomicInteger numSeenFiltered;
-
-    /**
-     * Creates a new crawler instance.
-     *
-     * @param numSeenFiltered This is just an example to demonstrate how you can pass objects to crawlers. 
-     */
-    public BasicCrawler(AtomicInteger numSeenFiltered) {
-        this.numSeenFiltered = numSeenFiltered;
-    }
-
+public class Crawler extends WebCrawler {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Crawler.class);
+    private String result = "";
     /**
      * You should implement this function to specify whether the given url
      * should be crawled or not (based on your crawling logic).
@@ -33,13 +20,12 @@ public class BasicCrawler extends WebCrawler {
     public boolean shouldVisit(Page referringPage, WebURL url) {
         String href = url.getURL().toLowerCase();
         // Ignore the url if it has an extension that matches our defined filters.
-        if (FILTERS.matcher(href).matches()) {
-            numSeenFiltered.incrementAndGet();
+        if (CrawlerConfiguration.FILTERS.matcher(href).matches()) {
             return false;
         }
 
         // Only accept the url if it is in the "www.utsc.utoronto.ca" domain and protocol is "https".
-        return href.startsWith("https://www.utsc.utoronto.ca/");
+        return true;
     }
 
     /**
@@ -49,7 +35,7 @@ public class BasicCrawler extends WebCrawler {
     @Override
     public void visit(Page page) {
         String url = page.getWebURL().getURL();
-        logger.info("URL: {}", url);
+        LOGGER.info("URL: {}", url);
 
         if (page.getParseData() instanceof HtmlParseData) {
             HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
@@ -61,12 +47,17 @@ public class BasicCrawler extends WebCrawler {
             // htmlParseData.getText() is available to user for convenience 
             // jsoup should be added for more precise parsing
             // crawler4j is only used for scheduling
-            logger.debug("Text : {}", text);
-            logger.debug("Text length: {}", text.length());
-            logger.debug("Html length: {}", html.length());
-            logger.debug("Number of outgoing links: {}", links.size());
+            LOGGER.debug("Text : {}", text);
+            result = text;
+            LOGGER.debug("Text length: {}", text.length());
+            LOGGER.debug("Html length: {}", html.length());
+            LOGGER.debug("Number of outgoing links: {}", links.size());
         }
 
-        logger.debug("=============");
+        LOGGER.debug("=============");
+    }
+
+    public String getResult(){
+        return result;
     }
 }
