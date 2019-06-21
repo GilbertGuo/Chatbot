@@ -60,7 +60,7 @@ public class Indexer {
         if (results.totalHits.value != 0) {
             throw new IndexAlreadyExistedException(file.getName());
         }
-        LOGGER.info("Opening file " + filePath + "to create index");
+        LOGGER.info("Opening file " + filePath + " to create index");
 
         if (fileValidator.isPDF(file)) {
             Document document = documentRetriever.getPdfDocument(file);
