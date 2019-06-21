@@ -17,6 +17,7 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         height: '300px',
         alignItems: 'center'
+        
     },
 
     chatWindow: {
