@@ -37,6 +37,15 @@ public class Indexer {
     private FileValidator fileValidator;
 
 
+    /**
+     * Given a file path, index the file
+     * @param filePath
+     * @throws IOException
+     * @throws FileTypeNotSupportedException
+     * @throws TikaException
+     * @throws SAXException
+     * @throws IndexAlreadyExistedException
+     */
     public void createIndex(String filePath)
             throws IOException, FileTypeNotSupportedException,
             TikaException, SAXException, IndexAlreadyExistedException {
@@ -48,7 +57,7 @@ public class Indexer {
         TopDocs results = indexSearcher.search(new TermQuery(
                 new Term(LuceneFieldConstants.FILE_NAME.getText(), file.getName())), 1);
 
-        if(results.totalHits.value != 0) {
+        if (results.totalHits.value != 0) {
             throw new IndexAlreadyExistedException(file.getName());
         }
         LOGGER.info("Opening file " + filePath + "to create index");
@@ -56,27 +65,39 @@ public class Indexer {
         if (fileValidator.isPDF(file)) {
             Document document = documentRetriever.getPdfDocument(file);
             indexWriter.addDocument(document);
-        }
-        if (fileValidator.isValidFile(file)) {
+        } else if (fileValidator.isDoc(file)) {
+            Document document = documentRetriever.getDocDocument(file);
+            indexWriter.addDocument(document);
+        } else if (fileValidator.isValidFile(file)) {
             Document document = documentRetriever.getDocument(file);
             indexWriter.addDocument(document);
         }
         indexWriter.commit();
-        LOGGER.info("Document" + file.getName() + " added successfully");
+        LOGGER.info("Document " + file.getName() + " added successfully");
     }
 
+    /**
+     * delete a Document from indexes, should use field LuceneField filename to create the term,
+     * otherwise you may delete the wrong document by mistake.
+     * @param term
+     * @throws IOException
+     */
     public void deleteDocument(Term term) throws IOException {
         IndexWriter indexWriter = indexerComponentFactory.getIndexWriter();
         indexWriter.deleteDocuments(term);
         indexWriter.close();
     }
 
-    public List<Document> searchIndex(Query query) throws IOException {
-        List<Document> result = new ArrayList<>();
-        return getResult(query, result);
-    }
 
-
+    /**
+     * Search indexes given a LuceneField and queryString which contains keywords.
+     * returns top 10 hitcount documents.
+     * @param fieldConstant
+     * @param queryString
+     * @return
+     * @throws IOException
+     * @throws ParseException
+     */
     public List<Document> search(LuceneFieldConstants fieldConstant, String queryString)
             throws IOException, ParseException {
         List<Document> result = new ArrayList<>();
@@ -88,7 +109,7 @@ public class Indexer {
     private List<Document> getResult(Query query, List<Document> result) throws IOException {
         IndexSearcher indexSearcher = indexerComponentFactory.getIndexSearcher();
         TopDocs topDocs = indexSearcher.search(query, 10);
-        LOGGER.info("Finished search query " + query.toString() + ",\n Total Hits " + topDocs.totalHits);
+        LOGGER.info("Finished search query " + query.toString() + "  Total Hits: " + topDocs.totalHits);
         for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
             result.add(indexSearcher.doc(scoreDoc.doc));
         }

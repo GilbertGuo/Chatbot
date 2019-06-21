@@ -14,14 +14,19 @@ import java.util.HashSet;
 public class FileValidator {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileValidator.class);
 
-    private HashSet<String> SUPPORTED_FILE_TYPE = new HashSet<>();
+    public static final HashSet<String> SUPPORTED_FILE_TYPE = new HashSet<>();
+    private static final String MIMETYPE_PDF = "application/pdf";
+    private static final String MIMETYPE_HTML = "text/html";
+    private static final String MIMETYPE_TEXT = "text/plain";
+    private static final String MIMETYPE_DOC = "application/msword";
+    private static final String MIMETYPE_DOCX = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
     public FileValidator() {
-        SUPPORTED_FILE_TYPE.add("application/pdf");
-        SUPPORTED_FILE_TYPE.add("text/html");
-        SUPPORTED_FILE_TYPE.add("text/plain");
-        SUPPORTED_FILE_TYPE.add("application/msword");
-        SUPPORTED_FILE_TYPE.add("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        SUPPORTED_FILE_TYPE.add(MIMETYPE_DOC);
+        SUPPORTED_FILE_TYPE.add(MIMETYPE_DOCX);
+        SUPPORTED_FILE_TYPE.add(MIMETYPE_HTML);
+        SUPPORTED_FILE_TYPE.add(MIMETYPE_PDF);
+        SUPPORTED_FILE_TYPE.add(MIMETYPE_TEXT);
     }
 
     public boolean isValidFile(File file) throws IOException, FileTypeNotSupportedException {
@@ -36,5 +41,10 @@ public class FileValidator {
 
     public boolean isPDF(File file) throws IOException {
         return new Tika().detect(file).equals("application/pdf");
+    }
+
+    public boolean isDoc(File file) throws IOException {
+        String fileType = new Tika().detect(file);
+        return (fileType.equals(MIMETYPE_DOCX) || fileType.equals(MIMETYPE_DOC));
     }
 }

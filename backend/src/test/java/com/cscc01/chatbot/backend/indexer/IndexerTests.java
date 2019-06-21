@@ -103,13 +103,23 @@ public class IndexerTests  {
     }
 
     @Test
-    public void testGivenContentSearchFile() throws IOException, ParseException,
+    public void testGivenContentSearchTextFile() throws IOException, ParseException,
             FileTypeNotSupportedException, TikaException, SAXException, IndexAlreadyExistedException {
 
         indexer.createIndex(resourcesDirectory.getAbsolutePath() + "/test/test.txt");
         List<Document> docs = indexer.search(LuceneFieldConstants.CONTENT, "chatbot");
         Assert.assertEquals("test.txt", docs.get(0).get("filename"));
     }
+
+    @Test
+    public void testGivenContentSearchDocFile() throws IOException, ParseException,
+            FileTypeNotSupportedException, TikaException, SAXException, IndexAlreadyExistedException {
+
+        indexer.createIndex(resourcesDirectory.getAbsolutePath() + "/test/crawler.doc");
+        List<Document> docs = indexer.search(LuceneFieldConstants.CONTENT, "crawler");
+        Assert.assertEquals("crawler.doc", docs.get(0).get("filename"));
+    }
+
 
     @Test(expected = IndexAlreadyExistedException.class)
     public void testAddingDuplicateIndex() throws IOException,

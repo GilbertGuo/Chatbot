@@ -9,6 +9,7 @@ import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
+import org.apache.tika.parser.AutoDetectParser;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.pdf.PDFParser;
 import org.apache.tika.sax.BodyContentHandler;
@@ -33,29 +34,26 @@ public class DocumentRetriever {
 
         Document document = new Document();
 
-        Field contentField = new TextField(LuceneFieldConstants.CONTENT.getText(), new FileReader(file));
-        Field fileNameField = new StringField(LuceneFieldConstants.FILE_NAME.getText(),
-                file.getName(), Field.Store.YES);
-        Field filePathField = new StringField(LuceneFieldConstants.FILE_PATH.getText(),
-                file.getCanonicalPath(), Field.Store.YES);
+        document.add(new TextField(LuceneFieldConstants.CONTENT.getText(), new FileReader(file)));
+        document.add(new StringField(LuceneFieldConstants.FILE_NAME.getText(),
+                file.getName(), Field.Store.YES));
+        document.add(new StringField(LuceneFieldConstants.FILE_PATH.getText(),
+                file.getCanonicalPath(), Field.Store.YES));
 
-        document.add(contentField);
-        document.add(fileNameField);
-        document.add(filePathField);
-
+        LOGGER.info("Successfully converted pdf " + file.getName());
         return document;
     }
 
     public Document getPdfDocument(File file) throws IOException, TikaException, SAXException {
+        Document document = new Document();
         BodyContentHandler bodyContentHandler = new BodyContentHandler();
         Metadata metadata = new Metadata();
-        FileInputStream inputstream = new FileInputStream(file);
+        FileInputStream fileInputStream = new FileInputStream(file);
         ParseContext pdfContext = new ParseContext();
 
         PDFParser pdfparser = new PDFParser();
-        pdfparser.parse(inputstream, bodyContentHandler, metadata, pdfContext);
+        pdfparser.parse(fileInputStream, bodyContentHandler, metadata, pdfContext);
 
-        Document document = new Document();
 
         document.add(new TextField(LuceneFieldConstants.CONTENT.getText(),
                 bodyContentHandler.toString(), Field.Store.YES));
@@ -65,6 +63,27 @@ public class DocumentRetriever {
                 file.getCanonicalPath(), Field.Store.YES));
 
         LOGGER.info("Successfully converted pdf " + file.getName());
+        return document;
+    }
+
+    public Document getDocDocument(File file) throws IOException, TikaException, SAXException {
+        Document document = new Document();
+        BodyContentHandler bodyContentHandler = new BodyContentHandler();
+        Metadata metadata = new Metadata();
+        FileInputStream fileInputStream = new FileInputStream(file);
+
+
+        AutoDetectParser autoDetectParser = new AutoDetectParser();
+        autoDetectParser.parse(fileInputStream, bodyContentHandler, metadata);
+
+        document.add(new TextField(LuceneFieldConstants.CONTENT.getText(),
+                bodyContentHandler.toString(), Field.Store.YES));
+        document.add(new StringField(LuceneFieldConstants.FILE_NAME.getText(),
+                file.getName(), Field.Store.YES));
+        document.add(new StringField(LuceneFieldConstants.FILE_PATH.getText(),
+                file.getCanonicalPath(), Field.Store.YES));
+
+        LOGGER.info("Successfully converted doc/docx " + file.getName());
         return document;
     }
 
