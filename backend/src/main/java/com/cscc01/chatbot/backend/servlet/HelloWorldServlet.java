@@ -2,7 +2,8 @@ package com.cscc01.chatbot.backend.servlet;
 
 import com.cscc01.chatbot.backend.model.MessageResponse;
 import com.google.gson.Gson;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +12,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class HelloWorldServlet extends HttpServlet {
-    final static Logger logger = Logger.getLogger(HelloWorldServlet.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(HelloWorldServlet.class);
     private static final long serialVersionUID = 1L;
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -33,7 +34,7 @@ public class HelloWorldServlet extends HttpServlet {
 
         response.setStatus(200);
 
-        logger.info("Response: " + resJson);
+        LOGGER.info("Response: " + resJson);
         out.print(new Gson().toJson(res));
         out.flush();
     }
