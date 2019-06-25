@@ -2,9 +2,14 @@ package com.cscc01.chatbot.backend.indexer;
 
 import com.cscc01.chatbot.backend.indexer.exception.FileTypeNotSupportedException;
 import com.cscc01.chatbot.backend.indexer.exception.IndexAlreadyExistedException;
+import com.cscc01.chatbot.backend.querysystem.NauturalLanguageProcessService;
+import com.cscc01.chatbot.backend.querysystem.QueryAnalyzer;
+import com.cscc01.chatbot.backend.querysystem.QueryTranslator;
+import com.ibm.watson.natural_language_understanding.v1.model.AnalysisResults;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.search.Query;
 import org.apache.tika.exception.TikaException;
 import org.junit.After;
 import org.junit.Assert;
@@ -16,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.xml.sax.SAXException;
 
+import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -26,6 +32,7 @@ public class IndexerTests  {
 
     @Autowired
     Indexer indexer;
+
     private File resourcesDirectory = new File("src/main/resources");
 
     @Before
@@ -55,7 +62,7 @@ public class IndexerTests  {
 
         Term term = new Term(LuceneFieldConstants.FILE_NAME.getText(), "Index.html");
         indexer.deleteDocument(term);
-        List<Document> docs = indexer.search(LuceneFieldConstants.FILE_NAME, "Index.html");
+        List<Document> docs = indexer.searchByQueryString(LuceneFieldConstants.FILE_NAME, "Index.html");
         Assert.assertEquals(0, docs.size());
     }
 
@@ -71,7 +78,7 @@ public class IndexerTests  {
         Term term2 = new Term(LuceneFieldConstants.FILE_NAME.getText(), "Index.txt");
         indexer.deleteDocument(term2);
 
-        List<Document> docs = indexer.search(LuceneFieldConstants.CONTENT, "chatbot");
+        List<Document> docs = indexer.searchByQueryString(LuceneFieldConstants.CONTENT, "chatbot");
         Assert.assertEquals(0, docs.size());
     }
 
@@ -83,7 +90,7 @@ public class IndexerTests  {
 
         Term term = new Term(LuceneFieldConstants.FILE_NAME.getText(), "ChatBotProject.pdf");
         indexer.deleteDocument(term);
-        List<Document> docs = indexer.search(LuceneFieldConstants.CONTENT, "fintech");
+        List<Document> docs = indexer.searchByQueryString(LuceneFieldConstants.CONTENT, "fintech");
         Assert.assertEquals(0, docs.size());
     }
 
@@ -98,7 +105,7 @@ public class IndexerTests  {
         indexer.createIndex(resourcesDirectory.getAbsolutePath() + "/test/crawler.doc");
         indexer.createIndex(resourcesDirectory.getAbsolutePath() + "/test/crawler.docx");
         indexer.createIndex(resourcesDirectory.getAbsolutePath() + "/test/ChatBotProject.pdf");
-        List<Document> docs = indexer.search(LuceneFieldConstants.CONTENT, "fintech ai");
+        List<Document> docs = indexer.searchByQueryString(LuceneFieldConstants.CONTENT, "fintech ai");
         Assert.assertEquals("ChatBotProject.pdf", docs.get(0).get("filename"));
     }
 
@@ -107,7 +114,7 @@ public class IndexerTests  {
             FileTypeNotSupportedException, TikaException, SAXException, IndexAlreadyExistedException {
 
         indexer.createIndex(resourcesDirectory.getAbsolutePath() + "/test/test.txt");
-        List<Document> docs = indexer.search(LuceneFieldConstants.CONTENT, "chatbot");
+        List<Document> docs = indexer.searchByQueryString(LuceneFieldConstants.CONTENT, "chatbot");
         Assert.assertEquals("test.txt", docs.get(0).get("filename"));
     }
 
@@ -116,7 +123,7 @@ public class IndexerTests  {
             FileTypeNotSupportedException, TikaException, SAXException, IndexAlreadyExistedException {
 
         indexer.createIndex(resourcesDirectory.getAbsolutePath() + "/test/crawler.doc");
-        List<Document> docs = indexer.search(LuceneFieldConstants.CONTENT, "crawler");
+        List<Document> docs = indexer.searchByQueryString(LuceneFieldConstants.CONTENT, "crawler");
         Assert.assertEquals("crawler.doc", docs.get(0).get("filename"));
     }
 

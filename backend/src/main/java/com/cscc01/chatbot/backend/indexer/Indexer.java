@@ -98,18 +98,17 @@ public class Indexer {
      * @throws IOException
      * @throws ParseException
      */
-    public List<Document> search(LuceneFieldConstants fieldConstant, String queryString)
+    public List<Document> searchByQueryString(LuceneFieldConstants fieldConstant, String queryString)
             throws IOException, ParseException {
-        List<Document> result = new ArrayList<>();
         Query query = new QueryParser(fieldConstant.getText(), new EnglishAnalyzer()).parse(queryString);
-
-        return getResult(query, result);
+        return searchByQuery(query);
     }
 
-    private List<Document> getResult(Query query, List<Document> result) throws IOException {
+    public List<Document> searchByQuery(Query query) throws IOException {
+        List<Document> result = new ArrayList<>();
         IndexSearcher indexSearcher = indexerComponentFactory.getIndexSearcher();
         TopDocs topDocs = indexSearcher.search(query, 10);
-        LOGGER.info("Finished search query " + query.toString() + "  Total Hits: " + topDocs.totalHits);
+        LOGGER.info("Finished searchByQueryString query " + query.toString() + "  Total Hits: " + topDocs.totalHits);
         for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
             result.add(indexSearcher.doc(scoreDoc.doc));
         }
