@@ -1,3 +1,19 @@
+#Sprint3
+Integrated api with UI to retrieve data from backend.
+
+##Build
+Install dependencies if needed <code>npm install</code>
+
+if still not working, try following:<br />
+<code>npm install axios</code><br />
+<code>npm install react-simple-chatbot --save</code><br />
+<code>npm install styled-components</code><br />
+
+##Run
+run the backend server first<br />
+then <code>npm start</code><br />
+
+#Sprint2
 #Frontend Api 
 This frontend API is created so that it can talk to our backend server with GET request and display the content
 
