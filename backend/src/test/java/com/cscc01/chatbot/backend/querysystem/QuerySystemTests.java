@@ -81,6 +81,6 @@ public class QuerySystemTests {
         AnalysisResults results = nauturalLanguageProcessService.analyzeKeyWords(text);
         Query query = QueryTranslator.fromKeyword(nauturalLanguageProcessService.sortResultByRelevance(results));
 
-        Assert.assertEquals("ChatBotProject.pdf.doc", indexer.searchByQuery(query).get(0).get("filename"));
+        Assert.assertEquals("ChatBotProject.pdf", indexer.searchByQuery(query).get(0).get("filename"));
     }
 }
