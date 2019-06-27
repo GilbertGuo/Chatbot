@@ -1,18 +1,16 @@
 #Sprint3
-Integrated api with UI to retrieve data from backend.
+update frontend API so that the frontend can retrieve data from backend
 
-##Build
-Install dependencies if needed <code>npm install</code>
+update frontend API so that the frontend can send user's question to the backend
+(used JSONPlaceholder(Fake Online REST API) for Testing and Prototyping )
 
-if still not working, try following:<br />
-<code>npm install axios</code><br />
-<code>npm install react-simple-chatbot --save</code><br />
-<code>npm install styled-components</code><br />
-<code>npm install prop-types</code>
+integrate with the UI
 
 ##Run
-run the backend server first<br />
 then <code>npm start</code><br />
+
+##Note
+Only when user replies with "!", the bot will reply message.
 
 #Sprint2
 #Frontend GetApi 
