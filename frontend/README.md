@@ -14,7 +14,7 @@ run the backend server first<br />
 then <code>npm start</code><br />
 
 #Sprint2
-#Frontend Api 
+#Frontend GetApi 
 This frontend API is created so that it can talk to our backend server with GET request and display the content
 
 ##Run
@@ -27,7 +27,7 @@ This frontend API is created so that it can talk to our backend server with GET 
 Testing mock Axios requests
 
 Files:<br>
-src/__test__/Api.test.js --- test file with mock data
+src/__test__/GetApi.test.js --- test file with mock data
 src/Apimock.js  --- mocked api to be tested
 src/__mocks__/axios.js  ---mocked axios
 
@@ -41,7 +41,7 @@ if still not working, try following:<br>
 
 
 ##Run
-run <code>npm test src/__test__/Api.test.js</code>in root directory
+run <code>npm test src/__test__/GetApi.test.js</code>in root directory
 <br>
 
 The result should show 3 passed tests.

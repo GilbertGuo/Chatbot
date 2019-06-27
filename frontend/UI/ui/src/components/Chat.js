@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import ChatBot from 'react-simple-chatbot';
-import Api from "./Api";
+import GetApi from "./GetApi";
+import PostAPI from "./PostAPI";
 
 class Chat extends Component{
 
@@ -11,33 +12,49 @@ class Chat extends Component{
                 {
                     id: '0',
                     message: 'Hello!',
-                    trigger: '1',
+                    trigger: 'first',
                 },
                 {
-                    id: '1',
+                    id: 'first',
                     message: 'What is your name?!',
-                    trigger: '2',
+                    trigger: 'name',
                 },
                 {
-                    id: '2',
+                    id: 'name',
                     user: true,
                     trigger: '3',
                 },
                 {
                     id: '3',
-                    message: 'Hi {previousValue}, nice to meet you!',
+                    message: 'What is your username',
+                    trigger: 'username',
+                },
+                {
+                    id: 'username',
+                    user: true,
                     trigger: '4',
                 },
                 {
                     id: '4',
-                    component: <Api />,
-                    asMessage: true,
-                    trigger: 'end-message',
+                    message: 'What is your email',
+                    trigger: 'email',
                 },
                 {
-                    id: 'end-message',
-                    message: 'Thanks! Your data was submitted successfully!',
-                    end: true,
+                    id: 'email',
+                    user: true,
+                    trigger: '5',
+                },
+                {
+                    id: '5',
+                    component: <PostAPI />,
+                    asMessage: true,
+                    trigger: '6',
+                },
+                {
+                    id: '6',
+                    component: <GetApi />,
+                    asMessage: true,
+                    end:true,
                 },
             ]
 
