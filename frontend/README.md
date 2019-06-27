@@ -8,6 +8,7 @@ if still not working, try following:<br />
 <code>npm install axios</code><br />
 <code>npm install react-simple-chatbot --save</code><br />
 <code>npm install styled-components</code><br />
+<code>npm install prop-types</code>
 
 ##Run
 run the backend server first<br />
