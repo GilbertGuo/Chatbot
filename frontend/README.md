@@ -1,4 +1,19 @@
-#Frontend Api 
+#Sprint3
+update frontend API so that the frontend can retrieve data from backend
+
+update frontend API so that the frontend can send user's question to the backend
+(used JSONPlaceholder(Fake Online REST API) for Testing and Prototyping )
+
+integrate with the UI
+
+##Run
+then <code>npm start</code><br />
+
+##Note
+Only when user replies with "!", the bot will reply message.
+
+#Sprint2
+#Frontend GetApi 
 This frontend API is created so that it can talk to our backend server with GET request and display the content
 
 ##Run
@@ -11,7 +26,7 @@ This frontend API is created so that it can talk to our backend server with GET 
 Testing mock Axios requests
 
 Files:<br>
-src/__test__/Api.test.js --- test file with mock data
+src/__test__/GetApi.test.js --- test file with mock data
 src/Apimock.js  --- mocked api to be tested
 src/__mocks__/axios.js  ---mocked axios
 
@@ -25,7 +40,7 @@ if still not working, try following:<br>
 
 
 ##Run
-run <code>npm test src/__test__/Api.test.js</code>in root directory
+run <code>npm test src/__test__/GetApi.test.js</code>in root directory
 <br>
 
 The result should show 3 passed tests.
