@@ -88,7 +88,7 @@ class Chatbot extends Component{
                                 chatArray.map((chat, i) =>
                                     <div className={chat.from} key={i}>
                                         <Chip label={chat.from} variant="outlined"/>
-                                        <Typography variant='p'>{chat.msg}</Typography>
+                                        <Typography variant='body1'>{chat.msg}</Typography>
                                     </div>
 
                                 ):null
