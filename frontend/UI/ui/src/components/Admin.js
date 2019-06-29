@@ -1,12 +1,19 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './Admin.css';
 // import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
 import Table from '@material-ui/core/Table';
+// import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+
 // import axios from 'axios';
 
 class Admin extends Component {
@@ -18,7 +25,7 @@ class Admin extends Component {
     fileSelectedHandler = event => {
         this.setState({
             selectedFile: event.target.files[0]
-                      })
+        })
     };
 
     fileUploadHandler = () => {
@@ -52,13 +59,25 @@ class Admin extends Component {
                 <div className="uploadFile adminPageItem">
                     <h2>Document Upload</h2>
                     <input type="file" onChange={this.fileSelectedHandler}/>
-                    <button onClick={this.fileUploadHandler}>Upload</button>
+                    <Button variant="contained" component="span" onClick={this.fileUploadHandler()}>
+                        Upload
+                    </Button>
                 </div>
 
                 <div className="createURL adminPageItem">
-                    <h2>Document URL</h2>
-                    <input type="text"/>
-                    <button onClick={this.URLInputHandler}>Create</button>
+                    <FormGroup >
+                        <h2>Document URL</h2>
+                        <TextField
+                            id="outlined-with-placeholder"
+                            label="URL"
+                            placeholder="Type URL"
+                            margin="normal"
+                            variant="outlined"
+                        />
+                        <Button variant="contained" component="span" onClick={this.URLInputHandler}>
+                            Upload
+                        </Button>
+                    </FormGroup>
                 </div>
 
                 <div className="indexerView adminPageItem">
@@ -66,29 +85,35 @@ class Admin extends Component {
                         <Table className="classes.table" size="small">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>User</TableCell>
-                                    <TableCell align="right">Document</TableCell>
-                                    <TableCell align="right">Docment_modification</TableCell>
+                                    <TableCell>Document</TableCell>
+                                    <TableCell align="right">User</TableCell>
+                                    <TableCell align="right">Document_modification</TableCell>
+                                    <TableCell align="right"></TableCell>
                                 </TableRow>
                             </TableHead>
-                                <TableBody>
-                                    {rows.map(row => (
-                                        <TableRow key={row.name}>
-                                            <TableCell component="th" scope="row">
-                                                {row.name}
-                                            </TableCell>
-                                            <TableCell align="right">{row.calories}</TableCell>
-                                            <TableCell align="right">{row.fat}</TableCell>
-                                            <button onClick={this.deleteHandler}>x</button>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
+                            <TableBody>
+                                {rows.map(row => (
+                                    <TableRow key={row.name}>
+                                        <TableCell component="th" scope="row">
+                                            {row.name}
+                                        </TableCell>
+                                        <TableCell align="right">{row.calories}</TableCell>
+                                        <TableCell align="right">{row.fat}</TableCell>
+                                        <TableCell>
+                                            <IconButton aria-label="Delete" onClick={this.deleteHandler}>
+                                                <DeleteIcon/>
+                                            </IconButton>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
                         </Table>
-                     </Paper>
+                    </Paper>
                 </div>
 
             </div>
         );
     }
 }
+
 export default Admin;
