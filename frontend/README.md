@@ -1,4 +1,11 @@
 #Sprint3
+
+####For Admin.js
+updated the frontend API so that it can upload from local PC and display the uploaded file in the page
+
+#####Created a mock server with Node(on port 8000) and save the uploaded files in public/upload
+
+####For Chatbot.js
 update frontend API so that the frontend can retrieve data from backend
 
 update frontend API so that the frontend can send user's question to the backend

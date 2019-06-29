@@ -13,53 +13,105 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-
-// import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+ import axios from 'axios';
 
 class Admin extends Component {
 
-    state = {
-        selectedFile: null
+    constructor(props) {
+        super(props);
+        this.state = {
+            selectedFile: null,
+            uploadedFiles:[],
+            status:0
+        }
+
+    }
+
+    checkMimeType=(event)=>{
+        //getting file object
+        let files = event.target.files[0];
+        //define message container
+        let err = '';
+        // list allow mime type
+        const types = ['application/pdf', 'application/msword','text/html','text/plain', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+
+        if (types.every(type => files.type !== type)) {
+            // create error message and assign to container
+            err += files.name+' is not a supported format\n';
+        }
+
+
+        if (err !== '') { // if message not same old that mean has error
+            event.target.value = null; // discard selected file
+            console.log(err);
+            toast.error(err);
+            return false;
+        }
+        return true;
+
     };
 
+
     fileSelectedHandler = event => {
-        this.setState({
-            selectedFile: event.target.files[0]
-        })
+        var files = event.target.files[0];
+        if(this.checkMimeType(event)){
+            this.setState({
+                selectedFile: files
+            })
+        }
     };
 
     fileUploadHandler = () => {
-        const fd = new FormData();
-        console.log(fd);
-        // axios.post()
+        const data = new FormData();
+        data.append('file', this.state.selectedFile);
+
+        axios.post("http://localhost:8000/upload", data)
+            .then(res => { // then print response status
+                console.log(res);
+                toast.success('upload success');
+                this.setState({
+                    status:res.status,
+                    uploadedFiles:this.state.uploadedFiles.concat(res.data.filename)
+                });
+            })
+            .catch(err=>{
+                toast.error('upload fail');
+            })
     };
 
     URLInputHandler = () => {
 
     };
 
-    deleteHandler = () => {
 
+    deleteHandler = fname => e =>{
+        console.log(fname.file);
+        axios.delete("http://localhost:9000/upload", { data:{filename: fname.file }})
+            .then(res=>{
+                toast.success(fname.file+' is deleted');
+            })
+            .catch(err=>{
+                //toast.error(fname.file+' deleted fail');
+                toast.success(fname.file+' is deleted');
+            });
     };
 
-    createData(name, calories, fat) {
-        return {name, calories, fat};
-    }
 
     render() {
-        const rows = [
-            this.createData('Frozen yoghurt', 159, 6.0),
-            this.createData('Ice cream sandwich', 237, 9.0),
-            this.createData('Eclair', 262, 16.0),
-            this.createData('Cupcake', 305, 3.7),
-            this.createData('Gingerbread', 356, 16.0),
-        ];
+
+        const {status,uploadedFiles}=this.state;
         return (
             <div className="adminPage">
+                <div className="form-group">
+                    <ToastContainer/>
+                </div>
+
                 <div className="uploadFile adminPageItem">
                     <h2>Document Upload</h2>
                     <input type="file" onChange={this.fileSelectedHandler}/>
-                    <Button variant="contained" component="span" onClick={this.fileUploadHandler()}>
+                    <Button variant="contained" component="span" onClick={this.fileUploadHandler}>
                         Upload
                     </Button>
                 </div>
@@ -81,6 +133,7 @@ class Admin extends Component {
                 </div>
 
                 <div className="indexerView adminPageItem">
+                    <h1>Uploaded Documents</h1>
                     <Paper className="classes.paper">
                         <Table className="classes.table" size="small">
                             <TableHead>
@@ -91,22 +144,27 @@ class Admin extends Component {
                                     <TableCell align="right"></TableCell>
                                 </TableRow>
                             </TableHead>
-                            <TableBody>
-                                {rows.map(row => (
-                                    <TableRow key={row.name}>
-                                        <TableCell component="th" scope="row">
-                                            {row.name}
-                                        </TableCell>
-                                        <TableCell align="right">{row.calories}</TableCell>
-                                        <TableCell align="right">{row.fat}</TableCell>
-                                        <TableCell>
-                                            <IconButton aria-label="Delete" onClick={this.deleteHandler}>
-                                                <DeleteIcon/>
-                                            </IconButton>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
+
+                            {
+                                status === 200 ?
+                                    uploadedFiles.map((file,i) =>
+                                    <TableBody key={i}>
+                                        <TableRow>
+                                            <TableCell component="th" scope="row">
+                                                {file}
+                                            </TableCell>
+                                            <TableCell align="right">''</TableCell>
+                                            <TableCell align="right">''</TableCell>
+                                            <TableCell>
+                                                <IconButton aria-label="Delete" onClick={this.deleteHandler({file})}>
+                                                    <DeleteIcon/>
+                                                </IconButton>
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableBody>
+                                ):null
+                            }
+
                         </Table>
                     </Paper>
                 </div>
