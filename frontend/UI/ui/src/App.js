@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import Admin from './components/Admin';
 import Chatbot from './components/Chatbot';
 import Pullbar from './components/Meun/Pullbar/Pullbar';
 import Hidden from './components/Meun/Hidden/Hidden';
@@ -33,6 +34,7 @@ class App extends Component{
                 <Pullbar clickHandler={this.pullToggle} />
                 {hidden}
                 {close}
+                <Admin />
                 <Chatbot />
             </div>
         );
