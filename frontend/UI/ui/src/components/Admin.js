@@ -46,7 +46,7 @@ class Admin extends Component {
         if (err !== '') { // if message not same old that mean has error
             event.target.value = null; // discard selected file
             console.log(err);
-            toast.error(err);
+            toast.error(err,{autoClose:1000});
             return false;
         }
         return true;
@@ -64,21 +64,26 @@ class Admin extends Component {
     };
 
     fileUploadHandler = () => {
-        const data = new FormData();
-        data.append('file', this.state.selectedFile);
 
-        axios.post("http://localhost:8000/upload", data)
-            .then(res => { // then print response status
-                console.log(res);
-                toast.success('upload success');
-                this.setState({
-                    status:res.status,
-                    uploadedFiles:this.state.uploadedFiles.concat(res.data.filename)
-                });
-            })
-            .catch(err=>{
-                toast.error('upload fail');
-            })
+        if(this.state.selectedFile ===null){
+            toast.error('upload fail',{autoClose:1000});
+        } else {
+            const data = new FormData();
+            data.append('file', this.state.selectedFile);
+
+            axios.post("http://localhost:8000/upload", data)
+                .then(res => { // then print response status
+                    console.log(res);
+                    toast.success('upload success', {autoClose: 1000});
+                    this.setState({
+                        status: res.status,
+                        uploadedFiles: this.state.uploadedFiles.concat(res.data.filename)
+                    });
+                })
+                .catch(err => {
+                    toast.error('upload fail', {autoClose: 1000});
+                })
+        }
     };
 
     URLInputHandler = () => {
@@ -88,14 +93,16 @@ class Admin extends Component {
 
     deleteHandler = fname => e =>{
         console.log(fname.file);
-        axios.delete("http://localhost:9000/upload", { data:{filename: fname.file }})
+        /*axios.delete("http://localhost:9000/upload", { data:{filename: fname.file }})
             .then(res=>{
                 toast.success(fname.file+' is deleted');
             })
             .catch(err=>{
                 //toast.error(fname.file+' deleted fail');
                 toast.success(fname.file+' is deleted');
-            });
+            });*/
+        const uploadedFiles = this.state.uploadedFiles.filter(file => file !== fname.file);
+        this.setState({ uploadedFiles: uploadedFiles });
     };
 
 
