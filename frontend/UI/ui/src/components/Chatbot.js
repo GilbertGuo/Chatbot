@@ -45,7 +45,33 @@ class Chatbot extends Component{
 
     };
 
+    postDocumentList =()=>{
+        const id={name:this.state.textValue,username:"xinzheng"};
+        try {
+            axios.post("https://jsonplaceholder.typicode.com/users", id).then(res => {
+                console.log(res)
+            });
+        } catch (err) {
+            console.lot(err);
+            this.setState({errorMsg: 'Error posting document list'});
+        }
+        this.getDocumentList();
+    };
+
+
     getUserData = async () => {
+
+        const response = await fetch('https://jsonplaceholder.typicode.com/users');
+        const body = await response.json();
+        if (body) {
+            this.setState({chatArray:this.state.chatArray.concat({from:'chatbot',msg:body[0].name})});
+        } else{
+            this.setState({errorMsg: 'Error retrieving data'});
+        }
+    };
+
+
+    getDocumentList = async () => {
 
         const response = await fetch('https://jsonplaceholder.typicode.com/users');
         const body = await response.json();
@@ -61,6 +87,9 @@ class Chatbot extends Component{
         this.setState({chatArray:this.state.chatArray.concat({from:'user',msg:this.state.textValue})});
         if(this.state.textValue.includes("!")){
             this.postUserData();
+        }
+        if(this.state.textValue.includes("DocumentList")){
+            this.postDocumentList();
         }
 
 
