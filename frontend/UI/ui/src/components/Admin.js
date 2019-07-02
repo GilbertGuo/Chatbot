@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './Admin.css';
 // import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+//import TextField from '@material-ui/core/TextField';
 import Table from '@material-ui/core/Table';
 // import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
@@ -24,7 +24,8 @@ class Admin extends Component {
         this.state = {
             selectedFile: null,
             uploadedFiles:[],
-            status:0
+            status:0,
+            selectedurl:null
         }
 
     }
@@ -56,6 +57,7 @@ class Admin extends Component {
 
     fileSelectedHandler = event => {
         var files = event.target.files[0];
+
         if(this.checkMimeType(event)){
             this.setState({
                 selectedFile: files
@@ -71,7 +73,7 @@ class Admin extends Component {
             const data = new FormData();
             data.append('file', this.state.selectedFile);
 
-            axios.post("http://localhost:8000/upload", data)
+            axios.post("http://localhost:8000/fileupload", data)
                 .then(res => { // then print response status
                     console.log(res);
                     toast.success('upload success', {autoClose: 1000});
@@ -86,29 +88,67 @@ class Admin extends Component {
         }
     };
 
-    URLInputHandler = () => {
+    validateURL=(url)=>{
+        if((url.indexOf("http://") === -1) && url.indexOf("https://") === -1){
+            toast.error('Wrong URL format',{autoClose:1000});
+            return false;
+        } else{
+            return true;
+        }
+    };
+
+    changeURLValue = e => {
+        this.setState({selectedurl: e.target.value});
+
+    };
+
+    URLUploadHandler = () => {
+
+        if(this.state.selectedurl ===null){
+            toast.error('upload fail',{autoClose:1000});
+        } else {
+            if(this.validateURL(this.state.selectedurl)) {
+                console.log(this.state.selectedurl);
+
+                const data={url:this.state.selectedurl};
+                axios.post("http://localhost:8000/urlupload", data)
+                        .then(res => {
+                            console.log(res);
+                            toast.success('upload success', {autoClose: 1000});
+
+                        })
+                        .catch(err => {
+                            toast.error('upload fail', {autoClose: 1000});
+                        });
+            }
+        }
+
+
+
 
     };
 
 
     deleteHandler = fname => e =>{
         console.log(fname.file);
-        /*axios.delete("http://localhost:9000/upload", { data:{filename: fname.file }})
+        axios.delete("http://localhost:9000/deleteupload", { data:{filename: fname.file }})
             .then(res=>{
                 toast.success(fname.file+' is deleted');
+                const uploadedFiles = this.state.uploadedFiles.filter(file => file !== fname.file);
+                this.setState({ uploadedFiles: uploadedFiles });
             })
             .catch(err=>{
                 //toast.error(fname.file+' deleted fail');
                 toast.success(fname.file+' is deleted');
-            });*/
-        const uploadedFiles = this.state.uploadedFiles.filter(file => file !== fname.file);
-        this.setState({ uploadedFiles: uploadedFiles });
+            });
+
     };
 
 
     render() {
 
         const {status,uploadedFiles}=this.state;
+        //console.log(urlvalue);
         return (
             <div className="adminPage">
                 <div className="form-group">
@@ -126,14 +166,19 @@ class Admin extends Component {
                 <div className="createURL adminPageItem">
                     <FormGroup >
                         <h2>Document URL</h2>
-                        <TextField
+                        <input type="url" placeholder="Type URL" name="url" id="url"
+                               size="30" onChange={this.changeURLValue} />
+
+                        {/*<TextField
                             id="outlined-with-placeholder"
                             label="URL"
                             placeholder="Type URL"
                             margin="normal"
                             variant="outlined"
-                        />
-                        <Button variant="contained" component="span" onClick={this.URLInputHandler}>
+                            value={selectedurl}
+                            onChange={this.changeURLValue}
+                        />*/}
+                        <Button variant="contained" component="span" onClick={this.URLUploadHandler}>
                             Upload
                         </Button>
                     </FormGroup>
