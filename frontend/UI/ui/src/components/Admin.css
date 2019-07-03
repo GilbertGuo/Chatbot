@@ -28,3 +28,11 @@
     min-width: 650px;
 }
 
+/* Selects any valid <input> */
+input:valid {
+    background-color: powderblue;
+}
+
+input:invalid {
+    background-color: #ffdddd;
+}
