@@ -7,6 +7,7 @@ import Hidden from './components/Meun/Hidden/Hidden';
 import Background from './components/Meun/Backgroun/Background';
 
 
+
 class App extends Component{
     state = {
         hiddenStatus: false
@@ -36,6 +37,7 @@ class App extends Component{
                 {close}
                 <Admin />
                 <Chatbot />
+                
             </div>
         );
     }
