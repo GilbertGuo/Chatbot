@@ -1,0 +1,38 @@
+.uploadFile {
+    margin-top: 100px;
+    /*height:615px;*/
+}
+
+.adminPage {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around !important;
+}
+
+.adminPageItem {
+    padding-bottom: 15em;
+}
+
+
+.root {
+    width: 100%;
+}
+.paper {
+    /*margin-top: theme.spacing(3);*/
+    width: 100%;
+    overflow-x: auto;
+    /*marginBottom: theme.spacing(2);*/
+}
+
+.table {
+    min-width: 650px;
+}
+
+/* Selects any valid <input> */
+input:valid {
+    background-color: powderblue;
+}
+
+input:invalid {
+    background-color: #ffdddd;
+}

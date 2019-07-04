@@ -12,6 +12,15 @@ This backend will provide analyzed data based on request(query) from frontend
 * WordNet(TBD)
 * Hadhoop(TBD)
 
+
+## Before Build
+
+add your ibm cloud natural language understanding api key to below and copy this block to /backend/src/main/resource/application.properties
+``` 
+nlu.version=2018-11-16
+nlu.url=https://gateway.watsonplatform.net/natural-language-understanding/api
+nlu.apikey=<Your ibm cloud natural language understanding api key>
+```
 ## Build
 
 run `bash backend-build.sh` in root directory
