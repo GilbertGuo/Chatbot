@@ -154,8 +154,6 @@
             <version>1.21</version>
         </dependency>
 
-<<<<<<< HEAD
-=======
         <dependency>
             <groupId>org.apache.opennlp</groupId>
             <artifactId>opennlp-tools</artifactId>
@@ -174,7 +172,6 @@
             <version>7.1.1</version>
         </dependency>
 
->>>>>>> master
         <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
