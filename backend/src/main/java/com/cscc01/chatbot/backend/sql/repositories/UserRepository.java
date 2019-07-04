@@ -32,7 +32,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @RestResource(exported = false)
     void deleteById(Long aLong);
 
-    // @RestResource(path = "byUsername", rel = "customFindMethod")
     @Query("SELECT u FROM User u WHERE u.username = ?1")
     User findByUsername(@Param("username") String username);
 }

@@ -21,9 +21,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableJpaRepositories(basePackages = "com.cscc01.chatbot.backend.sql.repositories")
-// @PropertySource("persistence-h2.properties")
-// @PropertySource("persistence-hsqldb.properties")
-// @PropertySource("persistence-derby.properties")
 @EnableTransactionManagement
 @PropertySource("persistence-sqlite.properties")
 public class DbConfig {
