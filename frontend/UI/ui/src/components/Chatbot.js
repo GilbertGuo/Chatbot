@@ -52,7 +52,7 @@ class Chatbot extends Component{
                 console.log(res)
             });
         } catch (err) {
-            console.lot(err);
+            console.log(err);
             this.setState({errorMsg: 'Error posting document list'});
         }
         this.getDocumentList();
