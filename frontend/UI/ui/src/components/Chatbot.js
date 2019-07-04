@@ -19,7 +19,9 @@ class Chatbot extends Component{
             }
             ],
             botmsgs:[],
-            errorMsg:''
+            errorMsg:'',
+            // isLoading: true,
+            // dataFetch:[]
         };
         this.clickEvent = this.clickEvent.bind(this);
     }
@@ -28,6 +30,7 @@ class Chatbot extends Component{
         this.setState({ textValue: e.target.value});
     };
 
+    
     postUserData =()=>{
         const name={name:this.state.textValue,username:"kliang"};
         try {
@@ -45,22 +48,7 @@ class Chatbot extends Component{
 
     };
 
-    postDocumentList =()=>{
-        const id={name:this.state.textValue,username:"xinzheng"};
-        try {
-            axios.post("https://jsonplaceholder.typicode.com/users", id).then(res => {
-                console.log(res)
-            });
-        } catch (err) {
-            console.log(err);
-            this.setState({errorMsg: 'Error posting document list'});
-        }
-        this.getDocumentList();
-    };
-
-
     getUserData = async () => {
-
         const response = await fetch('https://jsonplaceholder.typicode.com/users');
         const body = await response.json();
         if (body) {
@@ -72,14 +60,11 @@ class Chatbot extends Component{
 
 
     getDocumentList = async () => {
-
-        const response = await fetch('https://jsonplaceholder.typicode.com/users');
-        const body = await response.json();
-        if (body) {
-            this.setState({chatArray:this.state.chatArray.concat({from:'chatbot',msg:body[0].name})});
-        } else{
-            this.setState({errorMsg: 'Error retrieving data'});
-        }
+        // fetch data from mock database
+        const data =  require('./List/Mock.json');
+        this.setState({chatArray:this.state.chatArray.concat({from:'chatbot',msg:"document name: " + data.documents[0].document
+        + ' ' + "url: " +
+        data.documents[0].url})});
     };
 
 
@@ -88,8 +73,8 @@ class Chatbot extends Component{
         if(this.state.textValue.includes("!")){
             this.postUserData();
         }
-        if(this.state.textValue.includes("DocumentList")){
-            this.postDocumentList();
+        if(this.state.textValue.includes("document")){
+            this.getDocumentList();
         }
 
 
@@ -123,10 +108,7 @@ class Chatbot extends Component{
                                 ):null
                             }
                         </div>
-
                     </div>
-
-
                     <div className="flex2">
 
                         <TextField
@@ -139,8 +121,6 @@ class Chatbot extends Component{
                             Send
                         </Button>
                     </div>
-
-
                 </Paper>
             </div>
         );
