@@ -1,5 +1,6 @@
 package com.cscc01.chatbot.backend.sql.repositories;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -10,6 +11,10 @@ import com.cscc01.chatbot.backend.model.User;
 @CrossOrigin
 @RepositoryRestResource(collectionResourceRel = "users", path = "users")
 public interface UserRepository extends CrudRepository<User, Long> {
+
+    @Override
+    @RestResource(exported = false)
+    <S extends User> S save(S entity);
 
     @Override
     @RestResource(exported = false)
@@ -27,6 +32,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @RestResource(exported = false)
     void deleteById(Long aLong);
 
-    @RestResource(path = "byUsername", rel = "customFindMethod")
-    User findByUsername(@Param("username") String password);
+    // @RestResource(path = "byUsername", rel = "customFindMethod")
+    @Query("SELECT u FROM User u WHERE u.username = ?1")
+    User findByUsername(@Param("username") String username);
 }
