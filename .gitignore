@@ -33,3 +33,5 @@ build/
 
 ### DB file ###
 *.db
+
+*.DS_Store

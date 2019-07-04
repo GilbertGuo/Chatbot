@@ -11,8 +11,12 @@ public class Document {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
     private String name;
+
+    public Document(String name){
+        this.name = name;
+    }
+
 
     public long getId() {
         return id;

@@ -13,5 +13,5 @@ public class CrawlerConfiguration {
     protected static final int MAX_PAGES_FETCH = 2;
     protected static final boolean INCLUDE_BINARY_CONTENT = false;
     protected static final boolean RESUMABLE_CRAWLING = false;
-    protected static final int NUMBER_OF_CRAWLERS = 8;
+    protected static final int NUMBER_OF_CRAWLERS = 1;
 }

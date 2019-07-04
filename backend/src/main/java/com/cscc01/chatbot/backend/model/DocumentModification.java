@@ -11,9 +11,15 @@ public class DocumentModification {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
+    private long documentId;
     private String modifiedUser;
     private String modifiedTime;
+
+    public DocumentModification(long documentId, String modifiedUser, String modifiedTime){
+        this.documentId = documentId;
+        this.modifiedUser = modifiedUser;
+        this.modifiedTime = modifiedTime;
+    }
 
     public long getId() {
         return id;
@@ -22,6 +28,15 @@ public class DocumentModification {
     public void setId(long id) {
         this.id = id;
     }
+
+    public long getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(long documentId) {
+        this.documentId = documentId;
+    }
+
 
     public String getModifiedTime() {
         return modifiedTime;
