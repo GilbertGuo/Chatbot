@@ -5,6 +5,7 @@ import Chatbot from './components/Chatbot';
 import Pullbar from './components/Meun/Pullbar/Pullbar';
 import Hidden from './components/Meun/Hidden/Hidden';
 import Background from './components/Meun/Backgroun/Background';
+import MockFeedbackapi from "./components/MockFeedbackapi";
 
 
 
@@ -36,8 +37,9 @@ class App extends Component{
                 {hidden}
                 {close}
                 <Admin />
+                <MockFeedbackapi />   {/*fake feedback UI for api testing only*/}
                 <Chatbot />
-                
+
             </div>
         );
     }
