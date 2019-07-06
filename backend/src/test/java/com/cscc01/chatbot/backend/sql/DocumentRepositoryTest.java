@@ -1,5 +1,12 @@
 package com.cscc01.chatbot.backend.sql;
 
+import static org.junit.Assert.assertEquals;
+
+import javax.annotation.Resource;
+
+import com.cscc01.chatbot.backend.model.Document;
+import com.cscc01.chatbot.backend.sql.repositories.DocumentRepository;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -8,18 +15,9 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import static org.junit.Assert.assertEquals;
-
-import javax.annotation.Resource;
-
-import com.cscc01.chatbot.backend.config.DbConfig;
-import com.cscc01.chatbot.backend.model.Document;
-import com.cscc01.chatbot.backend.sql.repositories.DocumentRepository;
-
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(
-  classes = { DbConfig.class }, 
+  classes = { DatabaseConfiguration.class }, 
   loader = AnnotationConfigContextLoader.class)
 @Transactional
 public class DocumentRepositoryTest {

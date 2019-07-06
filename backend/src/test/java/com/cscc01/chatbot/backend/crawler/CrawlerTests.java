@@ -15,9 +15,6 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-@ContextConfiguration(
-  classes = {}, 
-  loader = AnnotationConfigContextLoader.class)
 public class CrawlerTests {
 
     @Autowired
