@@ -45,7 +45,7 @@ class Chatbot extends Component {
             console.log(err);
             this.setState({ errorMsg: 'Error posting data' });
         }
-        this.getUserData();
+        // this.getUserData();
 
     };
 
@@ -53,9 +53,9 @@ class Chatbot extends Component {
         const response = await fetch('https://jsonplaceholder.typicode.com/users');
         const body = await response.json();
         if (body) {
-            this.setState({ chatArray: this.state.chatArray.concat({ from: 'chatbot', msg: body[0].name }) });
-        } else {
-            this.setState({ errorMsg: 'Error retrieving data' });
+           this.setState((prevState)=>({chatArray:prevState.chatArray.concat({from:'chatbot',msg:body[0].name})}));
+        } else{
+            this.setState({errorMsg: 'Error retrieving data'});
         }
     };
 
@@ -79,21 +79,24 @@ class Chatbot extends Component {
     getDocumentList = async () => {
         // fetch data from mock database
         const data = require('./List/Mock.json');
-        this.setState({
-            chatArray: this.state.chatArray.concat({
-                from: 'chatbot', msg: "document name: " + data.documents[0].document
-                    + ' ' + "url: " +
-                    data.documents[0].url
-            })
-        });
+
+        this.setState((prevState)=>({chatArray:prevState.chatArray.concat({from:'chatbot',
+                msg:"document name: " + data.documents[0].document + " url: " + data.documents[0].url})}));
     };
 
 
     clickEvent = () => {
-        this.setState({ chatArray: this.state.chatArray.concat({ from: 'user', msg: this.state.textValue }) });
-        // if (this.state.textValue.includes("!")) {
-        //     this.postUserData();
-        // }
+        this.setState((prevState)=>({chatArray:prevState.chatArray.concat({from:'user',msg:this.state.textValue})}));
+        if(this.state.textValue.includes("!")){
+            this.postUserData();
+            this.getUserData();
+
+        }
+
+        if(this.state.textValue.includes("document")){
+            this.postUserData();
+            this.getDocumentList();
+        }
 
         // if (this.state.textValue.includes("document")) {
         //     this.getDocumentList();
@@ -108,6 +111,8 @@ class Chatbot extends Component {
     render() {
         const { textValue, chatArray } = this.state;
         //console.log(this.state.botmsgs);
+        const {textValue,chatArray}=this.state;
+        //console.log(chatArray.map(chat=>chat.msg));
         //this.state.botmsgs.map(m=>console.log(m.name));
         return (
             <div className="chat_bot">
@@ -122,12 +127,12 @@ class Chatbot extends Component {
 
                         <div className="chatWindow">
                             {
-                                chatArray.length ?
-                                    chatArray.map((chat, i) =>
-                                        <div className={chat.from} key={i}>
-                                            <Chip label={chat.from} variant="outlined" />
-                                            <Typography variant='body1'>{chat.msg}</Typography>
-                                        </div>
+                                chatArray.length?
+                                chatArray.map((chat, i) =>
+                                    <div className={chat.from} key={i}>
+                                        <Chip label={chat.from} variant="outlined"/>
+                                        <Typography align='left' variant='body1'>{chat.msg}</Typography>
+                                    </div>
 
                                     ) : null
                             }

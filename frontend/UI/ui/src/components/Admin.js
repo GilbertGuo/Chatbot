@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './Admin.css';
 // import { makeStyles } from '@material-ui/core/styles';
 //import TextField from '@material-ui/core/TextField';
 import Table from '@material-ui/core/Table';
 // import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
+// import FormGroup from '@material-ui/core/FormGroup';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
@@ -16,6 +16,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import Container from '@material-ui/core/Container';
 
 class Admin extends Component {
 
@@ -164,10 +165,10 @@ class Admin extends Component {
                 </div>
 
                 <div className="createURL adminPageItem">
-                    <FormGroup >
+                    <Container maxWidth="xs" id="docURL">
                         <h2>Document URL</h2>
                         <input type="url" placeholder="Type URL" name="url" id="url"
-                            size="30" onChange={this.changeURLValue} />
+                               size="30" onChange={this.changeURLValue} />
 
                         {/*<TextField
                             id="outlined-with-placeholder"
@@ -181,7 +182,7 @@ class Admin extends Component {
                         <Button variant="contained" component="span" onClick={this.URLUploadHandler}>
                             Upload
                         </Button>
-                    </FormGroup>
+                    </Container>
                 </div>
 
                 <div className="indexerView adminPageItem">
