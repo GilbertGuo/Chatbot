@@ -1,18 +1,23 @@
 package com.cscc01.chatbot.backend.querysystem;
 
-import com.ibm.cloud.sdk.core.service.security.IamOptions;
-import com.ibm.watson.natural_language_understanding.v1.NaturalLanguageUnderstanding;
+import com.cscc01.chatbot.backend.querysystem.nlpmodel.NlpModel;
 import opennlp.tools.chunker.ChunkerME;
 import opennlp.tools.postag.POSTaggerME;
 import opennlp.tools.sentdetect.SentenceDetectorME;
 import opennlp.tools.stemmer.PorterStemmer;
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.util.Span;
+import org.apache.lucene.analysis.CharArraySet;
+import org.apache.lucene.analysis.en.EnglishAnalyzer;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 
 @Component
 public class QueryAnalyzer {
@@ -23,9 +28,11 @@ public class QueryAnalyzer {
     private ChunkerME chunker;
     private PorterStemmer stemmer;
 
+    private List<String> stopwords;
 
 
     public QueryAnalyzer(NlpModel nlpModel) throws IOException {
+        stopwords = Files.readAllLines(Paths.get(new ClassPathResource("StopWords.txt").getURI()));
         sentenceDetector = new SentenceDetectorME(nlpModel.sentenceModel);
         tokenizer = new TokenizerME(nlpModel.tokenizerModel);
         posTagger = new POSTaggerME(nlpModel.posModel);
@@ -44,16 +51,19 @@ public class QueryAnalyzer {
     }
 
 
-    public void extractNoun(String sentence) {
+    public HashMap<String, Integer> extractNoun(String sentence) {
+
 
         HashMap<String, Integer> termFrequencies = new HashMap<>();
+
         String[] words = tokenizer.tokenize(sentence.toLowerCase());
         String[] posTags = posTagger.tag(words);
         Span[] chunks = chunker.chunkAsSpans(words, posTags);
         String[] chunkStrings = Span.spansToStrings(chunks, words);
+
         for (int i = 0; i < chunks.length; i++) {
             String np = chunkStrings[i];
-            if (chunks[i].getType().equals("NP")) {
+            if (chunks[i].getType().equals("NP") && !stopwords.contains(np)) {
                 if (termFrequencies.containsKey(np)) {
                     termFrequencies.put(np, termFrequencies.get(np) + 1);
                 } else {
@@ -61,5 +71,6 @@ public class QueryAnalyzer {
                 }
             }
         }
+        return termFrequencies;
     }
 }
