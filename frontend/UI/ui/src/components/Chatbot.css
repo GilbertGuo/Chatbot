@@ -1,0 +1,44 @@
+.root {
+    margin-top: 60px;
+    height:615px;
+}
+
+.flex{
+    display: flex;
+    height: 500px;
+    overflow:auto;
+}
+
+.flex2{
+    display: flex;
+    height: 40px;
+
+}
+
+.chatWindow {
+    width: 85%;
+    padding: 10px;
+
+}
+
+.chatbot{
+    display: flex;
+    justify-content: flex-start;
+    align-items:baseline;
+}
+
+.user{
+    display: flex;
+    justify-content: flex-end;
+    align-items:baseline;
+
+}
+
+.chatBox {
+    width: 85%;
+}
+
+.button {
+    width: 15%;
+    height: 45px;
+}
