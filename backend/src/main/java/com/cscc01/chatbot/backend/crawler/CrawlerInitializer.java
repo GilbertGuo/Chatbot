@@ -57,8 +57,4 @@ public class CrawlerInitializer {
         RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
         return new CrawlController(config, pageFetcher, robotstxtServer); 
     }
-
-    // public CrawlController getCrawlController() {
-    //     return controller;
-    // }
 }

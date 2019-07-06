@@ -1,5 +1,7 @@
 package com.cscc01.chatbot.backend.indexer;
 
+import com.cscc01.chatbot.backend.crawler.Crawler;
+import com.cscc01.chatbot.backend.crawler.CrawlerResultKey;
 import com.snowtide.PDF;
 import com.snowtide.pdf.lucene.LucenePDFConfiguration;
 import com.snowtide.pdf.lucene.LucenePDFDocumentFactory;
@@ -24,6 +26,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Map;
 
 
 @Component
@@ -86,5 +89,22 @@ public class DocumentRetriever {
         LOGGER.info("Successfully converted doc/docx " + file.getName());
         return document;
     }
+
+    public Document getCrawlerDocument(Map<CrawlerResultKey, String> crawlerResult) {
+        Document document = new Document();
+
+        document.add(new TextField(LuceneFieldConstants.CONTENT.getText(),
+                crawlerResult.get(CrawlerResultKey.CONTENT), Field.Store.YES));
+        document.add(new StringField(LuceneFieldConstants.FILE_NAME.getText(),
+                crawlerResult.get(CrawlerResultKey.TITLE), Field.Store.YES));
+        document.add(new StringField(LuceneFieldConstants.FILE_PATH.getText(),
+                crawlerResult.get(CrawlerResultKey.URL), Field.Store.YES));
+
+        LOGGER.info("Successfully converted link:"
+                + crawlerResult.get(CrawlerResultKey.TITLE) + ", " + crawlerResult.get(CrawlerResultKey.URL));
+        return document;
+    }
+
+
 
 }

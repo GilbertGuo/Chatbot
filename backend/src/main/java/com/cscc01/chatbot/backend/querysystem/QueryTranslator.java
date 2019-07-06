@@ -9,6 +9,7 @@ import org.apache.lucene.search.Query;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 public class QueryTranslator {
 
@@ -17,6 +18,16 @@ public class QueryTranslator {
         for (KeywordsResult keywordsResult : keywordsResults) {
             queryStringBuilder.append(" " +keywordsResult.getText());
         }
+        Query query = new QueryParser(LuceneFieldConstants.CONTENT.getText(),
+                new EnglishAnalyzer()).parse(queryStringBuilder.toString());
+        return query;
+    }
+
+    public static Query fromMap(Map<String, Integer> keywords) throws ParseException {
+        StringBuilder queryStringBuilder = new StringBuilder();
+        keywords.forEach((keyword, frequency) -> {
+            queryStringBuilder.append(keyword + " ");
+        });
         Query query = new QueryParser(LuceneFieldConstants.CONTENT.getText(),
                 new EnglishAnalyzer()).parse(queryStringBuilder.toString());
         return query;
