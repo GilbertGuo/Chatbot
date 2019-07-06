@@ -57,7 +57,7 @@ public class IndexerTests  {
     @Test
     public void testUploadHtmlFile()
             throws IOException, ParseException,
-            FileTypeNotSupportedException, TikaException, SAXException, IndexAlreadyExistedException {
+            FileTypeNotSupportedException, TikaException, SAXException {
         indexer.createIndex(resourcesDirectory.getAbsolutePath() + "/test/Index.html");
 
         Term term = new Term(LuceneFieldConstants.FILE_NAME.getText(), "Index.html");
@@ -69,7 +69,7 @@ public class IndexerTests  {
     @Test
     public void testUploadSimpleTextFile()
             throws IOException, ParseException,
-            FileTypeNotSupportedException, TikaException, SAXException, IndexAlreadyExistedException {
+            FileTypeNotSupportedException, TikaException, SAXException {
         indexer.createIndex(resourcesDirectory.getAbsolutePath() + "/test/Index.txt");
         indexer.createIndex(resourcesDirectory.getAbsolutePath() + "/test/test.txt");
 
@@ -85,7 +85,7 @@ public class IndexerTests  {
     @Test
     public void testUploadPdfFile()
             throws IOException, ParseException,
-            FileTypeNotSupportedException, TikaException, SAXException, IndexAlreadyExistedException {
+            FileTypeNotSupportedException, TikaException, SAXException {
         indexer.createIndex(resourcesDirectory.getAbsolutePath() + "/test/ChatBotProject.pdf");
 
         Term term = new Term(LuceneFieldConstants.FILE_NAME.getText(), "ChatBotProject.pdf");
@@ -97,7 +97,7 @@ public class IndexerTests  {
     @Test
     public void testGivenFilenameSearchFile()
             throws IOException, ParseException,
-            FileTypeNotSupportedException, TikaException, SAXException, IndexAlreadyExistedException {
+            FileTypeNotSupportedException, TikaException, SAXException {
         indexer.createIndex(resourcesDirectory.getAbsolutePath() + "/test/Index.pdf");
         indexer.createIndex(resourcesDirectory.getAbsolutePath() + "/test/Index.html");
         indexer.createIndex(resourcesDirectory.getAbsolutePath() + "/test/Index.txt");
@@ -111,7 +111,7 @@ public class IndexerTests  {
 
     @Test
     public void testGivenContentSearchTextFile() throws IOException, ParseException,
-            FileTypeNotSupportedException, TikaException, SAXException, IndexAlreadyExistedException {
+            FileTypeNotSupportedException, TikaException, SAXException {
 
         indexer.createIndex(resourcesDirectory.getAbsolutePath() + "/test/test.txt");
         List<Document> docs = indexer.searchByQueryString(LuceneFieldConstants.CONTENT, "chatbot");
@@ -120,25 +120,16 @@ public class IndexerTests  {
 
     @Test
     public void testGivenContentSearchDocFile() throws IOException, ParseException,
-            FileTypeNotSupportedException, TikaException, SAXException, IndexAlreadyExistedException {
+            FileTypeNotSupportedException, TikaException, SAXException {
 
         indexer.createIndex(resourcesDirectory.getAbsolutePath() + "/test/crawler.doc");
         List<Document> docs = indexer.searchByQueryString(LuceneFieldConstants.CONTENT, "crawler");
         Assert.assertEquals("crawler.doc", docs.get(0).get("filename"));
     }
 
-
-    @Test(expected = IndexAlreadyExistedException.class)
-    public void testAddingDuplicateIndex() throws IOException,
-            FileTypeNotSupportedException, TikaException, SAXException, IndexAlreadyExistedException {
-
-        indexer.createIndex(resourcesDirectory.getAbsolutePath() + "/test/test.txt");
-        indexer.createIndex(resourcesDirectory.getAbsolutePath() + "/test/test.txt");
-    }
-
     @Test(expected = FileTypeNotSupportedException.class)
     public void testNotSupportedFileType() throws IOException,
-            FileTypeNotSupportedException, TikaException, SAXException, IndexAlreadyExistedException {
+            FileTypeNotSupportedException, TikaException, SAXException {
 
         indexer.createIndex(resourcesDirectory.getAbsolutePath() + "/test/notSupported.odt");
 

@@ -10,6 +10,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 
 
+import java.util.Map;
+
 import static org.junit.Assert.assertTrue;
 
 
@@ -23,7 +25,7 @@ public class CrawlerTests {
     @Test
     public void testUTSCCrawler() throws Exception {
         String seedUrl = "https://www.utsc.utoronto.ca/home/";
-        String scrapedResult = crawlerService.startCrawler(seedUrl);
-        assertTrue(scrapedResult.contains("U of T"));
+        Map<CrawlerResultKey, String> scrapedResult = crawlerService.startCrawler(seedUrl);
+        assertTrue(scrapedResult.get(CrawlerResultKey.CONTENT).contains("U of T"));
     }
 }
