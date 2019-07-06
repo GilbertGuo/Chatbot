@@ -1,0 +1,8 @@
+.feedbackForm {
+    display: flex;
+    flex-direction: column;
+}
+
+#filled-multiline-static {
+    display: flex;
+}

@@ -9,7 +9,7 @@ const hidden = props => (
                 <Button href="/">Contact Us</Button>
             </li>
             <li>
-                <Button href="/">Call Us</Button>
+                <Button href="/">Give feedback</Button>
             </li>
             <li>
                 <Button href="/">Find out more</Button>
