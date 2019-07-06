@@ -6,13 +6,13 @@ const hidden = props => (
     <nav className="hidden_pull_down">
         <ul>
             <li>
-                <Button href="/">Contact Us</Button>
+                <Button href="/chatbot">Chatbot</Button>
             </li>
             <li>
-                <Button href="/">Call Us</Button>
+                <Button href="/feedback">Give feedback</Button>
             </li>
             <li>
-                <Button href="/">Find out more</Button>
+                <Button href="/admin">Admin</Button>
             </li>
         </ul>
     </nav>

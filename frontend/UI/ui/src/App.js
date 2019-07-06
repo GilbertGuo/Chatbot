@@ -5,7 +5,8 @@ import Chatbot from './components/Chatbot';
 import Pullbar from './components/Meun/Pullbar/Pullbar';
 import Hidden from './components/Meun/Hidden/Hidden';
 import Background from './components/Meun/Backgroun/Background';
-import MockFeedbackapi from "./components/MockFeedbackapi";
+import Feedback from './components/Feedback';
+import { BrowserRouter as Router, Route} from 'react-router-dom';
 
 
 
@@ -32,15 +33,16 @@ class App extends Component{
             close = <Background click={this.closeMenu}/>;
         }
         return (
-            <div className="App">
-                <Pullbar clickHandler={this.pullToggle} />
-                {hidden}
-                {close}
-                <Admin />
-                <MockFeedbackapi />   {/*fake feedback UI for api testing only*/}
-                <Chatbot />
-
-            </div>
+            <Router>
+                <div className="App">
+                    <Pullbar clickHandler={this.pullToggle} />
+                    {hidden}
+                    {close}
+                    <Route path="/admin" component={Admin} />
+                    <Route path="/chatbot" component={Chatbot} />
+                    <Route path="/feedback" component={Feedback} />
+                </div>
+            </Router>
         );
     }
 }
