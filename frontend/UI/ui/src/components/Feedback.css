@@ -1,0 +1,12 @@
+.feedbackPage {
+    margin-top: 100px;
+}
+
+.feedbackForm {
+    display: flex;
+    flex-direction: column;
+}
+
+#filled-multiline-static {
+    display: flex;
+}

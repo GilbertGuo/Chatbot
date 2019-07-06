@@ -29,10 +29,15 @@
 }
 
 /* Selects any valid <input> */
-input:valid {
-    background-color: powderblue;
-}
+/*input:valid {*/
+    /*background-color: powderblue;*/
+/*}*/
 
 input:invalid {
     background-color: #ffdddd;
+}
+
+#docURL {
+    display: flex;
+    flex-direction: column;
 }
