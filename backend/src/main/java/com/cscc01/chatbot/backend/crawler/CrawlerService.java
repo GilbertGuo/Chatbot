@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import edu.uci.ics.crawler4j.crawler.CrawlController;
 
+import java.util.Map;
+
 @Service
 public class CrawlerService{ 
     private CrawlController controller;
@@ -13,7 +15,7 @@ public class CrawlerService{
     @Inject
     private CrawlerInitializer crawlerInitializer;
 
-    public String startCrawler(String url) throws Exception {
+    public Map<CrawlerResultKey, String> startCrawler(String url) throws Exception {
         this.controller = crawlerInitializer.getCrawlController();
         // For each crawl, you need to add some seed urls. These are the first
         // URLs that are fetched and then the crawler starts following links
