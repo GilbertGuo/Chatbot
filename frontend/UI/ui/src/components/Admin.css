@@ -36,3 +36,8 @@
 input:invalid {
     background-color: #ffdddd;
 }
+
+#docURL {
+    display: flex;
+    flex-direction: column;
+}

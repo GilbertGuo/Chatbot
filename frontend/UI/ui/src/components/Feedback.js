@@ -44,7 +44,7 @@ class Feedback extends Component{
 
     render() {
         return (
-            <div>
+            <div className="feedbackPage">
                 <h1>Leave Feedback</h1>
                 <Container maxWidth="xs" >
                 <form className="feedbackForm" onSubmit={this.handleSubmit}>
