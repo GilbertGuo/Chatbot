@@ -7,7 +7,7 @@ This backend will provide analyzed data based on request(query) from frontend
 * Apache Lucene
 * crawler4j
 * Spring framework
-* MySQL
+* SQLite
 * OpenNLP(TBD)
 * WordNet(TBD)
 * Hadhoop(TBD)
