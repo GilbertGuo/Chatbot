@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -18,11 +19,20 @@ public class QuerySystemProcessor {
     NauturalLanguageProcessService nauturalLanguageProcessService;
 
     @Inject
+    QueryAnalyzer queryAnalyzer;
+
+    @Inject
     Indexer indexer;
 
     public List<Document> process(String text) throws ParseException, IOException {
-        AnalysisResults results = nauturalLanguageProcessService.analyzeKeyWords(text);
-        Query query = QueryTranslator.fromKeyword(nauturalLanguageProcessService.sortResultByRelevance(results));
+        Query query;
+        try {
+            AnalysisResults results = nauturalLanguageProcessService.analyzeKeyWords(text);
+            query = QueryTranslator.fromKeyword(nauturalLanguageProcessService.sortResultByRelevance(results));
+        } catch (Exception e) {
+            HashMap<String, Integer> result = queryAnalyzer.extractNoun(text);
+            query = QueryTranslator.fromMap(result);
+        }
         List<Document> result = indexer.searchByQuery(query);
         return result;
     }
