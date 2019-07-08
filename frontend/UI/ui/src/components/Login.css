@@ -1,0 +1,9 @@
+.LoginContainer {
+    margin-top: 180px;
+}
+
+.LoginButtons {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column
+}

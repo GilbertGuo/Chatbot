@@ -109,7 +109,7 @@ class Chatbot extends Component {
     };
 
     render() {
-        const { textValue, chatArray } = this.state;
+        // const { textValue, chatArray } = this.state;
         //console.log(this.state.botmsgs);
         // const {textValue,chatArray}=this.state;
         //console.log(chatArray.map(chat=>chat.msg));
