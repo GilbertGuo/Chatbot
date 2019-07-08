@@ -7,6 +7,8 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import IconBar from './IconBar.js';
+
 
 class Chatbot extends Component {
 
@@ -124,7 +126,6 @@ class Chatbot extends Component {
                         Topic Placeholder
                     </Typography>
                     <div className="flex">
-
                         <div className="chatWindow">
                             {
                                 chatArray.length?
@@ -134,13 +135,11 @@ class Chatbot extends Component {
                                             <Chip label={chat.from} variant="outlined"/>
                                             <Typography align='left' variant='body1'>{chat.msg}</Typography>
                                         </div>
-
                                     ) : null
                             }
                         </div>
                     </div>
                     <div className="flex2">
-
                         <TextField
                             label="Type message..."
                             className="chatBox"
@@ -151,6 +150,9 @@ class Chatbot extends Component {
                             Send
                         </Button>
                     </div>
+                     <div className="sub_menu">
+                       <IconBar />
+                    </div> 
                 </Paper>
             </div>
         );

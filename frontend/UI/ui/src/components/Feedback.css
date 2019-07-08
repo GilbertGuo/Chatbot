@@ -1,10 +1,18 @@
 .feedbackPage {
-    margin-top: 100px;
+    padding-top: 35px;
 }
 
 .feedbackForm {
     display: flex;
     flex-direction: column;
+}
+.Icon_rate{
+    background-color: cornflowerblue;
+    margin-top: 0%;
+    color: white;
+}
+.Icon_style{
+    font-size-adjust: 100rem;
 }
 
 #filled-multiline-static {
