@@ -6,16 +6,16 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import './Login.css';
+import './Signup.css';
 
-class Login extends Component {
+class Signup extends Component {
     render() {
         return (
-            <Container maxWidth="xs" className="LoginContainer">
+            <Container maxWidth="xs" className="SignupContainer">
                 <CssBaseline />
-                <div className="login_paper">
+                <div className="signup_paper">
                     <Typography component="h1" variant="h5">
-                        Log in
+                        Sign up
                     </Typography>
                     <form className="form" noValidate>
                         <TextField
@@ -40,30 +40,32 @@ class Login extends Component {
                             id="password"
                             autoComplete="current-password"
                         />
-                        <div className="LoginButtons">
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="confirm_password"
+                            label="Confirm Password"
+                            type="password"
+                            id="confirm_password"
+                            autoComplete="current-password"
+                        />
+                        <div className="SignupButtons">
                             <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
                                 color="primary"
-                                className="LoginSubmit"
-                                    >
-                                    Log In
-                            </Button>
-                            <br></br>
-                            <Button
-                                fullWidth
-                                color="secondary"
-                                variant="contained"
-                                className="GoogleLogin"
+                                className="SignupSubmit"
                             >
-                                Log in with Google
+                                Sign up
                             </Button>
                         </div>
                         <Grid container>
                             <Grid item>
-                                <Link href="/Signup" variant="body2">
-                                    {"Don't have an account? Sign Up"}
+                                <Link href="/Login" variant="body2">
+                                    {"Already have an account? Log in"}
                                 </Link>
                             </Grid>
                         </Grid>
@@ -74,4 +76,4 @@ class Login extends Component {
     }
 }
 
-export default Login;
+export default Signup;
