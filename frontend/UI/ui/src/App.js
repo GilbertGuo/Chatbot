@@ -7,6 +7,8 @@ import Hidden from './components/Meun/Hidden/Hidden';
 import Background from './components/Meun/Backgroun/Background';
 import Feedback from './components/Feedback';
 import { BrowserRouter as Router, Route} from 'react-router-dom';
+import Login from "./components/Login";
+import Signup from "./components/Signup";
 
 
 
@@ -38,6 +40,8 @@ class App extends Component{
                     <Pullbar clickHandler={this.pullToggle} />
                     {hidden}
                     {close}
+                    <Route path="/login" component={Login}/>
+                    <Route path="/signup" component={Signup}/>
                     <Route path="/admin" component={Admin} />
                     <Route path="/chatbot" component={Chatbot} />
                     <Route path="/feedback" component={Feedback} />
