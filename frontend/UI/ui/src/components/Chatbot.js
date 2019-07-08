@@ -111,7 +111,7 @@ class Chatbot extends Component {
     render() {
         const { textValue, chatArray } = this.state;
         //console.log(this.state.botmsgs);
-        const {textValue,chatArray}=this.state;
+        // const {textValue,chatArray}=this.state;
         //console.log(chatArray.map(chat=>chat.msg));
         //this.state.botmsgs.map(m=>console.log(m.name));
         return (
@@ -129,10 +129,11 @@ class Chatbot extends Component {
                             {
                                 chatArray.length?
                                 chatArray.map((chat, i) =>
-                                    <div className={chat.from} key={i}>
-                                        <Chip label={chat.from} variant="outlined"/>
-                                        <Typography align='left' variant='body1'>{chat.msg}</Typography>
-                                    </div>
+                                    // if (chat.from == chatbot) {
+                                        <div className={chat.from} key={i}>
+                                            <Chip label={chat.from} variant="outlined"/>
+                                            <Typography align='left' variant='body1'>{chat.msg}</Typography>
+                                        </div>
 
                                     ) : null
                             }
