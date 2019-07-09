@@ -7,15 +7,12 @@ import opennlp.tools.sentdetect.SentenceDetectorME;
 import opennlp.tools.stemmer.PorterStemmer;
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.util.Span;
-import org.apache.lucene.analysis.CharArraySet;
-import org.apache.lucene.analysis.en.EnglishAnalyzer;
+import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,7 +29,7 @@ public class QueryAnalyzer {
 
 
     public QueryAnalyzer(NlpModel nlpModel) throws IOException {
-        stopwords = Files.readAllLines(Paths.get(new ClassPathResource("StopWords.txt").getURI()));
+        stopwords =  IOUtils.readLines(new ClassPathResource("StopWords.txt").getInputStream());
         sentenceDetector = new SentenceDetectorME(nlpModel.sentenceModel);
         tokenizer = new TokenizerME(nlpModel.tokenizerModel);
         posTagger = new POSTaggerME(nlpModel.posModel);
