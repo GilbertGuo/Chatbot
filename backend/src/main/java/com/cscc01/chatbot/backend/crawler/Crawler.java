@@ -55,7 +55,7 @@ public class Crawler extends WebCrawler {
             Set<WebURL> links = htmlParseData.getOutgoingUrls();
 
             // Need to add further parsing steps
-            // htmlParseData.getText() is available to user for convenience 
+            // htmlParseData.getText() is available to usersystem for convenience
             // jsoup should be added for more precise parsing
             // crawler4j is only used for scheduling
             LOGGER.debug("Text : {}", text);

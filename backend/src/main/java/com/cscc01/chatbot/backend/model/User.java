@@ -1,9 +1,10 @@
 package com.cscc01.chatbot.backend.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.cscc01.chatbot.backend.usersystem.UserDto;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class User {
@@ -12,13 +13,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Column(unique = true)
     private String username;
-    private String password;
 
-    public User(String username, String password){
-        this.username = username;
-        this.password = password;
-    }
+    private String encryptedPassword;
+
+    private Role role;
 
     public long getId() {
         return id;
@@ -28,23 +28,39 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
+    public String getUsername() {
         return username;
     }
 
-    public void setName(String username) {
+    public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     @Override
     public String toString() { 
         return String.format("This is " + username); 
-    } }
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public UserDto toUserDto() {
+        UserDto dto = new UserDto();
+        dto.setRole(this.role);
+        dto.setUsername(this.username);
+        return dto;
+    }
+
+    public String getEncryptedPassword() {
+        return encryptedPassword;
+    }
+
+    public void setEncryptedPassword(String encryptedPassword) {
+        this.encryptedPassword = encryptedPassword;
+    }
+}
