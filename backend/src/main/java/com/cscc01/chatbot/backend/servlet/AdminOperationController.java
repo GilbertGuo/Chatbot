@@ -61,6 +61,7 @@ public class AdminOperationController {
         receivedFile.deleteOnExit();
         Map<String, Object> response = new HashMap<>();
         response.put("filename", receivedFile.getName());
+
         return response;
     }
 
