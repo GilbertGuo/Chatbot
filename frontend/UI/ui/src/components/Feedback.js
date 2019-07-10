@@ -6,6 +6,7 @@ import './Feedback.css';
 import Container from '@material-ui/core/Container';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
 import {SentimentDissatisfied, SentimentSatisfied, SentimentVeryDissatisfied, SentimentVerySatisfied} from '@material-ui/icons';
 
 /*Fake Feedback UI for testing the API and can be deleted.*/
@@ -49,18 +50,26 @@ class Feedback extends Component{
             <div className="feedbackPage">
                 <div className="Icon_rate">
                 <h1>HOW ARE YOU FEELING?</h1>
-                <IconButton className="Icon_style">
-                    <SentimentVeryDissatisfied fontSize='large'/>
-                </IconButton >
-                <IconButton aria-label="Like" className="Icon_style" >
-                     <SentimentDissatisfied fontSize='large'/>
-                </IconButton>
-                <IconButton color="secondary" aria-label="Like" className="Icon_style" >
-                     <SentimentSatisfied fontSize='large' />
-                </IconButton>
-                <IconButton color="secondary" aria-label="Like" >
-                     <SentimentVerySatisfied fontSize='large' />
-                </IconButton>
+                <Tooltip title='strongly unsatisfied'>
+                    <IconButton className="Icon_style">
+                        <SentimentVeryDissatisfied fontSize='large'/>
+                    </IconButton >
+                </Tooltip>
+                <Tooltip title='unsatisfied'>
+                    <IconButton aria-label="dislike" className="Icon_style" >
+                         <SentimentDissatisfied fontSize='large'/>
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title="cool">
+                    <IconButton color="secondary" aria-label="Like" className="Icon_style" >
+                        <SentimentSatisfied fontSize='large' />
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title='very good'>
+                    <IconButton color="secondary" aria-label="Like" >
+                        <SentimentVerySatisfied fontSize='large' />
+                    </IconButton>
+                </Tooltip>
                 </div>
                 <h1>Leave Feedback</h1>
                 <Container maxWidth="xs" >

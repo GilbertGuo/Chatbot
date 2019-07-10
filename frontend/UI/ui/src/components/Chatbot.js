@@ -8,6 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import IconBar from './IconBar.js';
+import { If, Then, Else } from 'react-if-elseif-else-render';
 
 
 class Chatbot extends Component {
@@ -111,9 +112,9 @@ class Chatbot extends Component {
     };
 
     render() {
-        const { textValue, chatArray } = this.state;
+        // const { textValue, chatArray } = this.state;
         //console.log(this.state.botmsgs);
-        // const {textValue,chatArray}=this.state;
+        const {textValue,chatArray}=this.state;
         //console.log(chatArray.map(chat=>chat.msg));
         //this.state.botmsgs.map(m=>console.log(m.name));
         return (
@@ -130,11 +131,24 @@ class Chatbot extends Component {
                             {
                                 chatArray.length?
                                 chatArray.map((chat, i) =>
-                                    // if (chat.from == chatbot) {
+                                    
                                         <div className={chat.from} key={i}>
-                                            <Chip label={chat.from} variant="outlined"/>
-                                            <Typography align='left' variant='body1'>{chat.msg}</Typography>
-                                        </div>
+                                            <If condition={chat.from==='chatbot'}>
+                                                <Then>
+                                                    <Chip label={chat.from} variant="outlined"/>
+                                                    <div className="message_inbox">
+                                                    <Typography align='left' variant='body1'>{chat.msg}</Typography>
+                                                    </div>
+                                                </Then>
+                                                <Else>
+                                                    <div className="user_message">
+                                                    <Typography align='left' variant='body1'>{chat.msg}</Typography> 
+                                                    </div>
+                                                    <Chip label={chat.from} variant="outlined"/>
+                                                </Else>
+                                            </If>
+                                            </div>
+                                       
                                     ) : null
                             }
                         </div>

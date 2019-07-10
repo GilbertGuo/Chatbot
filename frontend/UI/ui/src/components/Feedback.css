@@ -7,14 +7,7 @@
     flex-direction: column;
 }
 .Icon_rate{
-    background-color: cornflowerblue;
+    background-color:#0288d1;
     margin-top: 0%;
     color: white;
-}
-.Icon_style{
-    font-size-adjust: 100rem;
-}
-
-#filled-multiline-static {
-    display: flex;
 }
