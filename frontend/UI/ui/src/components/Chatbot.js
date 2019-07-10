@@ -6,10 +6,8 @@ import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
-import { toast } from 'react-toastify';
 import IconBar from './IconBar.js';
 import { If, Then, Else } from 'react-if-elseif-else-render';
-
 
 class Chatbot extends Component {
 
@@ -22,7 +20,6 @@ class Chatbot extends Component {
                 msg: 'hi'
             }
             ],
-            botmsgs: [],
             errorMsg: '',
             // isLoading: true,
             // dataFetch:[]
@@ -34,7 +31,7 @@ class Chatbot extends Component {
         this.setState({ textValue: e.target.value });
     };
 
-
+    /********** test only ***********************/
     postUserData = () => {
         const name = { name: this.state.textValue, username: "kliang" };
         try {
@@ -48,10 +45,10 @@ class Chatbot extends Component {
             console.log(err);
             this.setState({ errorMsg: 'Error posting data' });
         }
-        // this.getUserData();
-
     };
+    /************************************************************/
 
+    /********** test only ***********************/
     getUserData = async () => {
         const response = await fetch('https://jsonplaceholder.typicode.com/users');
         const body = await response.json();
@@ -61,6 +58,9 @@ class Chatbot extends Component {
             this.setState({errorMsg: 'Error retrieving data'});
         }
     };
+    /************************************************************/
+
+
 
     query = () => {
         const message = { message: this.state.textValue, username: "kliang" };
@@ -79,6 +79,7 @@ class Chatbot extends Component {
     };
 
 
+    /********** test only ***********************/
     getDocumentList = async () => {
         // fetch data from mock database
         const data = require('./List/Mock.json');
@@ -86,10 +87,21 @@ class Chatbot extends Component {
         this.setState((prevState)=>({chatArray:prevState.chatArray.concat({from:'chatbot',
                 msg:"document name: " + data.documents[0].document + " url: " + data.documents[0].url})}));
     };
+    /************************************************************/
 
 
     clickEvent = () => {
-        this.setState((prevState)=>({chatArray:prevState.chatArray.concat({from:'user',msg:this.state.textValue})}));
+
+        /** Once backend signin and google login are implement, we can leave the "For Goole Login Test" **/
+
+        /***** For Google Login test ****************/
+        //this.setState((prevState)=>({chatArray:prevState.chatArray.concat({from:this.props.location.state.username,msg:this.state.textValue})}));
+
+        /***** For normal Login test(delete if finished implementing backend login for google and normal login ****************/
+        this.setState((prevState)=>({chatArray:prevState.chatArray.concat({from:this.props.location.state.txtusername,msg:this.state.textValue})}));
+
+
+        /********** test only ***********************/
         if(this.state.textValue.includes("!")){
             this.postUserData();
             this.getUserData();
@@ -101,9 +113,8 @@ class Chatbot extends Component {
             this.getDocumentList();
         }
 
-        // if (this.state.textValue.includes("document")) {
-        //     this.getDocumentList();
-        // }
+        /************************************************************/
+
         this.query();
 
         if (this.state.textValue !== '') {
@@ -112,11 +123,10 @@ class Chatbot extends Component {
     };
 
     render() {
-        // const { textValue, chatArray } = this.state;
-        //console.log(this.state.botmsgs);
+        //console.log(this.props.location);
         const {textValue,chatArray}=this.state;
         //console.log(chatArray.map(chat=>chat.msg));
-        //this.state.botmsgs.map(m=>console.log(m.name));
+
         return (
             <div className="chat_bot">
                 <Paper className="root">
