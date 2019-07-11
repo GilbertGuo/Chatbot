@@ -17,6 +17,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import Container from '@material-ui/core/Container';
+import FeedList from './FeedbackList.js'
 import isUrl from 'validator/lib/isURL';
 
 class Admin extends Component {
@@ -234,11 +235,15 @@ class Admin extends Component {
                                         </TableBody>
                                     ) : null
                             }
-
                         </Table>
                     </Paper>
                 </div>
-
+                <div className="Feedback_List">
+                <Container maxWidth="xs" id="FeedList">
+                    <h1>Feedback box</h1>
+                    <FeedList/>
+                </Container>
+                </div>
             </div>
         );
     }

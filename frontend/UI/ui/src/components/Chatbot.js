@@ -6,6 +6,8 @@ import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
+import IconBar from './IconBar.js';
+import { If, Then, Else } from 'react-if-elseif-else-render';
 
 class Chatbot extends Component {
 
@@ -135,23 +137,33 @@ class Chatbot extends Component {
                         Topic Placeholder
                     </Typography>
                     <div className="flex">
-
                         <div className="chatWindow">
                             {
                                 chatArray.length?
                                 chatArray.map((chat, i) =>
-                                    // if (chat.from == chatbot) {
+                                    
                                         <div className={chat.from} key={i}>
-                                            <Chip label={chat.from} variant="outlined"/>
-                                            <Typography align='left' variant='body1'>{chat.msg}</Typography>
-                                        </div>
-
+                                            <If condition={chat.from==='chatbot'}>
+                                                <Then>
+                                                    <Chip label={chat.from} variant="outlined"/>
+                                                    <div className="message_inbox">
+                                                    <Typography align='left' variant='body1'>{chat.msg}</Typography>
+                                                    </div>
+                                                </Then>
+                                                <Else>
+                                                    <div className="user_message">
+                                                    <Typography align='left' variant='body1'>{chat.msg}</Typography> 
+                                                    </div>
+                                                    <Chip label={chat.from} variant="outlined"/>
+                                                </Else>
+                                            </If>
+                                            </div>
+                                       
                                     ) : null
                             }
                         </div>
                     </div>
                     <div className="flex2">
-
                         <TextField
                             label="Type message..."
                             className="chatBox"
@@ -162,6 +174,9 @@ class Chatbot extends Component {
                             Send
                         </Button>
                     </div>
+                     <div className="sub_menu">
+                       <IconBar />
+                    </div> 
                 </Paper>
             </div>
         );
