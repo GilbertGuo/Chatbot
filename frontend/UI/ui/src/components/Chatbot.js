@@ -141,25 +141,29 @@ class Chatbot extends Component {
                             {
                                 chatArray.length?
                                 chatArray.map((chat, i) =>
-                                    
-                                        <div className={chat.from} key={i}>
-                                            <If condition={chat.from==='chatbot'}>
-                                                <Then>
+
+                                    <div key={i}>
+                                        <If condition={chat.from==='chatbot'}>
+                                            <Then>
+                                                <div className={chat.from}>
                                                     <Chip label={chat.from} variant="outlined"/>
                                                     <div className="message_inbox">
                                                     <Typography align='left' variant='body1'>{chat.msg}</Typography>
                                                     </div>
-                                                </Then>
-                                                <Else>
-                                                    <div className="user_message">
-                                                    <Typography align='left' variant='body1'>{chat.msg}</Typography> 
-                                                    </div>
-                                                    <Chip label={chat.from} variant="outlined"/>
-                                                </Else>
-                                            </If>
+                                                </div>
+                                            </Then>
+                                        <Else>
+                                            <div className="user">
+                                                <div className="user_message">
+                                                    <Typography align='left' variant='body1'>{chat.msg}</Typography>
+                                                </div>
+                                                <Chip label={chat.from} variant="outlined"/>
                                             </div>
-                                       
+                                        </Else>
+                                        </If>
+                                    </div>
                                     ) : null
+
                             }
                         </div>
                     </div>
