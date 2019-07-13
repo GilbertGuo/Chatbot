@@ -17,6 +17,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import Container from '@material-ui/core/Container';
+import FeedList from './FeedbackList.js'
+import isUrl from 'validator/lib/isURL';
 
 class Admin extends Component {
 
@@ -27,10 +29,30 @@ class Admin extends Component {
             uploadedFiles: [],
             status: 0,
             selectedurl: null
-        }
+        };
+
+        this.changeURLValue = this.changeURLValue.bind(this);
+        this.showEvent = this.showEvent.bind(this);
 
     }
 
+    /* Show button event for Uploaded Documents */
+    showEvent = async () => {
+
+        try {
+            await axios.get('http://localhost:8000/api/v1/documents/')
+                .then(res => {
+                    this.setState({
+                        status: res.status,
+                        uploadedFiles: this.state.uploadedFiles.concat(res.data.filename)
+                    });
+                });
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    /* Validate the uploading file's type */
     checkMimeType = (event) => {
         //getting file object
         let files = event.target.files[0];
@@ -66,6 +88,7 @@ class Admin extends Component {
         }
     };
 
+    /* send the uploading file to the backend */
     fileUploadHandler = () => {
 
         if (this.state.selectedFile === null) {
@@ -78,10 +101,10 @@ class Admin extends Component {
                 .then(res => { // then print response status
                     console.log(res);
                     toast.success('Upload file success', { autoClose: 1000 });
-                    this.setState({
+                    /*this.setState({
                         status: res.status,
                         uploadedFiles: this.state.uploadedFiles.concat(res.data.filename)
-                    });
+                    });*/
                 })
                 .catch(err => {
                     toast.error('Upload file fail', { autoClose: 1000 });
@@ -89,26 +112,17 @@ class Admin extends Component {
         }
     };
 
-    validateURL = (url) => {
-        if ((url.indexOf("http://") === -1) && url.indexOf("https://") === -1) {
-            toast.error('Wrong URL format', { autoClose: 1000 });
-            return false;
-        } else {
-            return true;
-        }
-    };
-
-    changeURLValue = e => {
+    changeURLValue(e){
         this.setState({ selectedurl: e.target.value });
-
     };
 
+    /* send the URL to the backend */
     URLUploadHandler = () => {
 
         if (this.state.selectedurl === null) {
             toast.error('upload fail', { autoClose: 1000 });
         } else {
-            if (this.validateURL(this.state.selectedurl)) {
+            if (isUrl(this.state.selectedurl)) {
                 console.log(this.state.selectedurl);
 
                 const data = { url: this.state.selectedurl };
@@ -121,26 +135,27 @@ class Admin extends Component {
                     .catch(err => {
                         toast.error('Upload url fail', { autoClose: 1000 });
                     });
+            } else{
+                toast.error('Wrong URL format', { autoClose: 1000 });
             }
         }
-
-
 
 
     };
 
 
+    /* send the delete action to the backend */
     deleteHandler = fname => e => {
         console.log(fname.file);
         axios.delete("http://localhost:8000/api/v1/documents", { data: { filename: fname.file, username: "someone" } })
             .then(res => {
-                toast.success(fname.file + ' is deleted');
+                toast.success(fname.file + ' is deleted',{ autoClose: 1000 });
                 const uploadedFiles = this.state.uploadedFiles.filter(file => file !== fname.file);
                 this.setState({ uploadedFiles: uploadedFiles });
             })
             .catch(err => {
-                //toast.error(fname.file+' deleted fail');
-                toast.success(fname.file + ' is deleted');
+                toast.error(fname.file+' deleted fail',{ autoClose: 1000 });
+                //toast.success(fname.file + ' is deleted');
             });
 
     };
@@ -170,7 +185,7 @@ class Admin extends Component {
                         <input type="url" placeholder="Type URL" name="url" id="url"
                                size="30" onChange={this.changeURLValue} />
 
-                        {/*<TextField
+                       {/* <TextField
                             id="outlined-with-placeholder"
                             label="URL"
                             placeholder="Type URL"
@@ -187,6 +202,9 @@ class Admin extends Component {
 
                 <div className="indexerView adminPageItem">
                     <h1>Uploaded Documents</h1>
+
+                    <button onClick={this.showEvent}>Show</button>
+
                     <Paper className="classes.paper">
                         <Table className="classes.table" size="small">
                             <TableHead>
@@ -217,11 +235,15 @@ class Admin extends Component {
                                         </TableBody>
                                     ) : null
                             }
-
                         </Table>
                     </Paper>
                 </div>
-
+                <div className="Feedback_List">
+                <Container maxWidth="xs" id="FeedList">
+                    <h1>Feedback box</h1>
+                    <FeedList/>
+                </Container>
+                </div>
             </div>
         );
     }

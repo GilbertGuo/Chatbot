@@ -1,0 +1,13 @@
+.SignupContainer {
+    margin-top: 180px;
+}
+
+.usernameError {
+    color: red;
+    font-size: 12px;
+}
+
+.passwordError {
+    color: red;
+    font-size: 12px;
+}

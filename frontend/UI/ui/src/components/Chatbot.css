@@ -18,13 +18,43 @@
 .chatWindow {
     width: 85%;
     padding: 10px;
-
+    
 }
 
 .chatbot{
     display: flex;
     justify-content: flex-start;
     align-items:baseline;
+}
+.message_inbox{
+    width: 100%;
+}
+.message_inbox p{
+    background: #efefef none repeat scroll 0 0;
+    border-radius: 10px;
+    color: #646464;
+    font-size: 20px;
+    margin: 0;
+    padding: 5px 10px 5px 12px;
+    width: 15%;
+    display: flex;
+
+}
+.user_message{
+    float: left;
+    width: 50%;
+    margin-left: 85%;
+}
+
+.user_message p{
+    background: #007bff none repeat scroll 0 0;
+    color: #fff;
+    border-radius: 10px;
+    font-size: 20px;
+    margin: 0;
+    padding: 5px 10px 5px 2px;
+    width: 80%;
+    display: flex;
 }
 
 .user{
@@ -36,6 +66,10 @@
 
 .chatBox {
     width: 85%;
+}
+.sub_menu ul{
+    list-style: none;
+    display: flex;
 }
 
 .button {

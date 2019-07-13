@@ -8,17 +8,17 @@ import opennlp.tools.tokenize.TokenizerModel;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 @Component
 public class NlpModel {
 
-    private final File SENTENCE_MODEL = new ClassPathResource("model/en-sent.bin").getFile();
-    private final File CHUNKER_MODEL = new ClassPathResource("model/en-chunker.bin").getFile();
-    private final File TOKENIZER_MODEL = new ClassPathResource("model/en-token.bin").getFile();
-    private final File POSTAGGER_MODEL = new ClassPathResource("model/en-pos-maxent.bin").getFile();
-    private final File PARSER_MODEL = new ClassPathResource("model/en-parser-chunking.bin").getFile();
+    private final InputStream SENTENCE_MODEL = new ClassPathResource("model/en-sent.bin").getInputStream();
+    private final InputStream CHUNKER_MODEL = new ClassPathResource("model/en-chunker.bin").getInputStream();
+    private final InputStream TOKENIZER_MODEL = new ClassPathResource("model/en-token.bin").getInputStream();
+    private final InputStream POSTAGGER_MODEL = new ClassPathResource("model/en-pos-maxent.bin").getInputStream();
+    private final InputStream PARSER_MODEL = new ClassPathResource("model/en-parser-chunking.bin").getInputStream();
 
     public SentenceModel sentenceModel;
     public TokenizerModel tokenizerModel;

@@ -13,9 +13,9 @@ const pullbar = props => (
              <div className="partial" />
              <div className="pull_items">
                  <ul>
-                    <li><Button href="/">log in</Button></li>
-                    <li><Button href="/">sign in</Button></li>
-                    <li><Button href="/">log out</Button></li>
+                    <li><Button href="/Login">log in</Button></li>
+                    <li><Button href="/Signup">sign up</Button></li>
+                    <li><Button href="/Login">log out</Button></li>
                  </ul>
              </div>
         </nav>
