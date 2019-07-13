@@ -36,18 +36,9 @@ import org.slf4j.LoggerFactory;
 @Configuration
 @EnableJpaRepositories(basePackages = "com.cscc01.chatbot.backend.sql.repositories")
 @EnableTransactionManagement
-public class DatabaseConfiguration implements EnvironmentAware{
+public class DatabaseConfiguration {
 
-    // Resource resource = new ClassPathResource("/application.properties");
-    // Properties props = PropertiesLoaderUtils.loadProperties(resource);
     private final Logger LOGGER = LoggerFactory.getLogger(DatabaseConfiguration.class);
-
-    private Environment env;
-
-    @Override
-    public void setEnvironment(final Environment environment) {
-        this.env = environment;
-    }
 
     @Bean
     public DataSource dataSource() {
@@ -65,7 +56,7 @@ public class DatabaseConfiguration implements EnvironmentAware{
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan(new String[] { "com.cscc01.chatbot.backend.model" });
+        em.setPackagesToScan("com.cscc01.chatbot.backend.model");
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         em.setJpaProperties(hibernateProperties());
         return em;

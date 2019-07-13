@@ -45,13 +45,14 @@
     width: 50%;
     margin-left: 85%;
 }
+
 .user_message p{
     background: #007bff none repeat scroll 0 0;
     color: #fff;
     border-radius: 10px;
     font-size: 20px;
     margin: 0;
-    padding: 5px 10px 5px 12px;
+    padding: 5px 10px 5px 2px;
     width: 80%;
     display: flex;
 }

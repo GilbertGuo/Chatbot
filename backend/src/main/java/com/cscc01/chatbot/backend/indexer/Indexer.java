@@ -3,6 +3,8 @@ package com.cscc01.chatbot.backend.indexer;
 import com.cscc01.chatbot.backend.crawler.CrawlerResultKey;
 import com.cscc01.chatbot.backend.indexer.exception.FileTypeNotSupportedException;
 import com.cscc01.chatbot.backend.indexer.exception.IndexAlreadyExistedException;
+import com.cscc01.chatbot.backend.model.DocumentRecord;
+import com.cscc01.chatbot.backend.sql.repositories.DocumentRecordRepository;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.*;
@@ -17,7 +19,6 @@ import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
 import javax.inject.Inject;
-import javax.print.Doc;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -38,6 +39,9 @@ public class Indexer {
 
     @Inject
     private FileValidator fileValidator;
+
+    @Inject
+    private DocumentRecordRepository documentRecordRepository;
 
     private IndexWriter indexWriter;
 
@@ -68,19 +72,25 @@ public class Indexer {
         IndexWriter indexWriter = getIndexWriter();
         LOGGER.info("Opening file " + file.getName() + " to create index");
 
+        Document document = null;
         if (fileValidator.isPDF(file)) {
-            Document document = documentRetriever.getPdfDocument(file);
+            document = documentRetriever.getPdfDocument(file);
             indexWriter.updateDocument(new Term(LuceneFieldConstants.FILE_NAME.getText(), file.getName()), document);
         } else if (fileValidator.isDoc(file)) {
-            Document document = documentRetriever.getDocDocument(file);
+            document = documentRetriever.getDocDocument(file);
             indexWriter.updateDocument(new Term(LuceneFieldConstants.FILE_NAME.getText(), file.getName()), document);
         } else if (fileValidator.isValidFile(file)) {
-            Document document = documentRetriever.getDocument(file);
+            document = documentRetriever.getDocument(file);
             indexWriter.updateDocument(new Term(LuceneFieldConstants.FILE_NAME.getText(), file.getName()), document);
         }
         indexWriter.commit();
         indexWriter.close();
-        LOGGER.info("Document " + file.getName() + " added successfully");
+
+        if (document != null) {
+            DocumentRecord documentRecord = toDocumentRecord(document);
+        }
+
+        LOGGER.info("DocumentRecord " + file.getName() + " added successfully");
     }
 
     /**
@@ -98,18 +108,20 @@ public class Indexer {
         LOGGER.info("Opening link " + crawlerResult.get(CrawlerResultKey.URL) + " to create index");
 
         Document document = documentRetriever.getCrawlerDocument(crawlerResult);
+        DocumentRecord documentRecord = toDocumentRecord(document);
         indexWriter.updateDocument(
                 new Term(LuceneFieldConstants.FILE_NAME.getText(),
                         crawlerResult.get(CrawlerResultKey.TITLE)), document);
 
         indexWriter.commit();
         indexWriter.close();
-        LOGGER.info("Document " + crawlerResult.get(CrawlerResultKey.TITLE) + " added successfully");
+        documentRecordRepository.save(documentRecord);
+        LOGGER.info("DocumentRecord " + crawlerResult.get(CrawlerResultKey.TITLE) + " added successfully");
     }
 
 
     /**
-     * delete a Document from indexes, should use field LuceneField filename to create the term,
+     * delete a DocumentRecord from indexes, should use field LuceneField filename to create the term,
      * otherwise you may delete the wrong document by mistake.
      *
      * @param term
@@ -122,7 +134,7 @@ public class Indexer {
     }
 
     /**
-     * delete a Document from indexes by filename
+     * delete a DocumentRecord from indexes by filename
      *
      * @param filename
      * @throws IOException
@@ -130,7 +142,7 @@ public class Indexer {
     public void deleteDocument(String filename) throws IOException {
         Term term = new Term(LuceneFieldConstants.FILE_NAME.getText(), filename);
         deleteDocument(term);
-        LOGGER.info("Deleted Document: " + filename);
+        LOGGER.info("Deleted DocumentRecord: " + filename);
     }
 
 
@@ -180,5 +192,10 @@ public class Indexer {
         FSDirectory indexDirectory = FSDirectory.open(Paths.get(INDEX_DIR_PATH));
         DirectoryReader indexReader = DirectoryReader.open(indexDirectory);
         return indexReader;
+    }
+
+    private DocumentRecord toDocumentRecord(Document document) {
+        DocumentRecord documentRecord = new DocumentRecord(document.get("filename"));
+        return documentRecord;
     }
 }

@@ -1,24 +1,28 @@
 package com.cscc01.chatbot.backend.sql.repositories;
 
+import com.cscc01.chatbot.backend.model.DocumentRecord;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import com.cscc01.chatbot.backend.model.Document;
+
+import javax.print.Doc;
+import java.util.List;
 
 @CrossOrigin
 @RepositoryRestResource(collectionResourceRel = "documents", path = "documents")
-public interface DocumentRepository extends CrudRepository<Document, Long> {
+public interface DocumentRecordRepository extends CrudRepository<DocumentRecord, Long> {
 
     @Override
     @RestResource(exported = false)
-    <S extends Document> S save(S entity);
+    <S extends DocumentRecord> S save(S entity);
 
     @Override
     @RestResource(exported = false)
-    void delete(Document entity);
+    void delete(DocumentRecord entity);
 
     @Override
     @RestResource(exported = false)
@@ -26,12 +30,15 @@ public interface DocumentRepository extends CrudRepository<Document, Long> {
 
     @Override
     @RestResource(exported = false)
-    void deleteAll(Iterable<? extends Document> entities);
+    void deleteAll(Iterable<? extends DocumentRecord> entities);
 
     @Override
     @RestResource(exported = false)
     void deleteById(Long aLong);
 
-    @Query("SELECT d FROM Document d WHERE d.name = ?1")
-    Document findByName(@Param("name") String name);
+    @Query("SELECT d FROM DocumentRecord d WHERE d.name = ?1")
+    DocumentRecord findByName(@Param("name") String name);
+
+    @Nullable
+    List<DocumentRecord> findAll();
 }

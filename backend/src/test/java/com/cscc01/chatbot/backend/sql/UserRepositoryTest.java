@@ -27,11 +27,11 @@ public class UserRepositoryTest {
      
     @Test
     public void givenUser_whenSave_thenGetOk() {
-        User user1 = new User("test", "12345");
+        User user1 = new User();
+        user1.setUsername("test");
         userRepository.save(user1);
          
         User user2 = userRepository.findByUsername("test");
-        assertEquals("test", user2.getName());
-        assertEquals("12345", user2.getPassword());
+        assertEquals("test", user2.getUsername());
     }
 }

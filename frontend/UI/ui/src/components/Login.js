@@ -20,8 +20,9 @@ class Login extends Component {
             txtusername:'',
             txtpassword:'',
             isAuthenticated: false,
-            token: ''
-
+            token: '',
+            txtusernameError:'',
+            txtpasswordError:''
         };
 
         this.handleusernameChange = this.handleusernameChange.bind(this);
@@ -30,6 +31,7 @@ class Login extends Component {
     }
 
     handleusernameChange(event) {
+        // if (event.target.value)
         this.setState({txtusername: event.target.value});
     }
 
@@ -37,13 +39,35 @@ class Login extends Component {
         this.setState({txtpassword: event.target.value});
     }
 
+    validate = () => {
+        let txtusernameError = '';
+        let txtpasswordError = '';
+
+        if (!this.state.txtusername) {
+            txtusernameError = "username can not be blank";
+        }
+
+        if (!this.state.txtpassword) {
+            txtpasswordError = "invalid password";
+        }
+
+        if (txtusernameError || txtpasswordError) {
+            this.setState({txtusernameError: txtusernameError, txtpasswordError: txtpasswordError});
+            return false;
+        }
+        return true;
+
+    };
     // the handler function for login
     signInSubmit(event){
         event.preventDefault();
+        const isValid = this.validate();
         // get all user inputs
-        const {txtusername,txtpassword} = this.state;
-        // send username and password to the backend
-        this.sendSignIn(txtusername, txtpassword);
+        if (isValid) {
+            const {txtusername,txtpassword} = this.state;
+            // send username and password to the backend
+            this.sendSignIn(txtusername, txtpassword);
+        }
     };
 
 
@@ -163,14 +187,14 @@ class Login extends Component {
                             margin="normal"
                             required
                             fullWidth
-                            id="email"
-                            label="Email Address"
-                            name="email"
+                            id="username"
+                            label="Username"
+                            name="username"
                             value={this.state.txtusername}
                             onChange={this.handleusernameChange}
-                            autoComplete="email"
                             autoFocus
                         />
+                        <div className="usernameError">{this.state.txtusernameError}</div>
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -184,6 +208,7 @@ class Login extends Component {
                             id="password"
                             autoComplete="current-password"
                         />
+                        <div className="passwordError">{this.state.txtpasswordError}</div>
                         <div className="LoginButtons">
                             <Button
                                 type="submit"
@@ -194,8 +219,6 @@ class Login extends Component {
                                     >
                                     Log In
                             </Button>
-                            <br></br>
-
 
                             {/*<Button
                                 fullWidth
