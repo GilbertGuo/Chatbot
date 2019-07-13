@@ -6,6 +6,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -25,6 +26,7 @@ public class ChatbotController {
     @Inject
     private QuerySystemProcessor querySystemProcessor;
 
+    @PreAuthorize("hasAuthority('USER')")
     @RequestMapping(value = "/query", method = RequestMethod.POST)
     public Map<String, Object> query(@RequestBody UserQueryRequest userQueryRequest) throws IOException, ParseException {
         List<Document> result = querySystemProcessor.process(userQueryRequest.getMessage());
