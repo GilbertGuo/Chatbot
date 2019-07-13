@@ -1,12 +1,13 @@
 .feedbackPage {
-    margin-top: 100px;
+    padding-top: 35px;
 }
 
 .feedbackForm {
     display: flex;
     flex-direction: column;
 }
-
-#filled-multiline-static {
-    display: flex;
+.Icon_rate{
+    background-color:#0288d1;
+    margin-top: 0%;
+    color: white;
 }
