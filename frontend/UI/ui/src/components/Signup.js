@@ -17,7 +17,10 @@ class Signup extends Component {
             errorMsg: '',
             textusername:'',
             textpassword:'',
-            textconfirmpassword:''
+            textconfirmpassword:'',
+            textusernameError:'',
+            textpasswordError:'',
+            textconfirmpasswordError:''
 
         };
 
@@ -39,22 +42,38 @@ class Signup extends Component {
         this.setState({textconfirmpassword: event.target.value});
     }
 
+    validate = () => {
+        let textusernameError = '';
+        let textpasswordError = '';
+        let textconfirmpasswordError='';
+
+        if (!this.state.textusername) {
+            textusernameError = "username can not be blank";
+        }
+
+        if (!this.state.textpassword) {
+            textpasswordError = "invalid password";
+        }
+
+        if (this.state.textconfirmpassword !== this.state.textpassword) {
+            textconfirmpasswordError = "password confirmation does not match your password";
+        }
+
+        if (textusernameError || textpasswordError || textconfirmpasswordError) {
+            this.setState({textusernameError: textusernameError, textpasswordError: textpasswordError, textconfirmpasswordError: textconfirmpasswordError});
+            return false;
+        }
+        return true;
+
+    };
 
     signUpSubmit(event) {
         event.preventDefault();
         // get all user inputs
-        const {textusername,textpassword,textconfirmpassword} = this.state;
-        // check if the password matches passwordConfirmation
-        if (textpassword !== textconfirmpassword) {
-            this.setState({
-                errorMsg: 'Password confirmation does not match your password!',
-                textusername:'',
-                textpassword:'',
-                textconfirmpassword:''
-
-            });
-        } else {
-            // send username and password to the backend
+        const isValid = this.validate();
+        if (isValid) {
+            const {textusername,textpassword} = this.state;
+            // check if the password matches passwordConfirmation
             this.sendSignUp(textusername, textpassword);
         }
     };
@@ -113,14 +132,14 @@ class Signup extends Component {
                             margin="normal"
                             required
                             fullWidth
-                            id="email"
-                            label="Email Address"
+                            id="username"
+                            label="Username"
                             value={this.state.textusername}
                             onChange={this.handleusernameChange}
-                            name="email"
-                            autoComplete="email"
+                            name="username"
                             autoFocus
                         />
+                        <div className="usernameError">{this.state.textusernameError}</div>
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -134,6 +153,7 @@ class Signup extends Component {
                             id="password"
                             autoComplete="current-password"
                         />
+                        <div className="passwordError">{this.state.textpasswordError}</div>
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -147,6 +167,7 @@ class Signup extends Component {
                             id="confirm_password"
                             autoComplete="current-password"
                         />
+                        <div className="passwordError">{this.state.textconfirmpasswordError}</div>
                         <div className="SignupButtons">
                             <Button
                                 type="submit"
