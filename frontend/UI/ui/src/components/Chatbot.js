@@ -31,6 +31,9 @@ class Chatbot extends Component {
         this.setState({ textValue: e.target.value });
     };
 
+    changeMsg = () => {
+        // {this.chat.msg}
+    };
     /********** test only ***********************/
     postUserData = () => {
         const name = { name: this.state.textValue, username: "kliang" };
@@ -133,9 +136,9 @@ class Chatbot extends Component {
                     <Typography variant="h4" component="h4">
                         Chatbot
                     </Typography>
-                    <Typography variant="h5" component="h5">
-                        Topic Placeholder
-                    </Typography>
+                    {/*<Typography variant="h5" component="h5">*/}
+                        {/*DFI*/}
+                    {/*</Typography>*/}
                     <div className="flex">
                         <div className="chatWindow">
                             {
@@ -148,7 +151,17 @@ class Chatbot extends Component {
                                                 <div className={chat.from}>
                                                     <Chip label={chat.from} variant="outlined"/>
                                                     <div className="message_inbox">
-                                                    <Typography align='left' variant='body1'>{chat.msg}</Typography>
+                                                        <If condition={chat.msg.length<5}>
+                                                            <Then>
+                                                                <Typography align='left' variant='body1'>{chat.msg}</Typography>
+                                                            </Then>
+                                                            <Else>
+                                                                <script>
+                                                                    {this.changeMsg}
+                                                                </script>
+                                                                <Typography align='left' variant='body1'>{chat.msg}</Typography>
+                                                            </Else>
+                                                        </If>
                                                     </div>
                                                 </div>
                                             </Then>
@@ -180,7 +193,7 @@ class Chatbot extends Component {
                     </div>
                      <div className="sub_menu">
                        <IconBar />
-                    </div> 
+                    </div>
                 </Paper>
             </div>
         );
