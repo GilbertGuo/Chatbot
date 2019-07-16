@@ -75,13 +75,14 @@ class Login extends Component {
 
         /************** uncomment this section once finished backend for signin *******************/
 
-        /*const response = await fetch('http://localhost:8000/signin', {
+        const response = await fetch('http://localhost:8000/oauth/token', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
+                grant_type:password,
                 username: username,
                 password: password
             })
@@ -109,15 +110,15 @@ class Login extends Component {
                 };
                 this.props.history.push(location);
             }
-        }*/
+        }
 
         /***************************test only************************/
         /*   remove below line after implementing backend for signup */
-        const location = {
+       /* const location = {
             pathname: '/Chatbot',
             state: this.state
         };
-        this.props.history.push(location);
+        this.props.history.push(location);*/
     };
 
     /********************************** Google Login section ************************/
