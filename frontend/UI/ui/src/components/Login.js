@@ -82,7 +82,9 @@ class Login extends Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                grant_type:password,
+                clientId:"chatbot",
+                clientSecret:"L80eUZjHnafVOG5TWRenSGfiMkPL2j03",
+                grant_type:"password",
                 username: username,
                 password: password
             })
@@ -97,18 +99,19 @@ class Login extends Component {
         } else {
             const body = await response.json();
             if (body) {
+                console.log(body);
                 // clean up error message
-                this.setState({
+                /*this.setState({
                     errorMsg: '',
                     username: username,
                     isAuthenticated: true
-                });
+                });*/
                 // redirect to Home page
-                const location = {
+                /*const location = {
                     pathname: '/Chatbot',
                     state: this.state
                 };
-                this.props.history.push(location);
+                this.props.history.push(location);*/
             }
         }
 
@@ -173,7 +176,7 @@ class Login extends Component {
 
 
     render() {
-        //console.log(this.state);
+        //console.log(this.state.errorMsg);
         return (
             <Container maxWidth="xs" className="LoginContainer">
                 <CssBaseline />

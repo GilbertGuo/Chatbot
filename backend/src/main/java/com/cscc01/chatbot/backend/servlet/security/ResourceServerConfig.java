@@ -34,5 +34,4 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/v1/**" ).authenticated();
     }
-
 }
