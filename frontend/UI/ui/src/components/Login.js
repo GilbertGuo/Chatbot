@@ -78,16 +78,18 @@ class Login extends Component {
         const response = await fetch('http://localhost:8000/oauth/token', {
             method: 'POST',
             headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                "Content-Type": "application/x-www-form-encoded"
+                // 'Accept': 'application/json',
+                // 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                clientId:"chatbot",
-                clientSecret:"L80eUZjHnafVOG5TWRenSGfiMkPL2j03",
-                grant_type:"password",
-                username: username,
-                password: password
-            })
+            body: "grant_type=password&clientId=chatbot&clientSecret=L80eUZjHnafVOG5TWRenSGfiMkPL2j03&username=test1&password=12345678"
+            // JSON.stringify({
+            //     clientId:"chatbot",
+            //     clientSecret:"L80eUZjHnafVOG5TWRenSGfiMkPL2j03",
+            //     grant_type:"password",
+            //     username: username,
+            //     password: password
+            // })
         });
         if (response.status !== 200) {
             if (response.status === 401) this.setState({

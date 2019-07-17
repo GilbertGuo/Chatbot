@@ -34,33 +34,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Inject
     private UserService userService;
 
-//    @Inject
-//    private PasswordEncoder bCryptPasswordEncoder;
-
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//
-//        http.cors().and().csrf().disable();
-//        http.authorizeRequests()
-//                .antMatchers(HttpMethod.POST, "/users/signup")
-//                .permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .addFilter(getAuthenticationFilter());
-//
-//        http.headers().frameOptions().disable();
-//    }
-//
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
-//    }
-//    private AuthenticationFilter getAuthenticationFilter() throws Exception {
-//        return new AuthenticationFilter(authenticationManager(),
-//                userService
-//        );
-//    }
-
     @Value("${security.signing-key}")
     private String signingKey;
 
@@ -78,11 +51,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
+
     @Bean
     @Override
     protected AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
     }
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -97,6 +72,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .and()
                 .httpBasic()
                 .realmName(securityRealm)
+//                .and()
+//                .cors()
                 .and()
                 .csrf()
                 .disable();
