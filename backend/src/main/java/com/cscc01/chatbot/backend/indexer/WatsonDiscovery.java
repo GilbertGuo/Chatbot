@@ -65,7 +65,6 @@ public class WatsonDiscovery {
 
         queryBuilder.deduplicate(true).naturalLanguageQuery(text).count(3).highlight(true);
         QueryResponse queryResponse = discovery.query(queryBuilder.build()).execute().getResult();
-//        LOGGER.info(queryResponse.getResults().get(0).get("text").toString());
         return queryResponse;
     }
 
@@ -87,7 +86,7 @@ public class WatsonDiscovery {
         DocumentAccepted response = discovery.updateDocument(builder.file(file).build()).execute().getResult();
         String documentId = response.getDocumentId();
         LOGGER.info("Created a document ID: " + documentId);
-        if(!checkDocument(documentId)) {
+        if (!checkDocument(documentId)) {
             LOGGER.info("Document Ready.");
         } else {
             LOGGER.info("Document upload error.");
@@ -214,6 +213,12 @@ public class WatsonDiscovery {
             }
         }
         return !documentFailed;
+    }
+
+    public DocumentStatus getDocumentStatus(String documentId) {
+        GetDocumentStatusOptions getDocumentStatusOptions =
+                new GetDocumentStatusOptions.Builder(ENV_ID, COLLECTION_ID, documentId).build();
+        return discovery.getDocumentStatus(getDocumentStatusOptions).execute().getResult();
     }
 
 }

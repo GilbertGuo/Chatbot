@@ -5,13 +5,9 @@ import javax.persistence.*;
 @Entity
 public class DocumentRecord {
 
-//    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-
     @Id
-    @Column(unique = true)
     private String name;
+
     private String discoveryId;
     private String lastModified;
     private String lastModifiedUser;
@@ -20,15 +16,6 @@ public class DocumentRecord {
 
     public DocumentRecord(String name){
         this.name = name;
-    }
-
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {

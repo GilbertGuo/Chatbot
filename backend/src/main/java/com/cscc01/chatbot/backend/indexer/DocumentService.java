@@ -56,9 +56,11 @@ public class DocumentService {
         Map<CrawlerResultKey, String> crawlerResult = crawlerService.startCrawler(url);
         String filename = crawlerResult.get(CrawlerResultKey.TITLE);
         DocumentRecord documentRecord = documentRecordRepository.findByName(filename);
-        String documentId = null;
-        if(documentRecord.getDiscoveryId() != null) {
-            documentId = documentRecord.getDiscoveryId();
+        String documentId = UUID.randomUUID().toString();
+        if(documentRecord!= null ) {
+            if(documentRecord.getDiscoveryId() != null) {
+                documentId = documentRecord.getDiscoveryId();
+            }
         }
 
         DocumentAccepted result = watsonDiscovery.addDocument(crawlerResult, documentId);
@@ -78,11 +80,10 @@ public class DocumentService {
 
     public void deleteDocument(String filename) throws IOException {
         DocumentRecord documentRecord = documentRecordRepository.findByName(filename);
-        String documentId = null;
-        if(documentRecord.getDiscoveryId() != null) {
-            documentId = documentRecord.getDiscoveryId();
+        if(documentRecord != null) {
+            String documentId = documentRecord.getDiscoveryId();
+            watsonDiscovery.deleteDocument(documentId);
         }
-        watsonDiscovery.deleteDocument(documentId);
         indexer.deleteDocument(filename);
         documentRecordRepository.delete(documentRecord);
     }

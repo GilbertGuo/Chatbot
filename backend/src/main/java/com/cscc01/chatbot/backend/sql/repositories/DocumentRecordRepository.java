@@ -9,7 +9,6 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import javax.print.Doc;
 import java.util.List;
 
 @CrossOrigin
