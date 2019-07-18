@@ -151,17 +151,7 @@ class Chatbot extends Component {
                                                 <div className={chat.from}>
                                                     <Chip label={chat.from} variant="outlined"/>
                                                     <div className="message_inbox">
-                                                        <If condition={chat.msg.length<5}>
-                                                            <Then>
-                                                                <Typography align='left' variant='body1'>{chat.msg}</Typography>
-                                                            </Then>
-                                                            <Else>
-                                                                <script>
-                                                                    {this.changeMsg}
-                                                                </script>
-                                                                <Typography align='left' variant='body1'>{chat.msg}</Typography>
-                                                            </Else>
-                                                        </If>
+                                                        <Typography align='left' variant='body1'>{chat.msg}</Typography>
                                                     </div>
                                                 </div>
                                             </Then>

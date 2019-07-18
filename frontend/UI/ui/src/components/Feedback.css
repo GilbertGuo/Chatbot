@@ -1,12 +1,8 @@
 .feedbackPage {
-    margin-top: 70px;
+    padding-top: 70px;
 }
 
 .feedbackForm {
     display: flex;
     flex-direction: column;
-}
-.Icon_rate{
-    margin-top: 0%;
-    color: black;
 }
