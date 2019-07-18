@@ -21,7 +21,6 @@ class Signup extends Component {
             textusernameError:'',
             textpasswordError:'',
             textconfirmpasswordError:''
-
         };
 
         this.handleusernameChange = this.handleusernameChange.bind(this);
@@ -81,7 +80,7 @@ class Signup extends Component {
     sendSignUp = async (username, password) => {
 
         /************** uncomment this section once finished backend for signup *******************/
-        /*const response = await fetch('http://localhost:8000/signup', {
+        const response = await fetch('http://localhost:8000/users/signup', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -103,17 +102,18 @@ class Signup extends Component {
             const body = await response.json();
             if (body) {
                 // clean up error message
+                console.log(body);
                 this.setState({
                     errorMsg: ''
                 });
 
                 this.props.history.push('/Login');
             }
-        }*/
+        }
 
         /***************************test only************************/
         /*   remove below line after implementing backend for signup */
-        this.props.history.push('/Login');
+        //this.props.history.push('/Login');
     };
 
 
