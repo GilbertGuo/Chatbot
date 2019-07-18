@@ -86,9 +86,10 @@ public class Indexer {
         indexWriter.commit();
         indexWriter.close();
 
-        if (document != null) {
-            DocumentRecord documentRecord = toDocumentRecord(document);
-        }
+//        if (document != null) {
+//            DocumentRecord documentRecord = toDocumentRecord(document);
+//            documentRecordRepository.save(documentRecord);
+//        }
 
         LOGGER.info("DocumentRecord " + file.getName() + " added successfully");
     }
@@ -108,14 +109,14 @@ public class Indexer {
         LOGGER.info("Opening link " + crawlerResult.get(CrawlerResultKey.URL) + " to create index");
 
         Document document = documentRetriever.getCrawlerDocument(crawlerResult);
-        DocumentRecord documentRecord = toDocumentRecord(document);
+//        DocumentRecord documentRecord = toDocumentRecord(document);
         indexWriter.updateDocument(
                 new Term(LuceneFieldConstants.FILE_NAME.getText(),
                         crawlerResult.get(CrawlerResultKey.TITLE)), document);
 
         indexWriter.commit();
         indexWriter.close();
-        documentRecordRepository.save(documentRecord);
+//        documentRecordRepository.save(documentRecord);
         LOGGER.info("DocumentRecord " + crawlerResult.get(CrawlerResultKey.TITLE) + " added successfully");
     }
 
@@ -142,7 +143,7 @@ public class Indexer {
     public void deleteDocument(String filename) throws IOException {
         Term term = new Term(LuceneFieldConstants.FILE_NAME.getText(), filename);
         deleteDocument(term);
-        LOGGER.info("Deleted DocumentRecord: " + filename);
+        LOGGER.info("Deleted document from indexer: " + filename);
     }
 
 
@@ -194,8 +195,8 @@ public class Indexer {
         return indexReader;
     }
 
-    private DocumentRecord toDocumentRecord(Document document) {
-        DocumentRecord documentRecord = new DocumentRecord(document.get("filename"));
-        return documentRecord;
-    }
+//    private DocumentRecord toDocumentRecord(Document document) {
+//        DocumentRecord documentRecord = new DocumentRecord(document.get("filename"));
+//        return documentRecord;
+//    }
 }

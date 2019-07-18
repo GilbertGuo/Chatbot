@@ -69,7 +69,12 @@ class Chatbot extends Component {
                 // upon request is success sent
                 .then(res => {
                     // update result in the state.
-                    this.setState({ chatArray: this.state.chatArray.concat({ from: 'chatbot', msg: res.data.documents }) });
+                    if(res.data.message){
+                        this.setState({ chatArray: this.state.chatArray.concat({ from: 'chatbot', msg: res.data.message }) });
+                    }
+                    if(res.data.content) {
+                        this.setState({ chatArray: this.state.chatArray.concat({ from: 'chatbot', msg: res.data.content }) });
+                    }
                     console.log(res);
                 });
         } catch (err) {
