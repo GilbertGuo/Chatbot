@@ -70,26 +70,21 @@ class Login extends Component {
         }
     };
 
-
     sendSignIn = async (username, password) => {
-
-        /************** uncomment this section once finished backend for signin *******************/
 
         const response = await fetch('http://localhost:8000/oauth/token', {
             method: 'POST',
             headers: {
-                "Content-Type": "application/x-www-form-encoded"
-                // 'Accept': 'application/json',
-                // 'Content-Type': 'application/json'
+                "Authorization":"Basic "+ btoa("chatbot:L80eUZjHnafVOG5TWRenSGfiMkPL2j03"),
+                "Content-Type": "application/x-www-form-urlencoded"
             },
-            body: "grant_type=password&clientId=chatbot&clientSecret=L80eUZjHnafVOG5TWRenSGfiMkPL2j03&username=test1&password=12345678"
-            // JSON.stringify({
-            //     clientId:"chatbot",
-            //     clientSecret:"L80eUZjHnafVOG5TWRenSGfiMkPL2j03",
-            //     grant_type:"password",
-            //     username: username,
-            //     password: password
-            // })
+            body:
+                new URLSearchParams({
+                    'grant_type': 'password',
+                    'username': username,
+                    'password': password
+
+                })
         });
         if (response.status !== 200) {
             if (response.status === 401) this.setState({
@@ -101,13 +96,13 @@ class Login extends Component {
         } else {
             const body = await response.json();
             if (body) {
-                console.log(body);
-                // clean up error message
-                /*this.setState({
+                console.log(body.access_token);
+                this.setState({
                     errorMsg: '',
-                    username: username,
-                    isAuthenticated: true
-                });*/
+                    //username: username,
+                    token:body.access_token
+                    //isAuthenticated: true
+                });
                 // redirect to Home page
                 /*const location = {
                     pathname: '/Chatbot',
@@ -116,6 +111,8 @@ class Login extends Component {
                 this.props.history.push(location);*/
             }
         }
+
+
 
         /***************************test only************************/
         /*   remove below line after implementing backend for signup */
