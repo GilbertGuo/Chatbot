@@ -15,7 +15,7 @@ const pullbar = props => (
                  <ul>
                     <li><Button href="/Login">log in</Button></li>
                     <li><Button href="/Signup">sign up</Button></li>
-                    <li><Button href="/Login">log out</Button></li>
+                    <li><Button href="/Logout">log out</Button></li>
                  </ul>
              </div>
         </nav>

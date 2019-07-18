@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import './Login.css';
 import GoogleLogin from 'react-google-login';
-import { ToastContainer, toast } from 'react-toastify';
+import Cookies from 'js-cookie';
 
 class Login extends Component {
 
@@ -17,11 +17,8 @@ class Login extends Component {
         super(props);
         this.state = {
             errorMsg: '',
-            username:'',
             txtusername:'',
             txtpassword:'',
-            isAuthenticated: false,
-            token: '',
             txtusernameError:'',
             txtpasswordError:''
         };
@@ -32,10 +29,13 @@ class Login extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.location);
-        if(this.props.location.state !== undefined){
-            toast.error("Please Login first", { autoClose: 3000 });
+        if(Cookies.get('token')){
+            const location = {
+                pathname: '/Chatbot',
+            };
+            this.props.history.push(location);
         }
+
     }
 
     handleusernameChange(event) {
@@ -98,23 +98,30 @@ class Login extends Component {
             if (response.status === 401) this.setState({
                 errorMsg: "Username or password not correct..."
             });
+            if (response.status === 400) this.setState({
+                errorMsg: "Username or password not correct..."
+            });
             if (response.status === 500) this.setState({
                 errorMsg: "Server side error, please try again later..."
             });
         } else {
             const body = await response.json();
             if (body) {
-                console.log(body.access_token);
+                //console.log(body.access_token);
                 this.setState({
-                    errorMsg: '',
-                    username: username,
-                    token:body.access_token,
-                    isAuthenticated: true
+                    errorMsg: ''
                 });
-                // redirect to Home page
+
+                Cookies.set('token', body.access_token);
+                Cookies.set('username', username);
+
+
+                sessionStorage.setItem("chatArray", JSON.stringify([{from:"chatbot",msg:"hi"}]));
+
+
+                // redirect to Chat page
                 const location = {
                     pathname: '/Chatbot',
-                    state: this.state
                 };
                 this.props.history.push(location);
             }
@@ -147,7 +154,7 @@ class Login extends Component {
 
         /************** uncomment this section once finished backend for Google login *******************/
 
-        /*const tokenBlob = new Blob([JSON.stringify({access_token: response.accessToken}, null, 2)], {type : 'application/json'});
+        const tokenBlob = new Blob([JSON.stringify({access_token: response.accessToken}, null, 2)], {type : 'application/json'});
 
         const options = {
             method: 'POST',
@@ -158,25 +165,36 @@ class Login extends Component {
 
         fetch('http://localhost:8000/api/v1/auth/google', options).then(r => {
 
-            const token = r.headers.get('x-auth-token');
-            r.json().then(user => {
+            if (r.status === 200) {
+                const token = r.headers.get('x-auth-token');
+                r.json().then(user => {
+                    console.log(token);
+                    if (token) {
+                        Cookies.set('token', token);
+                        Cookies.set('username', user);
 
-                if (token) {
-                    this.setState({isAuthenticated: true, username:user, token:token})
-                }
-            });
-        })*/
+                        // redirect to Chat page
+                        const location = {
+                            pathname: '/Chatbot',
+                        };
+                        this.props.history.push(location);
+                    }
+                });
+            } else {
+                console.log("error");
+            }
+        });
 
 
         /***************************test only************************/
         /*   remove below line after implementing backend for signup */
-        this.setState({isAuthenticated: true, username:response.profileObj.name, token:response.accessToken});
+        /*this.setState({username:response.profileObj.name, token:response.accessToken});
 
         const location = {
             pathname: '/Chatbot',
             state: this.state
         };
-        this.props.history.push(location);
+        this.props.history.push(location);*/
 
     };
 
@@ -188,10 +206,6 @@ class Login extends Component {
 
             <Container maxWidth="xs" className="LoginContainer">
                 <CssBaseline />
-
-                <div className="form-group">
-                    <ToastContainer />
-                </div>
 
                 <div className="login_paper">
                     <p>{ this.state.errorMsg }</p>
