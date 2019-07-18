@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import './Login.css';
 import GoogleLogin from 'react-google-login';
+import { ToastContainer, toast } from 'react-toastify';
 
 class Login extends Component {
 
@@ -28,6 +29,13 @@ class Login extends Component {
         this.handleusernameChange = this.handleusernameChange.bind(this);
         this.handlepasswordChange = this.handlepasswordChange.bind(this);
         this.signInSubmit = this.signInSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        console.log(this.props.location);
+        if(this.props.location.state !== undefined){
+            toast.error("Please Login first", { autoClose: 3000 });
+        }
     }
 
     handleusernameChange(event) {
@@ -99,16 +107,16 @@ class Login extends Component {
                 console.log(body.access_token);
                 this.setState({
                     errorMsg: '',
-                    //username: username,
-                    token:body.access_token
-                    //isAuthenticated: true
+                    username: username,
+                    token:body.access_token,
+                    isAuthenticated: true
                 });
                 // redirect to Home page
-                /*const location = {
+                const location = {
                     pathname: '/Chatbot',
                     state: this.state
                 };
-                this.props.history.push(location);*/
+                this.props.history.push(location);
             }
         }
 
@@ -177,8 +185,14 @@ class Login extends Component {
     render() {
         //console.log(this.state.errorMsg);
         return (
+
             <Container maxWidth="xs" className="LoginContainer">
                 <CssBaseline />
+
+                <div className="form-group">
+                    <ToastContainer />
+                </div>
+
                 <div className="login_paper">
                     <p>{ this.state.errorMsg }</p>
                     <Typography component="h1" variant="h5">

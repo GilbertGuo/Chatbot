@@ -6,6 +6,7 @@ import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
+
 import IconBar from './IconBar.js';
 import { If, Then, Else } from 'react-if-elseif-else-render';
 
@@ -25,6 +26,17 @@ class Chatbot extends Component {
             // dataFetch:[]
         };
         this.clickEvent = this.clickEvent.bind(this);
+    }
+
+    componentDidMount() {
+        if(this.props.location.state === undefined){
+            const location = {
+                pathname: '/Login',
+                state: this.state
+            };
+            this.props.history.push(location);
+
+        }
     }
 
     changeTextValue = e => {
@@ -62,20 +74,42 @@ class Chatbot extends Component {
 
 
 
+
     query = () => {
-        const message = { message: this.state.textValue, username: "kliang" };
+
+        const username = this.props.location.state.username;
+        const token = this.props.location.state.token;
+
+        const message = {message: this.state.textValue, username: username};
+        let headers = {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + token
+        };
         try {
-            axios.post("http://localhost:8000/query", message)
-                // upon request is success sent
+
+            axios.post("http://localhost:8000/query", message, {headers: headers})
+            // upon request is success sent
                 .then(res => {
                     // update result in the state.
-                    this.setState({ chatArray: this.state.chatArray.concat({ from: 'chatbot', msg: res.data.documents }) });
-                    console.log(res);
+
+                    if (res.status === 200) {
+
+                        this.setState({
+                            chatArray: this.state.chatArray.concat({
+                                from: 'chatbot',
+                                msg: res.data.documents
+                            })
+                        });
+                        console.log(res);
+                    } else {
+                        console.log("error");
+                    }
                 });
         } catch (err) {
             console.log(err);
-            this.setState({ errorMsg: 'Error posting data' });
+            this.setState({errorMsg: 'Error posting data'});
         }
+
     };
 
 
@@ -98,7 +132,7 @@ class Chatbot extends Component {
         //this.setState((prevState)=>({chatArray:prevState.chatArray.concat({from:this.props.location.state.username,msg:this.state.textValue})}));
 
         /***** For normal Login test(delete if finished implementing backend login for google and normal login ****************/
-        this.setState((prevState)=>({chatArray:prevState.chatArray.concat({from:this.props.location.state.txtusername,msg:this.state.textValue})}));
+        this.setState((prevState)=>({chatArray:prevState.chatArray.concat({from:this.props.location.state.username,msg:this.state.textValue})}));
 
 
         /********** test only ***********************/
@@ -123,7 +157,7 @@ class Chatbot extends Component {
     };
 
     render() {
-        //console.log(this.props.location);
+        console.log(this.props.location);
         const {textValue,chatArray}=this.state;
         //console.log(chatArray.map(chat=>chat.msg));
 
