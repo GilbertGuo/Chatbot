@@ -1,6 +1,7 @@
 package com.cscc01.chatbot.backend.servlet.security;
 
 import com.cscc01.chatbot.backend.usersystem.UserService;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,8 +24,13 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.inject.Inject;
+import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 @Configuration
 @EnableWebSecurity
@@ -33,33 +39,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Inject
     private UserService userService;
-
-//    @Inject
-//    private PasswordEncoder bCryptPasswordEncoder;
-
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//
-//        http.cors().and().csrf().disable();
-//        http.authorizeRequests()
-//                .antMatchers(HttpMethod.POST, "/users/signup")
-//                .permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .addFilter(getAuthenticationFilter());
-//
-//        http.headers().frameOptions().disable();
-//    }
-//
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
-//    }
-//    private AuthenticationFilter getAuthenticationFilter() throws Exception {
-//        return new AuthenticationFilter(authenticationManager(),
-//                userService
-//        );
-//    }
 
     @Value("${security.signing-key}")
     private String signingKey;
@@ -78,11 +57,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
+
     @Bean
     @Override
     protected AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
     }
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -97,6 +78,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .and()
                 .httpBasic()
                 .realmName(securityRealm)
+                .and()
+                .cors()
                 .and()
                 .csrf()
                 .disable();
@@ -132,11 +115,24 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         return defaultTokenServices;
     }
 
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(ImmutableList.of("*"));
+        configuration.setAllowedMethods(ImmutableList.of("GET", "POST"));
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedHeaders(ImmutableList.of("Authorization", "Cache-Control", "Content-Type"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
     private static class MyTokenEnhancer implements TokenEnhancer {
         @Override
         public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
             return accessToken;
         }
     }
+
 
 }

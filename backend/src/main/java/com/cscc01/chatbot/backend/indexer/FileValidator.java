@@ -43,6 +43,10 @@ public class FileValidator {
         return new Tika().detect(file).equals("application/pdf");
     }
 
+    public boolean isTxt(File file) throws IOException {
+        return new Tika().detect(file).equals("text/plain");
+    }
+
     public boolean isDoc(File file) throws IOException {
         String fileType = new Tika().detect(file);
         return (fileType.equals(MIMETYPE_DOCX) || fileType.equals(MIMETYPE_DOC));
