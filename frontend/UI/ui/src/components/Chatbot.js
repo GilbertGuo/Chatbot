@@ -44,6 +44,9 @@ class Chatbot extends Component {
         this.setState({ textValue: e.target.value });
     };
 
+    changeMsg = () => {
+        // {this.chat.msg}
+    };
     /********** test only ***********************/
     postUserData = () => {
         const name = { name: this.state.textValue, username: Cookies.get('username') };
@@ -178,9 +181,9 @@ class Chatbot extends Component {
                     <Typography variant="h4" component="h4">
                         Chatbot
                     </Typography>
-                    <Typography variant="h5" component="h5">
-                        Topic Placeholder
-                    </Typography>
+                    {/*<Typography variant="h5" component="h5">*/}
+                        {/*DFI*/}
+                    {/*</Typography>*/}
                     <div className="flex">
                         <div className="chatWindow">
                             {
@@ -193,7 +196,7 @@ class Chatbot extends Component {
                                                 <div className={chat.from}>
                                                     <Chip label={chat.from} variant="outlined"/>
                                                     <div className="message_inbox">
-                                                    <Typography align='left' variant='body1'>{chat.msg}</Typography>
+                                                        <Typography align='left' variant='body1'>{chat.msg}</Typography>
                                                     </div>
                                                 </div>
                                             </Then>
@@ -229,7 +232,7 @@ class Chatbot extends Component {
                     </div>
                      <div className="sub_menu">
                        <IconBar />
-                    </div> 
+                    </div>
                 </Paper>
             </div>
         );

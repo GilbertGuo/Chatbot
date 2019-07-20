@@ -9,7 +9,7 @@ const pullbar = props => (
              <div>
                  <Toggle click={props.clickHandler} />
              </div>
-             <div className="bar_logo"><a href="/">Hi CSCC01</a></div>
+             <div className="bar_logo"><a href="/">Hi Guest</a></div>
              <div className="partial" />
              <div className="pull_items">
                  <ul>

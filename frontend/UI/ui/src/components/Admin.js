@@ -1,10 +1,6 @@
 import React, {Component} from 'react';
 import './Admin.css';
-// import { makeStyles } from '@material-ui/core/styles';
-//import TextField from '@material-ui/core/TextField';
 import Table from '@material-ui/core/Table';
-// import FormControl from '@material-ui/core/FormControl';
-// import FormGroup from '@material-ui/core/FormGroup';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
@@ -16,7 +12,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
-import Container from '@material-ui/core/Container';
+import TextField from '@material-ui/core/TextField';
 import FeedList from './FeedbackList.js'
 import isUrl from 'validator/lib/isURL';
 
@@ -171,78 +167,70 @@ class Admin extends Component {
                     <ToastContainer />
                 </div>
 
-                <div className="uploadFile adminPageItem">
-                    <h2>Document Upload</h2>
-                    <input type="file" onChange={this.fileSelectedHandler} />
-                    <Button variant="contained" component="span" onClick={this.fileUploadHandler}>
-                        Upload
-                    </Button>
-                </div>
-
-                <div className="createURL adminPageItem">
-                    <Container maxWidth="xs" id="docURL">
-                        <h2>Document URL</h2>
-                        <input type="url" placeholder="Type URL" name="url" id="url"
-                               size="30" onChange={this.changeURLValue} />
-
-                       {/* <TextField
-                            id="outlined-with-placeholder"
-                            label="URL"
-                            placeholder="Type URL"
-                            margin="normal"
-                            variant="outlined"
-                            value={selectedurl}
-                            onChange={this.changeURLValue}
-                        />*/}
-                        <Button variant="contained" component="span" onClick={this.URLUploadHandler}>
+                <div className="adminTop">
+                    <div className="uploadFile adminPageItem">
+                        <h2>Document Upload</h2>
+                        <input type="file" onChange={this.fileSelectedHandler} />
+                        <Button variant="contained" component="span" onClick={this.fileUploadHandler}>
                             Upload
                         </Button>
-                    </Container>
+                    </div>
+
+                    <div className="createURL adminPageItem">
+                        <h2>Crawl URL</h2>
+                        <TextField type="url" placeholder="Type URL" name="url" id="url"
+                                   margin="dense" onChange={this.changeURLValue} />
+                            <Button variant="contained" component="span" onClick={this.URLUploadHandler}>
+                                Crawl
+                            </Button>
+                    </div>
                 </div>
 
-                <div className="indexerView adminPageItem">
-                    <h1>Uploaded Documents</h1>
+                <div className="adminBot">
+                    <div className="indexerView adminPageItem">
+                        <h2>Uploaded Documents</h2>
 
-                    <button onClick={this.showEvent}>Show</button>
-
-                    <Paper className="classes.paper">
-                        <Table className="classes.table" size="small">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Document</TableCell>
-                                    <TableCell align="right">User</TableCell>
-                                    <TableCell align="right">Document_modification</TableCell>
-                                    <TableCell align="right"></TableCell>
-                                </TableRow>
-                            </TableHead>
-
-                            {
-                                status === 200 ?
-                                    uploadedFiles.map((file, i) =>
-                                        <TableBody key={i}>
+                        <div className="table_group">
+                            <Paper className="classes.paper">
+                                <Table className="classes.table" size="medium">
+                                        <TableHead>
                                             <TableRow>
-                                                <TableCell component="th" scope="row">
-                                                    {file}
-                                                </TableCell>
-                                                <TableCell align="right">''</TableCell>
-                                                <TableCell align="right">''</TableCell>
-                                                <TableCell>
-                                                    <IconButton aria-label="Delete" onClick={this.deleteHandler({ file })}>
-                                                        <DeleteIcon />
-                                                    </IconButton>
-                                                </TableCell>
+                                                <TableCell>Document</TableCell>
+                                                <TableCell align="right">User</TableCell>
+                                                <TableCell align="right">Document_modification</TableCell>
+                                                <TableCell align="right"></TableCell>
                                             </TableRow>
-                                        </TableBody>
-                                    ) : null
-                            }
-                        </Table>
-                    </Paper>
-                </div>
-                <div className="Feedback_List">
-                <Container maxWidth="xs" id="FeedList">
-                    <h1>Feedback box</h1>
-                    <FeedList/>
-                </Container>
+                                        </TableHead>
+
+
+                                    {
+                                        status === 200 ?
+                                            uploadedFiles.map((file, i) =>
+                                                <TableBody key={i}>
+                                                    <TableRow>
+                                                        <TableCell component="th" scope="row">
+                                                            {file}
+                                                        </TableCell>
+                                                        <TableCell align="right">''</TableCell>
+                                                        <TableCell align="right">''</TableCell>
+                                                        <TableCell>
+                                                            <IconButton aria-label="Delete" onClick={this.deleteHandler({ file })}>
+                                                                <DeleteIcon />
+                                                            </IconButton>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                </TableBody>
+                                            ) : null
+                                    }
+                                </Table>
+                            </Paper>
+                            <Button variant="contained" component="span" onClick={this.showEvent}>Show</Button>
+                        </div>
+                    </div>
+                    <div className="Feedback_List">
+                        <h2>Feedback box</h2>
+                        <FeedList/>
+                    </div>
                 </div>
             </div>
         );

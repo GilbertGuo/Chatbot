@@ -1,6 +1,6 @@
 .root {
-    margin-top: 60px;
-    height:615px;
+    padding-top: 70px;
+    height:734px;
 }
 
 .flex{
@@ -16,7 +16,7 @@
 }
 
 .chatWindow {
-    width: 85%;
+    width: 100%;
     padding: 10px;
     
 }
@@ -27,34 +27,41 @@
     align-items:baseline;
 }
 .message_inbox{
-    width: 100%;
+    margin-left: 1%;
+    width: 200px;
+    word-wrap: break-word;
 }
+
 .message_inbox p{
     background: #efefef none repeat scroll 0 0;
     border-radius: 10px;
     color: #646464;
-    font-size: 20px;
+    font-size: 12px;
     margin: 0;
-    padding: 5px 10px 5px 12px;
-    width: 15%;
-    display: flex;
+    padding: 5px 10px 5px 10px;
+    width: 200px;
+    word-wrap: break-word;
 
 }
 .user_message{
-    float: left;
-    width: 50%;
-    margin-left: 85%;
+    float: right;
+    width: 200px;
+    margin-right: 1%;
+    /*margin-left: 700px;*/
+    word-wrap: break-word;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .user_message p{
     background: #007bff none repeat scroll 0 0;
     color: #fff;
     border-radius: 10px;
-    font-size: 20px;
+    font-size: 12px;
     margin: 0;
-    padding: 5px 10px 5px 2px;
-    width: 80%;
-    display: flex;
+    padding: 5px 10px 5px 10px;
+    width: 200px;
+    word-wrap: break-word;
 }
 
 .user{
@@ -67,6 +74,7 @@
 .chatBox {
     width: 85%;
 }
+
 .sub_menu ul{
     list-style: none;
     display: flex;
@@ -75,4 +83,8 @@
 .button {
     width: 15%;
     height: 45px;
+}
+
+.test {
+    padding-right: 50px;
 }
