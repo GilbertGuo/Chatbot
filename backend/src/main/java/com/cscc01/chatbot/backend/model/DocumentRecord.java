@@ -9,7 +9,7 @@ public class DocumentRecord {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(unique = true)
+    // @Column(unique = true)
     private String name;
     private String lastModified;
     private String lastModifiedUser;
