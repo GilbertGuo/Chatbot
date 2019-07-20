@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import './Login.css';
 import GoogleLogin from 'react-google-login';
+import Cookies from 'js-cookie';
 
 class Login extends Component {
 
@@ -16,11 +17,8 @@ class Login extends Component {
         super(props);
         this.state = {
             errorMsg: '',
-            username:'',
             txtusername:'',
             txtpassword:'',
-            isAuthenticated: false,
-            token: '',
             txtusernameError:'',
             txtpasswordError:''
         };
@@ -28,6 +26,16 @@ class Login extends Component {
         this.handleusernameChange = this.handleusernameChange.bind(this);
         this.handlepasswordChange = this.handlepasswordChange.bind(this);
         this.signInSubmit = this.signInSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        if(Cookies.get('token')){
+            const location = {
+                pathname: '/Chatbot',
+            };
+            this.props.history.push(location);
+        }
+
     }
 
     handleusernameChange(event) {
@@ -70,24 +78,27 @@ class Login extends Component {
         }
     };
 
-
     sendSignIn = async (username, password) => {
 
-        /************** uncomment this section once finished backend for signin *******************/
-
-        /*const response = await fetch('http://localhost:8000/signin', {
+        const response = await fetch('http://localhost:8000/oauth/token', {
             method: 'POST',
             headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                "Authorization":"Basic "+ btoa("chatbot:L80eUZjHnafVOG5TWRenSGfiMkPL2j03"),
+                "Content-Type": "application/x-www-form-urlencoded"
             },
-            body: JSON.stringify({
-                username: username,
-                password: password
-            })
+            body:
+                new URLSearchParams({
+                    'grant_type': 'password',
+                    'username': username,
+                    'password': password
+
+                })
         });
         if (response.status !== 200) {
             if (response.status === 401) this.setState({
+                errorMsg: "Username or password not correct..."
+            });
+            if (response.status === 400) this.setState({
                 errorMsg: "Username or password not correct..."
             });
             if (response.status === 500) this.setState({
@@ -96,28 +107,35 @@ class Login extends Component {
         } else {
             const body = await response.json();
             if (body) {
-                // clean up error message
+                //console.log(body.access_token);
                 this.setState({
-                    errorMsg: '',
-                    username: username,
-                    isAuthenticated: true
+                    errorMsg: ''
                 });
-                // redirect to Home page
+
+                Cookies.set('token', body.access_token);
+                Cookies.set('username', username);
+
+
+                sessionStorage.setItem("chatArray", JSON.stringify([{from:"chatbot",msg:"hi"}]));
+
+
+                // redirect to Chat page
                 const location = {
                     pathname: '/Chatbot',
-                    state: this.state
                 };
                 this.props.history.push(location);
             }
-        }*/
+        }
+
+
 
         /***************************test only************************/
         /*   remove below line after implementing backend for signup */
-        const location = {
+       /* const location = {
             pathname: '/Chatbot',
             state: this.state
         };
-        this.props.history.push(location);
+        this.props.history.push(location);*/
     };
 
     /********************************** Google Login section ************************/
@@ -136,7 +154,7 @@ class Login extends Component {
 
         /************** uncomment this section once finished backend for Google login *******************/
 
-        /*const tokenBlob = new Blob([JSON.stringify({access_token: response.accessToken}, null, 2)], {type : 'application/json'});
+        const tokenBlob = new Blob([JSON.stringify({access_token: response.accessToken}, null, 2)], {type : 'application/json'});
 
         const options = {
             method: 'POST',
@@ -147,35 +165,48 @@ class Login extends Component {
 
         fetch('http://localhost:8000/api/v1/auth/google', options).then(r => {
 
-            const token = r.headers.get('x-auth-token');
-            r.json().then(user => {
+            if (r.status === 200) {
+                const token = r.headers.get('x-auth-token');
+                r.json().then(user => {
+                    console.log(token);
+                    if (token) {
+                        Cookies.set('token', token);
+                        Cookies.set('username', user);
 
-                if (token) {
-                    this.setState({isAuthenticated: true, username:user, token:token})
-                }
-            });
-        })*/
+                        // redirect to Chat page
+                        const location = {
+                            pathname: '/Chatbot',
+                        };
+                        this.props.history.push(location);
+                    }
+                });
+            } else {
+                console.log("error");
+            }
+        });
 
 
         /***************************test only************************/
         /*   remove below line after implementing backend for signup */
-        this.setState({isAuthenticated: true, username:response.profileObj.name, token:response.accessToken});
+        /*this.setState({username:response.profileObj.name, token:response.accessToken});
 
         const location = {
             pathname: '/Chatbot',
             state: this.state
         };
-        this.props.history.push(location);
+        this.props.history.push(location);*/
 
     };
 
 
 
     render() {
-        //console.log(this.state);
+        //console.log(this.state.errorMsg);
         return (
+
             <Container maxWidth="xs" className="LoginContainer">
                 <CssBaseline />
+
                 <div className="login_paper">
                     <p>{ this.state.errorMsg }</p>
                     <Typography component="h1" variant="h5">

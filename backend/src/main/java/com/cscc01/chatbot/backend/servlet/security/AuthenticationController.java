@@ -32,7 +32,7 @@ public class AuthenticationController {
         return handleUserSignUp(signUpReq, Role.USER);
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/users/admins/signup/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Object> adminSignUp(@RequestBody SignUpDto signUpReq) {
         return handleUserSignUp(signUpReq, Role.ADMIN);

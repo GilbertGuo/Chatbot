@@ -1,12 +1,20 @@
-.uploadFile {
-    margin-top: 100px;
-    /*height:615px;*/
-}
-
 .adminPage {
     display: flex;
     flex-direction: column;
     justify-content: space-around !important;
+}
+
+.adminTop {
+    display: flex;
+    flex-direction: row;
+    margin-top: 100px;
+    justify-content: space-around;
+}
+
+.adminBot {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
 
 .adminPageItem {
@@ -28,10 +36,10 @@
     min-width: 650px;
 }
 
-/* Selects any valid <input> */
-/*input:valid {*/
-    /*background-color: powderblue;*/
-/*}*/
+.table_group{
+    display: flex;
+    flex-direction: row;
+}
 
 input:invalid {
     background-color: #ffdddd;
