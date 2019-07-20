@@ -53,19 +53,6 @@ export default function ControlledExpansionPanels() {
           </Typography>
         </ExpansionPanelDetails>
       </ExpansionPanel>
-      <ExpansionPanel expanded={expanded === 'panel4'} onChange={ChangeHandler('panel4')}>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} id="user4" >
-          <Typography className="User">User4</Typography>
-          <Typography className="User_Feedback">
-            User4's feedback
-          </Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <Typography>
-            I love it!
-          </Typography>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
     </div>
   );
 }

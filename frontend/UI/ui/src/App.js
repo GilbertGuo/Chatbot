@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import './App.css';
 import Admin from './components/Admin';
 import Chatbot from './components/Chatbot';
-import Pullbar from './components/Meun/Pullbar/Pullbar';
-import Hidden from './components/Meun/Hidden/Hidden';
-import Background from './components/Meun/Backgroun/Background';
+import Pullbar from './components/Menu/Pullbar/Pullbar';
+import Hidden from './components/Menu/Hidden/Hidden';
+import Background from './components/Menu/Background/Background';
 import Feedback from './components/Feedback';
 import { BrowserRouter as Router, Route} from 'react-router-dom';
 import Login from "./components/Login";
+import Logout from "./components/Logout";
 import Signup from "./components/Signup";
 
 
@@ -42,6 +43,7 @@ class App extends Component{
                     {close}
                     <Route path="/login" component={Login}/>
                     <Route path="/signup" component={Signup}/>
+                    <Route path="/logout" component={Logout}/>
                     <Route path="/admin" component={Admin} />
                     <Route path="/chatbot" component={Chatbot} />
                     <Route path="/feedback" component={Feedback} />
