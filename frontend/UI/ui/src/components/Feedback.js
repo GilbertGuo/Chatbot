@@ -49,7 +49,7 @@ class Feedback extends Component{
         return (
             <div className="feedbackPage">
                 <div className="Icon_rate">
-                <h1>HOW ARE YOU FEELING?</h1>
+                <h1>HOW IS YOUR FEELING?</h1>
                 <Tooltip title='strongly unsatisfied'>
                     <IconButton className="Icon_style">
                         <SentimentVeryDissatisfied fontSize='large'/>
@@ -71,7 +71,7 @@ class Feedback extends Component{
                     </IconButton>
                 </Tooltip>
                 </div>
-                <h1>Leave Feedback</h1>
+                <h1>Leave Us Feedback</h1>
                 <Container maxWidth="xs" >
                 <form className="feedbackForm" onSubmit={this.handleSubmit}>
                     <TextField
@@ -84,7 +84,7 @@ class Feedback extends Component{
                     />
                     <TextField
                             id="filled-multiline-static"
-                            label="Feedback"
+                            label="Your feedback"
                             multiline
                             rows="10"
                             margin="normal"
