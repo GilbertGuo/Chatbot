@@ -31,7 +31,6 @@ public class DocumentService {
     @Inject
     private WatsonDiscovery watsonDiscovery;
 
-
     public void addFileDocument(File file) throws IOException, TikaException, FileTypeNotSupportedException, SAXException {
         DocumentRecord documentRecord = documentRecordRepository.findByName(file.getName());
         String documentId = UUID.randomUUID().toString();
@@ -45,7 +44,7 @@ public class DocumentService {
         if (result.getDocumentId() != null) {
             documentId = result.getDocumentId();
         }
-        documentRecord = DocumentRetriever.buildDocumentRecord(file, null, documentId);
+        documentRecord = DocumentRetriever.buildDocumentRecord(file, "someone", documentId);
         if(documentRecordRepository.findByName(documentRecord.getName()) != null) {
             documentRecordRepository.delete(documentRecord);
         }
@@ -83,9 +82,9 @@ public class DocumentService {
         if(documentRecord != null) {
             String documentId = documentRecord.getDiscoveryId();
             watsonDiscovery.deleteDocument(documentId);
+            indexer.deleteDocument(filename);
+            documentRecordRepository.delete(documentRecord);
         }
-        indexer.deleteDocument(filename);
-        documentRecordRepository.delete(documentRecord);
     }
 
 }

@@ -68,10 +68,11 @@ public class WatsonDiscovery {
         return queryResponse;
     }
 
+
     public DocumentAccepted addDocument(File file, String existDocumentId) throws IOException {
         LogManager.getLogManager().reset();
-        checkEnvironment();
-        checkCollection();
+//        checkEnvironment();
+//        checkCollection();
 
         UpdateDocumentOptions.Builder builder
                 = new UpdateDocumentOptions.Builder(ENV_ID, COLLECTION_ID, existDocumentId);
@@ -83,10 +84,10 @@ public class WatsonDiscovery {
 //            builder.fileContentType(HttpMediaType.TEXT_PLAIN);
 //        }
         builder.filename(file.getName());
-        DocumentAccepted response = discovery.updateDocument(builder.file(file).build()).execute().getResult();
+        DocumentAccepted response = discovery.updateDocument(builder.file(new FileInputStream(file)).build()).execute().getResult();
         String documentId = response.getDocumentId();
         LOGGER.info("Created a document ID: " + documentId);
-        if (!checkDocument(documentId)) {
+        if (checkDocument(documentId)) {
             LOGGER.info("Document Ready.");
         } else {
             LOGGER.info("Document upload error.");
@@ -97,8 +98,8 @@ public class WatsonDiscovery {
 
     public DocumentAccepted addDocument(Map<CrawlerResultKey, String> crawlerResult, String existDocumentId) throws IOException {
         LogManager.getLogManager().reset();
-        checkEnvironment();
-        checkCollection();
+//        checkEnvironment();
+//        checkCollection();
         InputStream file
                 = new ByteArrayInputStream(crawlerResult.get(CrawlerResultKey.HTML).getBytes(StandardCharsets.UTF_8));
         UpdateDocumentOptions.Builder builder

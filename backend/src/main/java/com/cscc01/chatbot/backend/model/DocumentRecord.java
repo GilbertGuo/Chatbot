@@ -6,6 +6,7 @@ import javax.persistence.*;
 public class DocumentRecord {
 
     @Id
+    @Column(name = "name", nullable = false)
     private String name;
 
     private String discoveryId;

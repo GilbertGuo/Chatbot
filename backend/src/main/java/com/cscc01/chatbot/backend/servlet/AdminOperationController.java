@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-@CrossOrigin
+@CrossOrigin(origins="*", maxAge=3600)
 @RestController
 @RequestMapping("/")
 public class AdminOperationController {
@@ -36,13 +36,13 @@ public class AdminOperationController {
     @Inject
     private DocumentRecordRepository documentRecordRepository;
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(value = "/api/v1/documents/files", method = RequestMethod.POST, consumes = {"multipart/form-data"})
     public Map<String, Object> uploadFileDocument(@RequestParam("file") MultipartFile file)
             throws IOException, TikaException, SAXException {
         LOGGER.info("Receive upload document: " + file.getOriginalFilename()
-                + "\nType : " + file.getContentType()
-                + "\nSize : " + file.getSize());
+                + " Type : " + file.getContentType()
+                + " Size : " + file.getSize());
         String tempPath = tempDir + "/" + file.getOriginalFilename();
         File receivedFile = new File(tempPath);
         file.transferTo(receivedFile);
@@ -60,7 +60,7 @@ public class AdminOperationController {
         return response;
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(value = "/api/v1/documents/urls", method = RequestMethod.POST)
     public Map<String, Object> uploadUrlDocument(@RequestBody UrlUploadRequest urlUploadRequest) throws Exception {
         String filename = documentService.addUrlDocument(urlUploadRequest.getUrl());
@@ -69,14 +69,14 @@ public class AdminOperationController {
         return response;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(value = "/api/v1/documents", method = RequestMethod.DELETE)
     public void deleteDocument(@RequestBody DocumentDeleteRequest documentDeleteRequest) throws IOException {
         documentService.deleteDocument(documentDeleteRequest.getFilename());
         LOGGER.info(documentDeleteRequest.getFilename());
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(value = "/api/v1/documents", method = RequestMethod.GET)
     public Map<String, Object> getDocuments() {
         Map<String, Object> response = new HashMap<>();

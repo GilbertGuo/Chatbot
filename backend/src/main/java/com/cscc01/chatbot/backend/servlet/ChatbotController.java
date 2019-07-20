@@ -27,7 +27,6 @@ public class ChatbotController {
     @Inject
     private QuerySystemProcessor querySystemProcessor;
 
-//    @PreAuthorize("hasAuthority('USER')")
     @RequestMapping(value = "/query", method = RequestMethod.POST)
     public Map<String, Object> query(@RequestBody UserQueryRequest userQueryRequest) throws IOException, ParseException {
 

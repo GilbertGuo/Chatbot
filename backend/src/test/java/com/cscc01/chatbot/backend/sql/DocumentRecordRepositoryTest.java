@@ -36,6 +36,7 @@ public class DocumentRecordRepositoryTest {
         assertEquals("testdoc", documentRecord2.getName());
         assertEquals("2018-09-07", documentRecord2.getLastModified());
         List<DocumentRecord> d = documentRepository.findAll();
+        assert d != null;
         assertEquals(1, d.size());
     }
 }
