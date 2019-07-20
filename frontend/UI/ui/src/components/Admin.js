@@ -190,41 +190,42 @@ class Admin extends Component {
                     <div className="indexerView adminPageItem">
                         <h2>Uploaded Documents</h2>
 
-                        <Paper className="classes.paper">
-                            <Table className="classes.table" size="medium">
-                                <div className="table_group">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>Document</TableCell>
-                                            <TableCell align="right">User</TableCell>
-                                            <TableCell align="right">Document_modification</TableCell>
-                                            <TableCell align="right"></TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <Button variant="contained" component="span" onClick={this.showEvent}>Show</Button>
-                                </div>
+                        <div className="table_group">
+                            <Paper className="classes.paper">
+                                <Table className="classes.table" size="medium">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>Document</TableCell>
+                                                <TableCell align="right">User</TableCell>
+                                                <TableCell align="right">Document_modification</TableCell>
+                                                <TableCell align="right"></TableCell>
+                                            </TableRow>
+                                        </TableHead>
 
-                                {
-                                    status === 200 ?
-                                        uploadedFiles.map((file, i) =>
-                                            <TableBody key={i}>
-                                                <TableRow>
-                                                    <TableCell component="th" scope="row">
-                                                        {file}
-                                                    </TableCell>
-                                                    <TableCell align="right">''</TableCell>
-                                                    <TableCell align="right">''</TableCell>
-                                                    <TableCell>
-                                                        <IconButton aria-label="Delete" onClick={this.deleteHandler({ file })}>
-                                                            <DeleteIcon />
-                                                        </IconButton>
-                                                    </TableCell>
-                                                </TableRow>
-                                            </TableBody>
-                                        ) : null
-                                }
-                            </Table>
-                        </Paper>
+
+                                    {
+                                        status === 200 ?
+                                            uploadedFiles.map((file, i) =>
+                                                <TableBody key={i}>
+                                                    <TableRow>
+                                                        <TableCell component="th" scope="row">
+                                                            {file}
+                                                        </TableCell>
+                                                        <TableCell align="right">''</TableCell>
+                                                        <TableCell align="right">''</TableCell>
+                                                        <TableCell>
+                                                            <IconButton aria-label="Delete" onClick={this.deleteHandler({ file })}>
+                                                                <DeleteIcon />
+                                                            </IconButton>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                </TableBody>
+                                            ) : null
+                                    }
+                                </Table>
+                            </Paper>
+                            <Button variant="contained" component="span" onClick={this.showEvent}>Show</Button>
+                        </div>
                     </div>
                     <div className="Feedback_List">
                         <h2>Feedback box</h2>
