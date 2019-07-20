@@ -1,8 +1,6 @@
 package com.cscc01.chatbot.backend.servlet;
 
-import com.cscc01.chatbot.backend.crawler.CrawlerResultKey;
-import com.cscc01.chatbot.backend.crawler.CrawlerService;
-import com.cscc01.chatbot.backend.indexer.Indexer;
+import com.cscc01.chatbot.backend.indexer.DocumentService;
 import com.cscc01.chatbot.backend.indexer.exception.FileTypeNotSupportedException;
 import com.cscc01.chatbot.backend.model.DocumentDeleteRequest;
 import com.cscc01.chatbot.backend.model.UrlUploadRequest;
@@ -24,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-@CrossOrigin
+@CrossOrigin(origins="*", maxAge=3600)
 @RestController
 @RequestMapping("/")
 public class AdminOperationController {
@@ -33,26 +31,23 @@ public class AdminOperationController {
 
 
     @Inject
-    private Indexer indexer;
-
-    @Inject
-    private CrawlerService crawlerService;
+    private DocumentService documentService;
 
     @Inject
     private DocumentRecordRepository documentRecordRepository;
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(value = "/api/v1/documents/files", method = RequestMethod.POST, consumes = {"multipart/form-data"})
     public Map<String, Object> uploadFileDocument(@RequestParam("file") MultipartFile file)
             throws IOException, TikaException, SAXException {
         LOGGER.info("Receive upload document: " + file.getOriginalFilename()
-                + "\nType : " + file.getContentType()
-                + "\nSize : " + file.getSize());
+                + " Type : " + file.getContentType()
+                + " Size : " + file.getSize());
         String tempPath = tempDir + "/" + file.getOriginalFilename();
         File receivedFile = new File(tempPath);
         file.transferTo(receivedFile);
         try {
-            indexer.createIndex(receivedFile);
+            documentService.addFileDocument(receivedFile);
         } catch (FileTypeNotSupportedException f) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "File type is not supported", f);
@@ -65,25 +60,23 @@ public class AdminOperationController {
         return response;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(value = "/api/v1/documents/urls", method = RequestMethod.POST)
     public Map<String, Object> uploadUrlDocument(@RequestBody UrlUploadRequest urlUploadRequest) throws Exception {
-        Map<CrawlerResultKey, String> crawlerResultKeyStringMap = crawlerService.startCrawler(urlUploadRequest.getUrl());
-        System.out.println(crawlerResultKeyStringMap.get(CrawlerResultKey.CONTENT));
-        indexer.createIndex(crawlerResultKeyStringMap);
+        String filename = documentService.addUrlDocument(urlUploadRequest.getUrl());
         Map<String, Object> response = new HashMap<>();
-        response.put("filename", crawlerResultKeyStringMap.get(CrawlerResultKey.TITLE));
+        response.put("filename", filename);
         return response;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(value = "/api/v1/documents", method = RequestMethod.DELETE)
     public void deleteDocument(@RequestBody DocumentDeleteRequest documentDeleteRequest) throws IOException {
-        indexer.deleteDocument(documentDeleteRequest.getFilename());
+        documentService.deleteDocument(documentDeleteRequest.getFilename());
         LOGGER.info(documentDeleteRequest.getFilename());
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(value = "/api/v1/documents", method = RequestMethod.GET)
     public Map<String, Object> getDocuments() {
         Map<String, Object> response = new HashMap<>();

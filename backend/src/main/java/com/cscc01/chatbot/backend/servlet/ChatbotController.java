@@ -1,5 +1,6 @@
 package com.cscc01.chatbot.backend.servlet;
 
+import com.cscc01.chatbot.backend.model.QueryResult;
 import com.cscc01.chatbot.backend.model.UserQueryRequest;
 import com.cscc01.chatbot.backend.querysystem.QuerySystemProcessor;
 import org.apache.lucene.document.Document;
@@ -26,16 +27,10 @@ public class ChatbotController {
     @Inject
     private QuerySystemProcessor querySystemProcessor;
 
-    @PreAuthorize("hasAuthority('USER')")
     @RequestMapping(value = "/query", method = RequestMethod.POST)
     public Map<String, Object> query(@RequestBody UserQueryRequest userQueryRequest) throws IOException, ParseException {
-        List<Document> result = querySystemProcessor.process(userQueryRequest.getMessage());
-        List<String> documents = result.stream()
-                .map(document -> document.get("filename"))
-                .collect(Collectors.toList());
-        Map<String, Object> response = new HashMap<>();
-        response.put("documents", documents);
-        return response;
+
+        return querySystemProcessor.getResponse(userQueryRequest.getMessage());
     }
 
 }

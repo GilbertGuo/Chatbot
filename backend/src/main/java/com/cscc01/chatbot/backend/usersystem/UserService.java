@@ -37,19 +37,14 @@ public class UserService implements UserDetailsService {
         }
 
         List<GrantedAuthority> authorities = new ArrayList<>();
-        Role role = user.getRole();
-        authorities.add(new SimpleGrantedAuthority(role.toString()));
+        String role = user.getRole();
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
 
         UserDetails userDetails = new org.springframework.security.core.userdetails.
                 User(user.getUsername(), user.getEncryptedPassword(), authorities);
 
         return userDetails;
-//        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getEncryptedPassword(),
-//                true,
-//                true,
-//                true,
-//                true,
-//                new ArrayList<>());
+
     }
 
 

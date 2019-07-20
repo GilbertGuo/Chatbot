@@ -3,6 +3,7 @@ package com.cscc01.chatbot.backend.servlet.security;
 
 import com.cscc01.chatbot.backend.model.Role;
 import com.cscc01.chatbot.backend.model.User;
+import com.cscc01.chatbot.backend.sql.repositories.UserRepository;
 import com.cscc01.chatbot.backend.usersystem.SignUpDto;
 import com.cscc01.chatbot.backend.usersystem.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,26 +26,34 @@ public class AuthenticationController {
     private UserService userService;
 
     @Inject
+    private UserRepository userRepository;
+
+    @Inject
     private PasswordEncoder passwordEncoder;
 
     @RequestMapping(value = "/users/signup", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Object> userSignUp(@RequestBody SignUpDto signUpReq) {
-        return handleUserSignUp(signUpReq, Role.USER);
+        return handleUserSignUp(signUpReq, Role.ADMIN);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority(hasRole('ROLE_ADMIN'))")
     @RequestMapping(value = "/users/admins/signup/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Object> adminSignUp(@RequestBody SignUpDto signUpReq) {
         return handleUserSignUp(signUpReq, Role.ADMIN);
     }
 
-    private Map<String, Object> handleUserSignUp(@RequestBody SignUpDto signUpReq, Role role) {
+    private Map<String, Object> handleUserSignUp(@RequestBody SignUpDto signUpReq, String role) {
+        Map<String, Object> response = new HashMap<>();
+        User existedUser = userRepository.findByUsername(signUpReq.getUsername());
+        if(existedUser != null) {
+            response.put("status", "username already existed!!!");
+            return response;
+        }
         User user = new User();
         user.setEncryptedPassword(passwordEncoder.encode(signUpReq.getPassword()));
         user.setUsername(signUpReq.getUsername());
         user.setRole(role);
         userService.addNewUser(user);
-        Map<String, Object> response = new HashMap<>();
         response.put("status", "registered!!!");
         return response;
     }

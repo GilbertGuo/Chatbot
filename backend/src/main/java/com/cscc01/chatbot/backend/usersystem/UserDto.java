@@ -4,14 +4,14 @@ import com.cscc01.chatbot.backend.model.Role;
 
 public class UserDto {
 
-    private Role role;
+    private String role;
     private String username;
 
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
