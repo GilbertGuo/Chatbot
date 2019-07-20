@@ -9,7 +9,6 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import javax.print.Doc;
 import java.util.List;
 
 @CrossOrigin
@@ -32,12 +31,13 @@ public interface DocumentRecordRepository extends CrudRepository<DocumentRecord,
     @RestResource(exported = false)
     void deleteAll(Iterable<? extends DocumentRecord> entities);
 
-    @Override
-    @RestResource(exported = false)
-    void deleteById(Long aLong);
+//    @Override
+//    @RestResource(exported = false)
+//    void deleteById(Long aLong);
 
     @Query("SELECT d FROM DocumentRecord d WHERE d.name = ?1")
     DocumentRecord findByName(@Param("name") String name);
+
 
     @Nullable
     List<DocumentRecord> findAll();

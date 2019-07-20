@@ -1,8 +1,10 @@
 package com.cscc01.chatbot.backend.servlet.security;
 
 import com.cscc01.chatbot.backend.usersystem.UserService;
+import com.google.common.collect.ImmutableList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +18,8 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableAuthorizationServer
@@ -69,10 +73,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         CorsConfiguration config = new CorsConfiguration();
         config.applyPermitDefaultValues();
 
-        source.registerCorsConfiguration("/oauth/token", config);
-        source.registerCorsConfiguration("/api/**", config);
-        source.registerCorsConfiguration("/v2/api-docs", config);
-        source.registerCorsConfiguration("/oauth/**", config);
+        config.setAllowedOrigins(ImmutableList.of("*"));
+        config.setAllowedMethods(ImmutableList.of("HEAD",
+                "GET", "POST", "PUT", "DELETE", "PATCH"));
+        config.setAllowCredentials(true);
+        source.registerCorsConfiguration("/**", config);
+        config.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "X-Requested-With", "Origin", "Content-Type", "Accept", "Authorization"));
         CorsFilter filter = new CorsFilter(source);
         security.addTokenEndpointAuthenticationFilter(filter);
     }
