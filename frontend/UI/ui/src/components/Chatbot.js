@@ -31,12 +31,26 @@ class Chatbot extends Component {
             this.props.history.push(location);
         } else {
 
-            let prechatArray = JSON.parse(sessionStorage.getItem('chatArray'));
+            if(sessionStorage.getItem('chatArray')!==null) {
+                let prechatArray = JSON.parse(sessionStorage.getItem('chatArray'));
 
-            prechatArray.map(chat => {
-                this.setState((prevState) => ({ chatArray: prevState.chatArray.concat({ from: chat.from, msg: chat.msg }) }));
-                return null;
-            });
+                prechatArray.map(chat => {
+                    this.setState((prevState) => ({
+                        chatArray: prevState.chatArray.concat({
+                            from: chat.from,
+                            msg: chat.msg
+                        })
+                    }));
+                    return null;
+                });
+            } else{
+                Cookies.remove('token');
+                Cookies.remove('username');
+                const location = {
+                    pathname: '/Login'
+                };
+                this.props.history.push(location);
+            }
         }
     }
 
