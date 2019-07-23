@@ -2,6 +2,7 @@ package com.cscc01.chatbot.backend.indexer;
 
 import com.cscc01.chatbot.backend.crawler.Crawler;
 import com.cscc01.chatbot.backend.crawler.CrawlerResultKey;
+import com.cscc01.chatbot.backend.model.DocumentRecord;
 import com.snowtide.PDF;
 import com.snowtide.pdf.lucene.LucenePDFConfiguration;
 import com.snowtide.pdf.lucene.LucenePDFDocumentFactory;
@@ -26,6 +27,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Map;
 
 
@@ -105,6 +108,35 @@ public class DocumentRetriever {
         return document;
     }
 
+
+    public static DocumentRecord buildDocumentRecord(File file,
+                                                     String lastModifiedUser,
+                                                     String documentId) {
+        DocumentRecord newDocument = new DocumentRecord(file.getName());
+        newDocument.setLastModified(getTimestamp().toString());
+        newDocument.setDiscoveryId(documentId);
+        newDocument.setLastModifiedUser(lastModifiedUser);
+        return newDocument;
+    }
+
+    public static DocumentRecord buildDocumentRecord(Map<CrawlerResultKey, String> crawlerResult,
+                                                     String lastModifiedUser,
+                                                     String documentId) {
+
+
+        DocumentRecord newDocument = new DocumentRecord(crawlerResult.get(CrawlerResultKey.TITLE));
+        newDocument.setLastModified(getTimestamp().toString());
+        newDocument.setDiscoveryId(documentId);
+        newDocument.setLastModifiedUser(lastModifiedUser);
+        return newDocument;
+    }
+
+    private static Timestamp getTimestamp() {
+        Date date = new Date();
+        long time = date.getTime();
+        Timestamp timestamp = new Timestamp(time);
+        return timestamp;
+    }
 
 
 }

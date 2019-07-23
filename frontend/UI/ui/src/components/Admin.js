@@ -15,6 +15,8 @@ import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import FeedList from './FeedbackList.js'
 import isUrl from 'validator/lib/isURL';
+import Cookies from 'js-cookie';
+
 
 class Admin extends Component {
 
@@ -87,13 +89,16 @@ class Admin extends Component {
     /* send the uploading file to the backend */
     fileUploadHandler = () => {
 
+        let headers = {
+            'Authorization': "Bearer " + Cookies.get('token')
+        };
         if (this.state.selectedFile === null) {
             toast.error('upload fail', { autoClose: 1000 });
         } else {
             const data = new FormData();
             data.append('file', this.state.selectedFile);
 
-            axios.post("http://localhost:8000/api/v1/documents/files", data)
+            axios.post("http://localhost:8000/api/v1/documents/files", data, { headers: headers })
                 .then(res => { // then print response status
                     console.log(res);
                     toast.success('Upload file success', { autoClose: 1000 });
@@ -115,6 +120,9 @@ class Admin extends Component {
     /* send the URL to the backend */
     URLUploadHandler = () => {
 
+        let headers = {
+            'Authorization': "Bearer " + Cookies.get('token')
+        };
         if (this.state.selectedurl === null) {
             toast.error('upload fail', { autoClose: 1000 });
         } else {
@@ -122,11 +130,10 @@ class Admin extends Component {
                 console.log(this.state.selectedurl);
 
                 const data = { url: this.state.selectedurl };
-                axios.post("http://localhost:8000/api/v1/documents/urls", data)
+                axios.post("http://localhost:8000/api/v1/documents/urls", data, { headers: headers })
                     .then(res => {
                         console.log(res);
                         toast.success('Upload url success', { autoClose: 1000 });
-                        toast.info('In Progress');
 
                     })
                     .catch(err => {
@@ -144,7 +151,10 @@ class Admin extends Component {
     /* send the delete action to the backend */
     deleteHandler = fname => e => {
         console.log(fname.file);
-        axios.delete("http://localhost:8000/api/v1/documents", { data: { filename: fname.file, username: "someone" } })
+        let headers = {
+            'Authorization': "Bearer " + Cookies.get('token')
+        };
+        axios.delete("http://localhost:8000/api/v1/documents", { data: { filename: fname.file, username: "someone" } }, { headers: headers })
             .then(res => {
                 toast.success(fname.file + ' is deleted',{ autoClose: 1000 });
                 const uploadedFiles = this.state.uploadedFiles.filter(file => file !== fname.file);
@@ -190,10 +200,10 @@ class Admin extends Component {
                 <div className="adminBot">
                     <div className="indexerView adminPageItem">
                         <h2>Uploaded Documents</h2>
+
                         <div className="table_group">
                             <Paper className="classes.paper">
                                 <Table className="classes.table" size="medium">
-
                                         <TableHead>
                                             <TableRow>
                                                 <TableCell>Document</TableCell>
@@ -202,6 +212,8 @@ class Admin extends Component {
                                                 <TableCell align="right"></TableCell>
                                             </TableRow>
                                         </TableHead>
+
+
                                     {
                                         status === 200 ?
                                             uploadedFiles.map((file, i) =>
