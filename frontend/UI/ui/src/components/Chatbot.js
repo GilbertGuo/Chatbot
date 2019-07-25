@@ -9,6 +9,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 // import IconBar from './IconBar.js';
 import { If, Then, Else } from 'react-if-elseif-else-render';
+import Pullbar from './Menu/Pullbar/Pullbar';
 
 class Chatbot extends Component {
 
@@ -17,6 +18,7 @@ class Chatbot extends Component {
         this.state = {
             textValue: '',
             chatArray: [{ from: null, msg: null }]
+
 
         };
 
@@ -204,6 +206,7 @@ class Chatbot extends Component {
 
         return (
             <div className="chat_bot">
+                {/*<Pullbar clickHandler={this.pullToggle} />*/}
                 <Paper className="root">
                     <Typography variant="h4" component="h4">
                         Chatbot
