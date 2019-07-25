@@ -4,6 +4,12 @@
     justify-content: space-around !important;
 }
 
+.progress {
+    display: flex;
+    justify-content: center;
+    margin-top: 80px;
+    color:red;
+}
 .adminTop {
     display: flex;
     flex-direction: row;
