@@ -17,7 +17,8 @@ class Chatbot extends Component {
         super(props);
         this.state = {
             textValue: '',
-            chatArray: [{ from: null, msg: null }]
+            //chatArray: [{ from: null, msg: null }]
+            chatArray: []
         };
 
         this.clickEvent = this.clickEvent.bind(this);
@@ -110,11 +111,13 @@ class Chatbot extends Component {
                         if(res.data.message){
                             this.setState((prevState) => ({ chatArray: prevState.chatArray.concat({ from: 'chatbot', msg: res.data.message }) }), () => {
                                 sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
-                            });                        }
+                            });
+                        }
                         if(res.data.content) {
                             this.setState((prevState) => ({ chatArray: prevState.chatArray.concat({ from: 'chatbot', msg: res.data.content }) }), () => {
                                 sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
-                            });                        }
+                            });
+                        }
                         console.log(res);
                         // this.setState((prevState) => ({ chatArray: prevState.chatArray.concat({ from: 'chatbot', msg: res.data.documents }) }), () => {
                         //     sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
@@ -234,22 +237,21 @@ class Chatbot extends Component {
                                                     <div className={chat.from}>
                                                         <Chip label={chat.from} variant="outlined" />
                                                         <div className="message_inbox">
-                                                            
                                                             <Typography align='left' variant='body1'>{chat.msg}</Typography>
                                                         </div>
                                                     </div>
                                                 </Then>
                                                 <Else>
-                                                    <If condition={chat.from !== null}>
-                                                        <Then>
-                                                            <div className="user">
-                                                                <div className="user_message">
-                                                                    <Typography align='left' variant='body1'>{chat.msg}</Typography>
-                                                                </div>
-                                                                <Chip label={chat.from} variant="outlined" />
-                                                            </div>
-                                                        </Then>
-                                                    </If>
+                                                    {/*<If condition={chat.from !== null}>*/}
+                                                        {/*<Then>*/}
+                                                    <div className="user">
+                                                        <div className="user_message">
+                                                            <Typography align='left' variant='body1'>{chat.msg}</Typography>
+                                                        </div>
+                                                        <Chip label={chat.from} variant="outlined" />
+                                                    </div>
+                                                        {/*</Then>*/}
+                                                    {/*</If>*/}
                                                 </Else>
                                             </If>
                                         </div>
