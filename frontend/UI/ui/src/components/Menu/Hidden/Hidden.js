@@ -19,3 +19,4 @@ const hidden = props => (
 )
 
 export default hidden;
+

@@ -210,7 +210,7 @@ class Login extends Component {
         //console.log(this.state.errorMsg);
         return (
             <div>
-                <Pullbar clickHandler={this.pullToggle} />
+                <Pullbar />
                 <Container maxWidth="xs" className="LoginContainer">
                     <CssBaseline />
 

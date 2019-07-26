@@ -18,7 +18,7 @@ class Pullbar extends Component {
         <header className="pullbar">
             <nav className="pullbar_nav">
                 <div>
-                    <Toggle click={...props.clickHandler} />
+                    <Toggle click={this.props.clickHandler} />
                 </div>
                 <div className="bar_logo"><a href="/">Hi Guest</a></div>
                 <div className="partial" />
@@ -36,7 +36,7 @@ class Pullbar extends Component {
         <header className="pullbar">
             <nav className="pullbar_nav">
                 <div>
-                    <Toggle click={...props.clickHandler} />
+                    <Toggle click={this.props.clickHandler} />
                 </div>
                 <div className="bar_logo"><a href="/">Hi {this.state.username}</a></div>
                 <div className="partial" />

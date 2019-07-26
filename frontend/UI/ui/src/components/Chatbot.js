@@ -9,13 +9,17 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 // import IconBar from './IconBar.js';
 import { If, Then, Else } from 'react-if-elseif-else-render';
-import Pullbar from './Menu/Pullbar/Pullbar';
+import Pullbar from "./Menu/Pullbar/Pullbar";
+import Hidden from "./Menu/Hidden/Hidden";
+import Background from "./Menu/Background/Background";
+
 
 class Chatbot extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            hiddenStatus: false,
             textValue: '',
             chatArray: [{ from: null, msg: null }]
 
@@ -24,6 +28,16 @@ class Chatbot extends Component {
 
         this.clickEvent = this.clickEvent.bind(this);
     }
+
+    pullToggle = () =>{
+        this.setState((last) => {
+            return{hiddenStatus: last};
+        });
+    };
+
+    closeMenu =() =>{
+        this.setState({hiddenStatus: false});
+    };
 
     componentDidMount() {
         if (!Cookies.get('token')) {
@@ -203,10 +217,18 @@ class Chatbot extends Component {
         //console.log(this.props.location);
         const { textValue, chatArray } = this.state;
         //console.log(chatArray);
+        let hidden;
+        let close;
+        if(this.state.hiddenStatus){
+            hidden = <Hidden />;
+            close = <Background click={this.closeMenu}/>;
+        }
 
         return (
             <div className="chat_bot">
-                {/*<Pullbar clickHandler={this.pullToggle} />*/}
+                <Pullbar clickHandler={this.pullToggle}/>
+                {hidden}
+                {close}
                 <Paper className="root">
                     <Typography variant="h4" component="h4">
                         Chatbot

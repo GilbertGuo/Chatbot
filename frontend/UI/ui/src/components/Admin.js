@@ -16,6 +16,9 @@ import TextField from '@material-ui/core/TextField';
 import FeedList from './FeedbackList.js'
 import isUrl from 'validator/lib/isURL';
 import Cookies from 'js-cookie';
+import Hidden from "./Menu/Hidden/Hidden";
+import Background from "./Menu/Background/Background";
+import Pullbar from "./Menu/Pullbar/Pullbar";
 
 
 class Admin extends Component {
@@ -23,6 +26,7 @@ class Admin extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            hiddenStatus: false,
             selectedFile: null,
             uploadedFiles: [],
             status: 0,
@@ -33,6 +37,16 @@ class Admin extends Component {
         this.showEvent = this.showEvent.bind(this);
 
     }
+
+    pullToggle = () =>{
+        this.setState((last) => {
+            return{hiddenStatus: last};
+        });
+    };
+
+    closeMenu =() =>{
+        this.setState({hiddenStatus: false});
+    };
 
     /* Show button event for Uploaded Documents */
     showEvent = async () => {
@@ -172,8 +186,17 @@ class Admin extends Component {
 
         const { status, uploadedFiles } = this.state;
         //console.log(urlvalue);
+        let hidden;
+        let close;
+        if(this.state.hiddenStatus){
+            hidden = <Hidden />;
+            close = <Background click={this.closeMenu}/>;
+        }
         return (
             <div className="adminPage">
+                <Pullbar clickHandler={this.pullToggle}/>
+                {hidden}
+                {close}
                 <div className="form-group">
                     <ToastContainer />
                 </div>
