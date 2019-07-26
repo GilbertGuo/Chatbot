@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import './Login.css';
-import GoogleLogin from 'react-google-login';
+// import GoogleLogin from 'react-google-login';
 import Cookies from 'js-cookie';
 import Pullbar from "./Menu/Pullbar/Pullbar";
 
@@ -39,10 +39,6 @@ class Login extends Component {
 
     }
 
-    refresh() {
-        // Force a render without state change...
-        this.forceUpdate();
-    }
 
     handleusernameChange(event) {
         // if (event.target.value)
@@ -145,7 +141,7 @@ class Login extends Component {
     };
 
     /********************************** Google Login section ************************/
-    failureGoogle = (error) => {
+   /* failureGoogle = (error) => {
         this.setState({
             errorMsg: 'Google Login Failed'
         });
@@ -158,7 +154,7 @@ class Login extends Component {
         // console.log(response.profileObj.name);
 
 
-        /************** uncomment this section once finished backend for Google login *******************/
+        /!************** uncomment this section once finished backend for Google login *******************!/
 
         const tokenBlob = new Blob([JSON.stringify({access_token: response.accessToken}, null, 2)], {type : 'application/json'});
 
@@ -190,7 +186,7 @@ class Login extends Component {
                 console.log("error");
             }
         });
-
+*/
 
         /***************************test only************************/
         /*   remove below line after implementing backend for signup */
@@ -202,7 +198,7 @@ class Login extends Component {
         };
         this.props.history.push(location);*/
 
-    };
+    //};
 
 
 
@@ -267,12 +263,12 @@ class Login extends Component {
                                     Log in with Google
                                 </Button>*/}
 
-                                <GoogleLogin
-                                    clientId="385285346936-qodrif2b1q9f53k8ssbb81d2getrf3dd.apps.googleusercontent.com"
-                                    buttonText="Log in with Google"
-                                    onSuccess={this.responseGoogle}
-                                    onFailure={this.failureGoogle}
-                                />
+                           {/* <GoogleLogin
+                                clientId="385285346936-qodrif2b1q9f53k8ssbb81d2getrf3dd.apps.googleusercontent.com"
+                                buttonText="Log in with Google"
+                                onSuccess={this.responseGoogle}
+                                onFailure={this.failureGoogle}
+                            />*/}
 
                             </div>
                             <Grid container>

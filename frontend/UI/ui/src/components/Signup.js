@@ -68,6 +68,9 @@ class Signup extends Component {
 
     signUpSubmit(event) {
         event.preventDefault();
+        this.setState({
+            errorMsg: ''
+        });
         // get all user inputs
         const isValid = this.validate();
         if (isValid) {
@@ -101,13 +104,18 @@ class Signup extends Component {
         } else {
             const body = await response.json();
             if (body) {
-                // clean up error message
                 console.log(body);
-                this.setState({
-                    errorMsg: ''
-                });
+                if(body.status ==="username already existed!!!"){
+                    this.setState({
+                        errorMsg: body.status
+                    });
+                } else {
+                    this.setState({
+                        errorMsg: ''
+                    });
 
-                this.props.history.push('/Login');
+                    this.props.history.push('/Login');
+                }
             }
         }
 

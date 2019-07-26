@@ -21,7 +21,7 @@
 .chatWindow {
     width: 100%;
     padding: 10px;
-    
+
 }
 
 .chatbot{
@@ -90,4 +90,7 @@
 
 .test {
     padding-right: 50px;
+}
+.dIQEEQ{
+    display: flex;
 }
