@@ -22,9 +22,6 @@ class Chatbot extends Component {
         this.state = {
             hiddenStatus: false,
             textValue: '',
-            chatArray: [{ from: null, msg: null }]
-
-
             //chatArray: [{ from: null, msg: null }]
             chatArray: []
         };

@@ -243,8 +243,8 @@ class Admin extends Component {
 
     render() {
 
-        const { status, uploadedFiles } = this.state;
-        //console.log(urlvalue);
+        // const { status, uploadedFiles } = this.state;
+        // //console.log(urlvalue);
         let hidden;
         let close;
         if(this.state.hiddenStatus){

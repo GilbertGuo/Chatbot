@@ -39,7 +39,6 @@ class Login extends Component {
 
     }
 
-
     handleusernameChange(event) {
         // if (event.target.value)
         this.setState({txtusername: event.target.value});
@@ -116,6 +115,24 @@ class Login extends Component {
 
                 Cookies.set('token', body.access_token);
                 Cookies.set('username', username);
+
+                const responses = await fetch('http://localhost:8000/users/role', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body:
+                        JSON.stringify({
+                            'username': username,
+                        })
+                });
+
+                const role_body = await responses.json();
+                if(role_body) {
+                    // console.log(role_body);
+                    Cookies.set('role', role_body.role);
+                }
 
 
                 sessionStorage.setItem("chatArray", JSON.stringify([{from:"chatbot",msg:"hi"}]));
@@ -206,7 +223,7 @@ class Login extends Component {
         //console.log(this.state.errorMsg);
         return (
             <div>
-                <Pullbar />
+                <Pullbar/>
                 <Container maxWidth="xs" className="LoginContainer">
                     <CssBaseline />
 
