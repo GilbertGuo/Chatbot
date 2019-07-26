@@ -10,6 +10,7 @@ class Logout extends Component {
 
         Cookies.remove('token');
         Cookies.remove('username');
+        Cookies.remove('role');
         sessionStorage.clear();
     }
 

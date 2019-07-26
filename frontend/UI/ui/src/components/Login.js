@@ -9,6 +9,7 @@ import Container from '@material-ui/core/Container';
 import './Login.css';
 // import GoogleLogin from 'react-google-login';
 import Cookies from 'js-cookie';
+import Pullbar from "./Menu/Pullbar/Pullbar";
 
 class Login extends Component {
 
@@ -115,6 +116,24 @@ class Login extends Component {
                 Cookies.set('token', body.access_token);
                 Cookies.set('username', username);
 
+                const responses = await fetch('http://localhost:8000/users/role', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body:
+                        JSON.stringify({
+                            'username': username,
+                        })
+                });
+
+                const role_body = await responses.json();
+                if(role_body) {
+                    // console.log(role_body);
+                    Cookies.set('role', role_body.role);
+                }
+
 
                 sessionStorage.setItem("chatArray", JSON.stringify([{from:"chatbot",msg:"hi"}]));
 
@@ -203,62 +222,63 @@ class Login extends Component {
     render() {
         //console.log(this.state.errorMsg);
         return (
+            <div>
+                <Pullbar/>
+                <Container maxWidth="xs" className="LoginContainer">
+                    <CssBaseline />
 
-            <Container maxWidth="xs" className="LoginContainer">
-                <CssBaseline />
-
-                <div className="login_paper">
-                    <p>{ this.state.errorMsg }</p>
-                    <Typography component="h1" variant="h5">
-                        Log in
-                    </Typography>
-                    <form className="form" noValidate onSubmit={this.signInSubmit}>
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="username"
-                            label="Username"
-                            name="username"
-                            value={this.state.txtusername}
-                            onChange={this.handleusernameChange}
-                            autoFocus
-                        />
-                        <div className="usernameError">{this.state.txtusernameError}</div>
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Password"
-                            value={this.state.txtpassword}
-                            onChange={this.handlepasswordChange}
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                        />
-                        <div className="passwordError">{this.state.txtpasswordError}</div>
-                        <div className="LoginButtons">
-                            <Button
-                                type="submit"
+                    <div className="login_paper">
+                        <p>{ this.state.errorMsg }</p>
+                        <Typography component="h1" variant="h5">
+                            Log in
+                        </Typography>
+                        <form className="form" noValidate onSubmit={this.signInSubmit}>
+                            <TextField
+                                variant="outlined"
+                                margin="normal"
+                                required
                                 fullWidth
-                                variant="contained"
-                                color="primary"
-                                className="LoginSubmit"
-                                    >
-                                    Log In
-                            </Button>
-
-                            {/*<Button
+                                id="username"
+                                label="Username"
+                                name="username"
+                                value={this.state.txtusername}
+                                onChange={this.handleusernameChange}
+                                autoFocus
+                            />
+                            <div className="usernameError">{this.state.txtusernameError}</div>
+                            <TextField
+                                variant="outlined"
+                                margin="normal"
+                                required
                                 fullWidth
-                                color="secondary"
-                                variant="contained"
-                                className="GoogleLogin"
-                            >
-                                Log in with Google
-                            </Button>*/}
+                                name="password"
+                                label="Password"
+                                value={this.state.txtpassword}
+                                onChange={this.handlepasswordChange}
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                            />
+                            <div className="passwordError">{this.state.txtpasswordError}</div>
+                            <div className="LoginButtons">
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    className="LoginSubmit"
+                                        >
+                                        Log In
+                                </Button>
+
+                                {/*<Button
+                                    fullWidth
+                                    color="secondary"
+                                    variant="contained"
+                                    className="GoogleLogin"
+                                >
+                                    Log in with Google
+                                </Button>*/}
 
                            {/* <GoogleLogin
                                 clientId="385285346936-qodrif2b1q9f53k8ssbb81d2getrf3dd.apps.googleusercontent.com"
@@ -267,17 +287,18 @@ class Login extends Component {
                                 onFailure={this.failureGoogle}
                             />*/}
 
-                        </div>
-                        <Grid container>
-                            <Grid item>
-                                <Link href="/Signup" variant="body2">
-                                    {"Don't have an account? Sign Up"}
-                                </Link>
+                            </div>
+                            <Grid container>
+                                <Grid item>
+                                    <Link href="/Signup" variant="body2">
+                                        {"Don't have an account? Sign Up"}
+                                    </Link>
+                                </Grid>
                             </Grid>
-                        </Grid>
-                    </form>
-                </div>
-            </Container>
+                        </form>
+                    </div>
+                </Container>
+            </div>
         );
     }
 }
