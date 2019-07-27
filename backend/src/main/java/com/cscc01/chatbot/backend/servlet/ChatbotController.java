@@ -1,5 +1,6 @@
 package com.cscc01.chatbot.backend.servlet;
 
+import com.cscc01.chatbot.backend.model.Feedback;
 import com.cscc01.chatbot.backend.model.UserFeedbackRequest;
 import com.cscc01.chatbot.backend.model.UserQueryRequest;
 import com.cscc01.chatbot.backend.querysystem.QuerySystemProcessor;
@@ -8,10 +9,12 @@ import com.cscc01.chatbot.backend.sql.repositories.FeedbackRepository;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 @CrossOrigin
@@ -34,10 +37,14 @@ public class ChatbotController {
     }
 
     @RequestMapping(value = "/feedback", method = RequestMethod.POST)
-    public void query(@RequestBody UserFeedbackRequest userFeedbackRequest) {
-        String feedback = userFeedbackRequest.getMessage();
-        feedbackRepository.save(entity);
-        LOGGER.info(feedback);
+    public ResponseEntity<Map<String, Object>> query(@RequestBody UserFeedbackRequest userFeedbackRequest) {
+        Map<String, Object> response = new HashMap<>();
+        String message = userFeedbackRequest.getMessage();
+        Feedback feedback = new Feedback(message);
+        LOGGER.debug("Feedback: {}", feedback.getMessage());
+        feedbackRepository.save(feedback);
+        response.put("message", "Feedback successfully sent!");
+        return ResponseEntity.ok().body(response);
     }
 
 
