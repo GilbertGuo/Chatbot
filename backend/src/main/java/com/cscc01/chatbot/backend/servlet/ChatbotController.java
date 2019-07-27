@@ -41,7 +41,7 @@ public class ChatbotController {
         Map<String, Object> response = new HashMap<>();
         String message = userFeedbackRequest.getMessage();
         Feedback feedback = new Feedback(message);
-        LOGGER.debug("Feedback: {}", feedback.getMessage());
+        LOGGER.info("Feedback: {}", feedback.getMessage());
         feedbackRepository.save(feedback);
         response.put("message", "Feedback successfully sent!");
         return ResponseEntity.ok().body(response);
