@@ -6,6 +6,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.lang.Nullable;
+
+
+import java.util.List;
 
 import com.cscc01.chatbot.backend.model.Feedback;
 
@@ -33,6 +37,7 @@ public interface FeedbackRepository extends CrudRepository<Feedback, Long> {
     @RestResource(exported = false)
     void deleteById(Long aLong);
 
-    @Override
-    Iterable<Feedback> findAll();  
+    @Nullable
+    List<Feedback> findAll();
+
 }
