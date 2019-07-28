@@ -34,8 +34,8 @@ public class DocumentService {
     public void addFileDocument(File file) throws IOException, TikaException, FileTypeNotSupportedException, SAXException {
         DocumentRecord documentRecord = documentRecordRepository.findByName(file.getName());
         String documentId = UUID.randomUUID().toString();
-        if(documentRecord!= null ) {
-            if(documentRecord.getDiscoveryId() != null) {
+        if (documentRecord != null) {
+            if (documentRecord.getDiscoveryId() != null) {
                 documentId = documentRecord.getDiscoveryId();
             }
         }
@@ -45,7 +45,7 @@ public class DocumentService {
             documentId = result.getDocumentId();
         }
         documentRecord = DocumentRetriever.buildDocumentRecord(file, "someone", documentId);
-        if(documentRecordRepository.findByName(documentRecord.getName()) != null) {
+        if (documentRecordRepository.findByName(documentRecord.getName()) != null) {
             documentRecordRepository.delete(documentRecord);
         }
         documentRecordRepository.save(documentRecord);
@@ -56,8 +56,8 @@ public class DocumentService {
         String filename = crawlerResult.get(CrawlerResultKey.TITLE);
         DocumentRecord documentRecord = documentRecordRepository.findByName(filename);
         String documentId = UUID.randomUUID().toString();
-        if(documentRecord!= null ) {
-            if(documentRecord.getDiscoveryId() != null) {
+        if (documentRecord != null) {
+            if (documentRecord.getDiscoveryId() != null) {
                 documentId = documentRecord.getDiscoveryId();
             }
         }
@@ -70,7 +70,7 @@ public class DocumentService {
         }
 
         documentRecord = DocumentRetriever.buildDocumentRecord(crawlerResult, null, documentId);
-        if(documentRecordRepository.findByName(documentRecord.getName()) != null) {
+        if (documentRecordRepository.findByName(documentRecord.getName()) != null) {
             documentRecordRepository.delete(documentRecord);
         }
         documentRecordRepository.save(documentRecord);
@@ -79,7 +79,7 @@ public class DocumentService {
 
     public void deleteDocument(String filename) throws IOException {
         DocumentRecord documentRecord = documentRecordRepository.findByName(filename);
-        if(documentRecord != null) {
+        if (documentRecord != null) {
             String documentId = documentRecord.getDiscoveryId();
             watsonDiscovery.deleteDocument(documentId);
             indexer.deleteDocument(filename);

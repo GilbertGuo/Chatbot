@@ -9,6 +9,10 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 // import IconBar from './IconBar.js';
 import { If, Then, Else } from 'react-if-elseif-else-render';
+import Pullbar from "./Menu/Pullbar/Pullbar";
+import Hidden from "./Menu/Hidden/Hidden";
+import Background from "./Menu/Background/Background";
+
 import Microlink from '@microlink/react'
 
 class Chatbot extends Component {
@@ -16,12 +20,24 @@ class Chatbot extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            hiddenStatus: false,
             textValue: '',
-            chatArray: [{ from: null, msg: null }]
+            //chatArray: [{ from: null, msg: null }]
+            chatArray: []
         };
 
         this.clickEvent = this.clickEvent.bind(this);
     }
+
+    pullToggle = () =>{
+        this.setState((last) => {
+            return{hiddenStatus: last};
+        });
+    };
+
+    closeMenu =() =>{
+        this.setState({hiddenStatus: false});
+    };
 
     componentDidMount() {
         if (!Cookies.get('token')) {
@@ -110,11 +126,13 @@ class Chatbot extends Component {
                         if(res.data.message){
                             this.setState((prevState) => ({ chatArray: prevState.chatArray.concat({ from: 'chatbot', msg: res.data.message }) }), () => {
                                 sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
-                            });                        }
+                            });
+                        }
                         if(res.data.content) {
                             this.setState((prevState) => ({ chatArray: prevState.chatArray.concat({ from: 'chatbot', msg: res.data.content }) }), () => {
                                 sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
-                            });                        }
+                            });
+                        }
                         console.log(res);
                         // this.setState((prevState) => ({ chatArray: prevState.chatArray.concat({ from: 'chatbot', msg: res.data.documents }) }), () => {
                         //     sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
@@ -212,9 +230,18 @@ class Chatbot extends Component {
         //console.log(this.props.location);
         const { textValue, chatArray } = this.state;
         //console.log(chatArray);
+        let hidden;
+        let close;
+        if(this.state.hiddenStatus){
+            hidden = <Hidden />;
+            close = <Background click={this.closeMenu}/>;
+        }
 
         return (
             <div className="chat_bot">
+                <Pullbar clickHandler={this.pullToggle}/>
+                {hidden}
+                {close}
                 <Paper className="root">
                     <Typography variant="h4" component="h4">
                         Chatbot
@@ -234,22 +261,21 @@ class Chatbot extends Component {
                                                     <div className={chat.from}>
                                                         <Chip label={chat.from} variant="outlined" />
                                                         <div className="message_inbox">
-                                                            
                                                             <Typography align='left' variant='body1'>{chat.msg}</Typography>
                                                         </div>
                                                     </div>
                                                 </Then>
                                                 <Else>
-                                                    <If condition={chat.from !== null}>
-                                                        <Then>
-                                                            <div className="user">
-                                                                <div className="user_message">
-                                                                    <Typography align='left' variant='body1'>{chat.msg}</Typography>
-                                                                </div>
-                                                                <Chip label={chat.from} variant="outlined" />
-                                                            </div>
-                                                        </Then>
-                                                    </If>
+                                                    {/*<If condition={chat.from !== null}>*/}
+                                                        {/*<Then>*/}
+                                                    <div className="user">
+                                                        <div className="user_message">
+                                                            <Typography align='left' variant='body1'>{chat.msg}</Typography>
+                                                        </div>
+                                                        <Chip label={chat.from} variant="outlined" />
+                                                    </div>
+                                                        {/*</Then>*/}
+                                                    {/*</If>*/}
                                                 </Else>
                                             </If>
                                         </div>

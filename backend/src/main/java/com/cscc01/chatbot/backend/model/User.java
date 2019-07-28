@@ -1,10 +1,6 @@
 package com.cscc01.chatbot.backend.model;
 
-import com.cscc01.chatbot.backend.usersystem.UserDto;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class User {

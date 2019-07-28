@@ -8,6 +8,9 @@ import Container from '@material-ui/core/Container';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import {SentimentDissatisfied, SentimentSatisfied, SentimentVeryDissatisfied, SentimentVerySatisfied} from '@material-ui/icons';
+import Hidden from "./Menu/Hidden/Hidden";
+import Background from "./Menu/Background/Background";
+import Pullbar from "./Menu/Pullbar/Pullbar";
 
 /*Fake Feedback UI for testing the API and can be deleted.*/
 class Feedback extends Component{
@@ -15,6 +18,7 @@ class Feedback extends Component{
     constructor(props) {
         super(props);
         this.state = {
+            hiddenStatus: false,
             name:'',
             feedback: ''
         };
@@ -23,6 +27,16 @@ class Feedback extends Component{
         this.handlefeedbackChange = this.handlefeedbackChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+
+    pullToggle = () =>{
+        this.setState((last) => {
+            return{hiddenStatus: last};
+        });
+    };
+
+    closeMenu =() =>{
+        this.setState({hiddenStatus: false});
+    };
 
     handlenameChange(event) {
         this.setState({name: event.target.value});
@@ -46,8 +60,17 @@ class Feedback extends Component{
     }
 
     render() {
+        let hidden;
+        let close;
+        if(this.state.hiddenStatus){
+            hidden = <Hidden />;
+            close = <Background click={this.closeMenu}/>;
+        }
         return (
             <div className="feedbackPage">
+                <Pullbar clickHandler={this.pullToggle}/>
+                {hidden}
+                {close}
                 <div className="Icon_rate">
                 <h1>HOW IS YOUR FEELING?</h1>
                 <Tooltip title='strongly unsatisfied'>
