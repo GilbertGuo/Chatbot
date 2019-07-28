@@ -11,6 +11,10 @@ import {SentimentDissatisfied, SentimentSatisfied, SentimentVeryDissatisfied, Se
 import Hidden from "./Menu/Hidden/Hidden";
 import Background from "./Menu/Background/Background";
 import Pullbar from "./Menu/Pullbar/Pullbar";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie';
+
 
 /*Fake Feedback UI for testing the API and can be deleted.*/
 class Feedback extends Component{
@@ -48,9 +52,17 @@ class Feedback extends Component{
 
     handleSubmit(event) {
         event.preventDefault();
-        axios.post('https://jsonplaceholder.typicode.com/posts',this.state)
+        const feedback = { message: this.state.feedback };
+        let headers = {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + Cookies.get('token')
+        };
+        axios.post('http://localhost:8000/feedback',feedback, {headers: headers})
             .then(response=>{
-                console.log(response)
+                if (response.status === 200){
+                    toast.success('Feedback successfully sent!', { autoClose: 1000 });
+                }
+                // console.log(response)
             })
             .catch(error=>{
                 console.log(error)
@@ -71,6 +83,10 @@ class Feedback extends Component{
                 <Pullbar clickHandler={this.pullToggle}/>
                 {hidden}
                 {close}
+                <div className="form-group">
+                    <ToastContainer />
+                </div>
+
                 <div className="Icon_rate">
                 <h1>HOW IS YOUR FEELING?</h1>
                 <Tooltip title='strongly unsatisfied'>
