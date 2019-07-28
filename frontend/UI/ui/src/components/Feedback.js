@@ -65,7 +65,8 @@ class Feedback extends Component{
                 // console.log(response)
             })
             .catch(error=>{
-                console.log(error)
+                console.log(error);
+                toast.error(error, { autoClose: 1000 });
             });
 
         this.setState({name: '',feedback:''});

@@ -19,7 +19,6 @@ import Cookies from 'js-cookie';
 import Hidden from "./Menu/Hidden/Hidden";
 import Background from "./Menu/Background/Background";
 import Pullbar from "./Menu/Pullbar/Pullbar";
-
 import Page from './Page';
 
 class Admin extends Component {
