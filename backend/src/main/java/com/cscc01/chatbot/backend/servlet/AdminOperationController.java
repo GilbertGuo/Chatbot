@@ -5,6 +5,8 @@ import com.cscc01.chatbot.backend.indexer.exception.FileTypeNotSupportedExceptio
 import com.cscc01.chatbot.backend.model.DocumentDeleteRequest;
 import com.cscc01.chatbot.backend.model.UrlUploadRequest;
 import com.cscc01.chatbot.backend.sql.repositories.DocumentRecordRepository;
+import com.cscc01.chatbot.backend.sql.repositories.FeedbackRepository;
+
 import org.apache.tika.exception.TikaException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +37,10 @@ public class AdminOperationController {
 
     @Inject
     private DocumentRecordRepository documentRecordRepository;
+
+    @Inject
+    private FeedbackRepository feedbackRepository;
+
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(value = "/api/v1/documents/files", method = RequestMethod.POST, consumes = {"multipart/form-data"})
@@ -84,5 +90,11 @@ public class AdminOperationController {
         return response;
     }
 
-
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @RequestMapping(value = "/api/v1/feedbacks", method = RequestMethod.GET)
+    public Map<String, Object> getFeedbacks() {
+        Map<String, Object> response = new HashMap<>();
+        response.put("feedbacks", feedbackRepository.findAll());
+        return response;
+    }
 }
