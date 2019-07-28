@@ -9,19 +9,35 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 // import IconBar from './IconBar.js';
 import { If, Then, Else } from 'react-if-elseif-else-render';
+import Pullbar from "./Menu/Pullbar/Pullbar";
+import Hidden from "./Menu/Hidden/Hidden";
+import Background from "./Menu/Background/Background";
+
+import Microlink from '@microlink/react'
 
 class Chatbot extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            hiddenStatus: false,
             textValue: '',
-            chatArray: [{ from: null, msg: null }]
-
+            //chatArray: [{ from: null, msg: null }]
+            chatArray: []
         };
 
         this.clickEvent = this.clickEvent.bind(this);
     }
+
+    pullToggle = () =>{
+        this.setState((last) => {
+            return{hiddenStatus: last};
+        });
+    };
+
+    closeMenu =() =>{
+        this.setState({hiddenStatus: false});
+    };
 
     componentDidMount() {
         if (!Cookies.get('token')) {
@@ -31,12 +47,25 @@ class Chatbot extends Component {
             this.props.history.push(location);
         } else {
 
-            let prechatArray = JSON.parse(sessionStorage.getItem('chatArray'));
-
-            prechatArray.map(chat => {
-                this.setState((prevState) => ({ chatArray: prevState.chatArray.concat({ from: chat.from, msg: chat.msg }) }));
-                return null;
-            });
+            if(sessionStorage.getItem('chatArray')!==null) {
+                let prechatArray = JSON.parse(sessionStorage.getItem('chatArray'));
+                prechatArray.map(chat => {
+                    this.setState((prevState) => ({
+                        chatArray: prevState.chatArray.concat({
+                            from: chat.from,
+                            msg: chat.msg
+                        })
+                    }));
+                    return null;
+                });
+            } else{
+                Cookies.remove('token');
+                Cookies.remove('username');
+                const location = {
+                    pathname: '/Login'
+                };
+                this.props.history.push(location);
+            }
         }
     }
 
@@ -81,7 +110,6 @@ class Chatbot extends Component {
 
 
     query = () => {
-
         const message = { message: this.state.textValue, username: Cookies.get('username') };
         let headers = {
             'Content-Type': 'application/json',
@@ -98,11 +126,13 @@ class Chatbot extends Component {
                         if(res.data.message){
                             this.setState((prevState) => ({ chatArray: prevState.chatArray.concat({ from: 'chatbot', msg: res.data.message }) }), () => {
                                 sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
-                            });                        }
+                            });
+                        }
                         if(res.data.content) {
                             this.setState((prevState) => ({ chatArray: prevState.chatArray.concat({ from: 'chatbot', msg: res.data.content }) }), () => {
                                 sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
-                            });                        }
+                            });
+                        }
                         console.log(res);
                         // this.setState((prevState) => ({ chatArray: prevState.chatArray.concat({ from: 'chatbot', msg: res.data.documents }) }), () => {
                         //     sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
@@ -129,19 +159,30 @@ class Chatbot extends Component {
     getDocumentList = async () => {
         // fetch data from mock database
         const data = require('./List/Mock.json');
-
         this.setState((prevState) => ({
             chatArray: prevState.chatArray.concat({
                 from: 'chatbot',
-                msg: "document name: " + data.documents[0].document + " url: " + data.documents[0].url
+                msg: "document name: " + data.documents[0].name + " url: " + data.documents[0].url
             })
         }), () => {
             sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
         });
     };
+    /********test only *************************/
+    getLinkPreview = async() => {
+        const data = require('./List/Mock.json');
+        const url = data.documents[0].url;
+        const preview = <Microlink url = {url} style={{ display: 'inline-block',}} />
+        this.setState((prevState) => ({
+            chatArray: prevState.chatArray.concat({
+                from: 'chatbot',
+                msg: preview
+            })
+        }), () => {
+            sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
+         });
+    };
     /************************************************************/
-
-
     clickEvent = () => {
 
         if (!Cookies.get('token')) {
@@ -165,14 +206,16 @@ class Chatbot extends Component {
             if (this.state.textValue.includes("!")) {
                 this.postUserData();
                 this.getUserData();
-
             }
 
             if (this.state.textValue.includes("document")) {
                 this.postUserData();
                 this.getDocumentList();
             }
-
+             if (this.state.textValue.includes("Ins")) {
+                this.postUserData();
+                this.getLinkPreview();
+            }
             /************************************************************/
 
             this.query();
@@ -187,9 +230,18 @@ class Chatbot extends Component {
         //console.log(this.props.location);
         const { textValue, chatArray } = this.state;
         //console.log(chatArray);
+        let hidden;
+        let close;
+        if(this.state.hiddenStatus){
+            hidden = <Hidden />;
+            close = <Background click={this.closeMenu}/>;
+        }
 
         return (
             <div className="chat_bot">
+                <Pullbar clickHandler={this.pullToggle}/>
+                {hidden}
+                {close}
                 <Paper className="root">
                     <Typography variant="h4" component="h4">
                         Chatbot
@@ -214,16 +266,16 @@ class Chatbot extends Component {
                                                     </div>
                                                 </Then>
                                                 <Else>
-                                                    <If condition={chat.from !== null}>
-                                                        <Then>
-                                                            <div className="user">
-                                                                <div className="user_message">
-                                                                    <Typography align='left' variant='body1'>{chat.msg}</Typography>
-                                                                </div>
-                                                                <Chip label={chat.from} variant="outlined" />
-                                                            </div>
-                                                        </Then>
-                                                    </If>
+                                                    {/*<If condition={chat.from !== null}>*/}
+                                                        {/*<Then>*/}
+                                                    <div className="user">
+                                                        <div className="user_message">
+                                                            <Typography align='left' variant='body1'>{chat.msg}</Typography>
+                                                        </div>
+                                                        <Chip label={chat.from} variant="outlined" />
+                                                    </div>
+                                                        {/*</Then>*/}
+                                                    {/*</If>*/}
                                                 </Else>
                                             </If>
                                         </div>

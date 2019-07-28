@@ -14,13 +14,14 @@
     bottom: 0;
     display: flex;
     height: 40px;
+    padding-top: 120px;
 
 }
 
 .chatWindow {
     width: 100%;
     padding: 10px;
-    
+
 }
 
 .chatbot{
@@ -89,4 +90,7 @@
 
 .test {
     padding-right: 50px;
+}
+.dIQEEQ{
+    display: flex;
 }
