@@ -7,6 +7,11 @@ import org.apache.lucene.document.Document;
 
 public class QueryResultMapper {
 
+    /**
+     * map a Lucene Document to query result
+     * @param document
+     * @return
+     */
     public static QueryResult fromIndexerResult(Document document) {
         return new QueryResult.Builder()
                 .content(document.get(LuceneFieldConstants.CONTENT.getText()))
@@ -15,6 +20,11 @@ public class QueryResultMapper {
 
     }
 
+    /**
+     * map a discovery response to query result
+     * @param response
+     * @return
+     */
     public static QueryResult fromDiscoveryResult(QueryResponse response) {
         return new QueryResult.Builder()
                 .content(response.getResults().get(0).get("text").toString())

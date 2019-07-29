@@ -48,6 +48,11 @@ public class WatsonDiscovery {
         this.fileValidator = fileValidator;
     }
 
+
+    /**
+     * create a bean instance for IBM watson discovery
+     * @return
+     */
     @Bean
     public Discovery createDiscovery() {
         IamOptions options = new IamOptions.Builder()
@@ -59,6 +64,11 @@ public class WatsonDiscovery {
         return discovery;
     }
 
+    /**
+     * query IBM watson discovery by given test (using natural language processing)
+     * @param text
+     * @return
+     */
     public QueryResponse query(String text) {
         LogManager.getLogManager().reset();
         QueryOptions.Builder queryBuilder = new QueryOptions.Builder(ENV_ID, COLLECTION_ID);
@@ -68,7 +78,22 @@ public class WatsonDiscovery {
         return queryResponse;
     }
 
+    public QueryResponse query1() {
+        LogManager.getLogManager().reset();
+        QueryOptions.Builder queryBuilder = new QueryOptions.Builder(ENV_ID, COLLECTION_ID);
 
+        QueryResponse queryResponse = discovery.query(queryBuilder.build()).execute().getResult();
+        return queryResponse;
+    }
+
+
+    /**
+     * add a file document to discovery
+     * @param file
+     * @param existDocumentId
+     * @return
+     * @throws IOException
+     */
     public DocumentAccepted addDocument(File file, String existDocumentId) throws IOException {
         LogManager.getLogManager().reset();
 //        checkEnvironment();
@@ -96,6 +121,13 @@ public class WatsonDiscovery {
         return response;
     }
 
+    /**
+     * add a url crawled result to discovery
+     * @param crawlerResult
+     * @param existDocumentId
+     * @return
+     * @throws IOException
+     */
     public DocumentAccepted addDocument(Map<CrawlerResultKey, String> crawlerResult, String existDocumentId) throws IOException {
         LogManager.getLogManager().reset();
 //        checkEnvironment();
@@ -114,10 +146,14 @@ public class WatsonDiscovery {
         return response;
     }
 
+    /**
+     * delete a document by id from discovery
+     * @param existDocumentId
+     */
     public void deleteDocument(String existDocumentId) {
         LogManager.getLogManager().reset();
-        checkEnvironment();
-        checkCollection();
+//        checkEnvironment();
+//        checkCollection();
 
         DeleteDocumentOptions deleteRequest
                 = new DeleteDocumentOptions.Builder(ENV_ID, COLLECTION_ID, existDocumentId).build();
@@ -127,6 +163,9 @@ public class WatsonDiscovery {
     }
 
 
+    /**
+     * check if discovery environment is ok
+     */
     public void checkEnvironment() {
         String environmentId = null;
         LOGGER.info("Check if environment exists");
@@ -173,6 +212,9 @@ public class WatsonDiscovery {
         }
     }
 
+    /**
+     * check if discovery collection is ok
+     */
     public void checkCollection() {
         LOGGER.info("Waiting for collection to be ready...");
         boolean collectionReady = false;
@@ -192,6 +234,11 @@ public class WatsonDiscovery {
         LOGGER.info("Collection Ready!");
     }
 
+    /**
+     * check if the document is available to query
+     * @param documentId
+     * @return
+     */
     public boolean checkDocument(String documentId) {
         LOGGER.info("Waiting for document to be ready...");
         boolean documentReady = false;
@@ -216,6 +263,11 @@ public class WatsonDiscovery {
         return !documentFailed;
     }
 
+    /**
+     * get a document status by id
+     * @param documentId
+     * @return
+     */
     public DocumentStatus getDocumentStatus(String documentId) {
         GetDocumentStatusOptions getDocumentStatusOptions =
                 new GetDocumentStatusOptions.Builder(ENV_ID, COLLECTION_ID, documentId).build();

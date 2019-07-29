@@ -29,6 +29,13 @@ public class FileValidator {
         SUPPORTED_FILE_TYPE.add(MIMETYPE_TEXT);
     }
 
+    /**
+     * validate a given file type
+     * @param file
+     * @return
+     * @throws IOException
+     * @throws FileTypeNotSupportedException
+     */
     public boolean isValidFile(File file) throws IOException, FileTypeNotSupportedException {
         Tika tika = new Tika();
         String fileType = tika.detect(file);
@@ -39,14 +46,32 @@ public class FileValidator {
         }
     }
 
+    /**
+     * check if given file is pdf
+     * @param file
+     * @return
+     * @throws IOException
+     */
     public boolean isPDF(File file) throws IOException {
         return new Tika().detect(file).equals("application/pdf");
     }
 
+    /**
+     * check if given file is text
+     * @param file
+     * @return
+     * @throws IOException
+     */
     public boolean isTxt(File file) throws IOException {
         return new Tika().detect(file).equals("text/plain");
     }
 
+    /**
+     * check if given file is doc/docx
+     * @param file
+     * @return
+     * @throws IOException
+     */
     public boolean isDoc(File file) throws IOException {
         String fileType = new Tika().detect(file);
         return (fileType.equals(MIMETYPE_DOCX) || fileType.equals(MIMETYPE_DOC));
