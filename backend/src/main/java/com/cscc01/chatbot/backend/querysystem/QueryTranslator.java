@@ -13,6 +13,12 @@ import java.util.Map;
 
 public class QueryTranslator {
 
+    /**
+     * create a  lucene query from key word result
+     * @param keywordsResults
+     * @return
+     * @throws ParseException
+     */
     public static Query fromKeyword(List<KeywordsResult> keywordsResults) throws ParseException {
         StringBuilder queryStringBuilder = new StringBuilder();
         for (KeywordsResult keywordsResult : keywordsResults) {
@@ -23,6 +29,12 @@ public class QueryTranslator {
         return query;
     }
 
+    /**
+     * create a lucene query from key word map
+     * @param keywords
+     * @return
+     * @throws ParseException
+     */
     public static Query fromMap(Map<String, Integer> keywords) throws ParseException {
         StringBuilder queryStringBuilder = new StringBuilder();
         keywords.forEach((keyword, frequency) -> {

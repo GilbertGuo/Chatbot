@@ -40,9 +40,6 @@ public class Indexer {
     @Inject
     private FileValidator fileValidator;
 
-    @Inject
-    private DocumentRecordRepository documentRecordRepository;
-
     private IndexWriter indexWriter;
 
 
@@ -65,6 +62,14 @@ public class Indexer {
         createIndex(file);
     }
 
+    /**
+     * index a file to Lucene
+     * @param file
+     * @throws IOException
+     * @throws FileTypeNotSupportedException
+     * @throws TikaException
+     * @throws SAXException
+     */
     public void createIndex(File file)
             throws IOException, FileTypeNotSupportedException,
             TikaException, SAXException {
@@ -85,11 +90,6 @@ public class Indexer {
         }
         indexWriter.commit();
         indexWriter.close();
-
-//        if (document != null) {
-//            DocumentRecord documentRecord = toDocumentRecord(document);
-//            documentRecordRepository.save(documentRecord);
-//        }
 
         LOGGER.info("DocumentRecord " + file.getName() + " added successfully");
     }
@@ -163,6 +163,12 @@ public class Indexer {
         return searchByQuery(query);
     }
 
+    /**
+     * search document by a given query
+     * @param query
+     * @return
+     * @throws IOException
+     */
     public List<Document> searchByQuery(Query query) throws IOException {
         List<Document> result = new ArrayList<>();
         DirectoryReader indexReader = getIndexReader();
@@ -178,7 +184,11 @@ public class Indexer {
         return result;
     }
 
-
+    /**
+     * get a Lucene indexWriter
+     * @return
+     * @throws IOException
+     */
     private IndexWriter getIndexWriter() throws IOException {
         if (indexWriter != null && indexWriter.isOpen()) {
             indexWriter.close();
@@ -189,6 +199,11 @@ public class Indexer {
         return indexWriter;
     }
 
+    /**
+     * get a Lucene indexReader
+     * @return
+     * @throws IOException
+     */
     private DirectoryReader getIndexReader() throws IOException {
         FSDirectory indexDirectory = FSDirectory.open(Paths.get(INDEX_DIR_PATH));
         DirectoryReader indexReader = DirectoryReader.open(indexDirectory);
