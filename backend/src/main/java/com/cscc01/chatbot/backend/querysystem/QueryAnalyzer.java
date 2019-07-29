@@ -11,7 +11,6 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +47,11 @@ public class QueryAnalyzer {
     }
 
 
+    /**
+     * extract noun word from text
+     * @param sentence
+     * @return
+     */
     public HashMap<String, Integer> extractNoun(String sentence) {
 
 
