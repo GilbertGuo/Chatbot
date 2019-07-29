@@ -30,7 +30,7 @@
  - Frontend is fairly solid
 
 
-## Week 3: June 24 - 28
+## Week 3: June 8 - 12
 
 | Question | Expected | Actual |
 | --- | --- | --- |
@@ -44,3 +44,17 @@
  - Burndown and table is okay, but needs some ammendments
  - Has idea of integration but needs to be polished
  - Front-end solid
+ 
+ 
+ ## Week 5: July 29 - August 2
+
+| Question | Expected | Actual |
+| --- | --- | --- |
+| Show me your progress for week 7 | 5 | 5 |
+| Demo Application | 5 |  |
+
+**Comments**
+
+ - Clean board and burndown chart. Growing velocity (Good stuff)
+ - Very ahead with a dashboard and crawling data (Very nice feature set)
+ - Layout needs some work
