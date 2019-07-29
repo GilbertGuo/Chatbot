@@ -9,7 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { ToastContainer, toast } from 'react-toastify';
+import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
@@ -20,6 +20,8 @@ import Hidden from "./Menu/Hidden/Hidden";
 import Background from "./Menu/Background/Background";
 import Pullbar from "./Menu/Pullbar/Pullbar";
 import Page from './Page';
+import LinearProgress from '@material-ui/core/LinearProgress';
+
 
 class Admin extends Component {
 
@@ -30,7 +32,7 @@ class Admin extends Component {
             selectedFile: null,
             // uploadedFiles: [{ name: null, lastmodified: null, lastmodifieduser: null}],
             uploadedFiles: [],
-            latestFiles:[],
+            latestFiles: [],
             selectedurl: null,
             pageOfItems: [],
             isProcessing: false,
@@ -45,16 +47,16 @@ class Admin extends Component {
 
     onChangePage(pageOfItems) {
         // update state with new page of items
-        this.setState({ pageOfItems: pageOfItems });
+        this.setState({pageOfItems: pageOfItems});
     }
 
-    pullToggle = () =>{
+    pullToggle = () => {
         this.setState((last) => {
-            return{hiddenStatus: last};
+            return {hiddenStatus: last};
         });
     };
 
-    closeMenu =() =>{
+    closeMenu = () => {
         this.setState({hiddenStatus: false});
     };
 
@@ -71,22 +73,28 @@ class Admin extends Component {
         };
 
         try {
-            await axios.get('http://localhost:8000/api/v1/documents',{ headers: headers })
+            await axios.get('http://localhost:8000/api/v1/documents', {headers: headers})
                 .then(res => {
                     console.log(res);
 
-                    res.data.documents.map(doc=>{
-                        this.setState((prevState) => ({ uploadedFiles: prevState.uploadedFiles.concat({name:doc.name,lastmodified:doc.lastModified,lastmodifieduser:doc.lastModifiedUser})}));
+                    res.data.documents.map(doc => {
+                        this.setState((prevState) => ({
+                            uploadedFiles: prevState.uploadedFiles.concat({
+                                name: doc.name,
+                                lastmodified: doc.lastModified,
+                                lastmodifieduser: doc.lastModifiedUser
+                            })
+                        }));
                         return null;
                     });
 
-                    this.setState({latestFiles:this.state.uploadedFiles.reverse()});
+                    this.setState({latestFiles: this.state.uploadedFiles.reverse()});
 
                 });
 
         } catch (err) {
             console.log(err);
-            toast.error(err, { autoClose: 1000 });
+            toast.error(err, {autoClose: 1000});
         }
     };
 
@@ -98,7 +106,7 @@ class Admin extends Component {
         let err = '';
         // list allow mime type
 
-        if(files!==undefined) {
+        if (files !== undefined) {
             if (this.state.types.every(type => files.type !== type)) {
                 // create error message and assign to container
                 err += files.name + ' is not a supported\n';
@@ -108,7 +116,7 @@ class Admin extends Component {
         if (err !== '') { // if message not same old that mean has error
             event.target.value = null; // discard selected file
             console.log(err);
-            toast.error(err, { autoClose: 1000 });
+            toast.error(err, {autoClose: 1000});
             return false;
         }
         return true;
@@ -129,80 +137,92 @@ class Admin extends Component {
     /* send the uploading file to the backend */
     fileUploadHandler = () => {
 
-        this.setState({isProcessing: true});
         let headers = {
             'Authorization': "Bearer " + Cookies.get('token')
         };
         if (this.state.selectedFile === null) {
-            toast.error('upload fail', { autoClose: 1000 });
+            toast.error('please select a valid file', {autoClose: 1000});
         } else {
+            this.setState({isProcessing: true});
             const data = new FormData();
             data.append('file', this.state.selectedFile);
             /*******************************************************/
             //also passing username to the backend
             data.append('lastModifiedUser', Cookies.get('username'));
 
-            axios.post("http://localhost:8000/api/v1/documents/files", data, { headers: headers })
+            axios.post("http://localhost:8000/api/v1/documents/files", data, {headers: headers})
                 .then(res => { // then print response status
                     console.log(res);
-                    toast.success('Upload file success', { autoClose: 1000 });
+                    toast.success('Upload file success', {autoClose: 1000});
 
-                    this.setState({uploadedFiles:this.state.uploadedFiles.reverse()});
+                    this.setState({uploadedFiles: this.state.uploadedFiles.reverse()});
 
                     /**********************************************************************/
                     //need to add response parameters in backend to match username and modified date
-                    this.setState((prevState) => ({ uploadedFiles: prevState.uploadedFiles.concat({name:res.data.filename,lastmodified:'123',lastmodifieduser:'someone'})}));
+                    this.setState((prevState) => ({
+                        uploadedFiles: prevState.uploadedFiles.concat({
+                            name: res.data.filename,
+                            lastmodified: '123',
+                            lastmodifieduser: 'someone'
+                        })
+                    }));
 
-                    this.setState({latestFiles:this.state.uploadedFiles.reverse()});
+                    this.setState({latestFiles: this.state.uploadedFiles.reverse()});
                     this.setState({isProcessing: false});
 
                 })
                 .catch(err => {
-                    toast.error('Upload file fail', { autoClose: 1000 });
+                    toast.error('Upload file fail', {autoClose: 1000});
                     this.setState({isProcessing: false});
                 })
         }
     };
 
-    changeURLValue(e){
-        this.setState({ selectedurl: e.target.value });
+    changeURLValue(e) {
+        this.setState({selectedurl: e.target.value});
     };
 
     /* send the URL to the backend */
     URLUploadHandler = () => {
 
-        this.setState({isProcessing: true});
         let headers = {
             'Authorization': "Bearer " + Cookies.get('token')
         };
         if (this.state.selectedurl === null) {
-            toast.error('upload fail', { autoClose: 1000 });
+            toast.error('please give a vaild url', {autoClose: 1000});
         } else {
+            this.setState({isProcessing: true});
             if (isUrl(this.state.selectedurl)) {
                 console.log(this.state.selectedurl);
 
-                const data = { url: this.state.selectedurl };
-                axios.post("http://localhost:8000/api/v1/documents/urls", data, { headers: headers })
+                const data = {url: this.state.selectedurl};
+                axios.post("http://localhost:8000/api/v1/documents/urls", data, {headers: headers})
                     .then(res => {
                         console.log(res);
-                        toast.success('Upload url success', { autoClose: 1000 });
+                        toast.success('Upload url success', {autoClose: 1000});
 
-                        this.setState({uploadedFiles:this.state.uploadedFiles.reverse()});
+                        this.setState({uploadedFiles: this.state.uploadedFiles.reverse()});
 
                         /**********************************************************************/
                         //need to add response parameters in backend to match username and modified date
-                        this.setState((prevState) => ({ uploadedFiles: prevState.uploadedFiles.concat({name:res.data.filename,lastmodified:'123',lastmodifieduser:'someone'})}));
+                        this.setState((prevState) => ({
+                            uploadedFiles: prevState.uploadedFiles.concat({
+                                name: res.data.filename,
+                                lastmodified: '123',
+                                lastmodifieduser: 'someone'
+                            })
+                        }));
 
-                        this.setState({latestFiles:this.state.uploadedFiles.reverse()});
+                        this.setState({latestFiles: this.state.uploadedFiles.reverse()});
                         this.setState({isProcessing: false});
 
                     })
                     .catch(err => {
-                        toast.error('Upload url fail', { autoClose: 1000 });
+                        toast.error('Upload url fail', {autoClose: 1000});
                         this.setState({isProcessing: false});
                     });
-            } else{
-                toast.error('Wrong URL format', { autoClose: 1000 });
+            } else {
+                toast.error('Wrong URL format', {autoClose: 1000});
                 this.setState({isProcessing: false});
             }
         }
@@ -218,21 +238,21 @@ class Admin extends Component {
         let headers = {
             'Authorization': "Bearer " + Cookies.get('token')
         };
-        const data = { filename: fname.file.name};
-        axios.delete("http://localhost:8000/api/v1/documents",  {headers: headers, data})
+        const data = {filename: fname.file.name};
+        axios.delete("http://localhost:8000/api/v1/documents", {headers: headers, data})
             .then(res => {
                 console.log(res);
-                toast.success(fname.file.name + ' is deleted',{ autoClose: 2000 });
+                toast.success(fname.file.name + ' is deleted', {autoClose: 2000});
 
-                 const uploadedFiles = this.state.uploadedFiles.filter(file => file.name !== fname.file.name);
-                 this.setState({ uploadedFiles: uploadedFiles });
+                const uploadedFiles = this.state.uploadedFiles.filter(file => file.name !== fname.file.name);
+                this.setState({uploadedFiles: uploadedFiles});
 
                 const latestFiles = this.state.latestFiles.filter(file => file.name !== fname.file.name);
-                this.setState({ latestFiles: latestFiles });
+                this.setState({latestFiles: latestFiles});
                 this.setState({isProcessing: false});
             })
             .catch(err => {
-                toast.error(fname.file.name+' deleted fail',{ autoClose: 1000 });
+                toast.error(fname.file.name + ' deleted fail', {autoClose: 1000});
                 //toast.success(fname.file + ' is deleted');
                 this.setState({isProcessing: false});
             });
@@ -246,8 +266,8 @@ class Admin extends Component {
         // //console.log(urlvalue);
         let hidden;
         let close;
-        if(this.state.hiddenStatus){
-            hidden = <Hidden />;
+        if (this.state.hiddenStatus) {
+            hidden = <Hidden/>;
             close = <Background click={this.closeMenu}/>;
         }
         const {latestFiles, pageOfItems} = this.state;
@@ -257,85 +277,89 @@ class Admin extends Component {
                 <Pullbar clickHandler={this.pullToggle}/>
                 {hidden}
                 {close}
+                <div className="dash_container">
+                    { this.state.isProcessing ?
+                        <LinearProgress className="progress_bar"/>
+                        : null
+                    }
 
-                <div className="form-group">
-                    <ToastContainer />
-                </div>
-
-                <div>{
-                    this.state.isProcessing ? <h1 className="progress">Processing ... Please Wait!</h1>
-                    :
-                    <div className="adminTop">
-
-                        <div className="uploadFile adminPageItem">
-                            <h2>Document Upload</h2>
-                            <input type="file" onChange={this.fileSelectedHandler}/>
-                            <Button variant="contained" component="span" onClick={this.fileUploadHandler}>
-                                Upload
-                            </Button>
+                    <div className="admin_container">
+                        <div className="form-group">
+                            <ToastContainer/>
                         </div>
+                        <div className="adminLeft">
 
-                        <div className="createURL adminPageItem">
-                            <h2>Crawl URL</h2>
-                            <TextField type="url" placeholder="Type URL" name="url" id="url"
-                                       margin="dense" onChange={this.changeURLValue}/>
-                            <Button variant="contained" component="span" onClick={this.URLUploadHandler}>
-                                Crawl
-                            </Button>
+                            <div>
+                                <div className="uploadFile admin_component adminPageItem">
+                                    <h2>Document Upload</h2>
+                                    <input type="file" onChange={this.fileSelectedHandler}/>
+                                    <Button variant="contained" component="span" onClick={this.fileUploadHandler}>
+                                        Upload
+                                    </Button>
+                                </div>
+
+                                <div className="createURL admin_component adminPageItem">
+                                    <h2 className="custom_h2">Crawl URL</h2>
+                                    <TextField className="url_fields" type="url" placeholder="Type URL" name="url" id="url"
+                                               margin="dense" onChange={this.changeURLValue}/>
+                                    <Button className="url_field" variant="contained" component="span" onClick={this.URLUploadHandler}>
+                                        Crawl
+                                    </Button>
+                                </div>
+                            </div>
+
+                            <div className="indexerView admin_component adminPageItem">
+                                <h2>Uploaded Documents</h2>
+
+                                <div className="table_group">
+                                    <Paper className="classes.paper">
+
+                                        <Table className="classes.table" size="medium">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell>Document</TableCell>
+                                                    <TableCell align="right">User</TableCell>
+                                                    <TableCell align="right">Last_modification</TableCell>
+                                                    <TableCell align="right"></TableCell>
+                                                </TableRow>
+                                            </TableHead>
+
+                                            {
+                                                pageOfItems.length ?
+                                                    pageOfItems.map((file, i) =>
+                                                        <TableBody key={i}>
+                                                            <TableRow>
+                                                                <TableCell component="th" scope="row">
+                                                                    {file.name}
+                                                                </TableCell>
+                                                                <TableCell
+                                                                    align="right">{file.lastmodifieduser}</TableCell>
+                                                                <TableCell align="right">{file.lastmodified}</TableCell>
+                                                                <TableCell>
+                                                                    <IconButton aria-label="Delete"
+                                                                                onClick={this.deleteHandler({file})}>
+                                                                        <DeleteIcon/>
+                                                                    </IconButton>
+                                                                </TableCell>
+                                                            </TableRow>
+                                                        </TableBody>
+                                                    ) : null
+                                            }
+                                        </Table>
+
+                                    </Paper>
+
+                                    {/*<Button variant="contained" component="span" onClick={this.showEvent}>Show</Button>*/}
+                                </div>
+                                <Page items={latestFiles} onChangePage={this.onChangePage}/>
+                            </div>
                         </div>
-                    </div>
-                }
-                </div>
-
-                <div className="adminBot">
-                    <div className="indexerView adminPageItem">
-                        <h2>Uploaded Documents</h2>
-
-                        <div className="table_group">
-                            <Paper className="classes.paper">
-
-                                <Table className="classes.table" size="medium">
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>Document</TableCell>
-                                                <TableCell align="right">User</TableCell>
-                                                <TableCell align="right">Last_modification</TableCell>
-                                                <TableCell align="right"></TableCell>
-                                            </TableRow>
-                                        </TableHead>
-
-                                    {
-                                        pageOfItems.length ?
-                                            pageOfItems.map((file, i) =>
-                                                <TableBody key={i}>
-                                                    <TableRow>
-                                                        <TableCell component="th" scope="row">
-                                                            {file.name}
-                                                        </TableCell>
-                                                        <TableCell align="right">{file.lastmodifieduser}</TableCell>
-                                                        <TableCell align="right">{file.lastmodified}</TableCell>
-                                                        <TableCell>
-                                                            <IconButton aria-label="Delete" onClick={this.deleteHandler({ file })}>
-                                                                <DeleteIcon />
-                                                            </IconButton>
-                                                        </TableCell>
-                                                    </TableRow>
-                                                </TableBody>
-                                            ) : null
-                                    }
-                                </Table>
-
-                            </Paper>
-
-                            {/*<Button variant="contained" component="span" onClick={this.showEvent}>Show</Button>*/}
+                        <div className="adminRight">
+                            <div className="feedback">
+                                <h2>Feedback box</h2>
+                                <FeedList />
+                            </div>
                         </div>
-                        <Page items={latestFiles} onChangePage={this.onChangePage} />
-                    </div>
-
-
-                    <div className="Feedback_List">
-                        <h2>Feedback box</h2>
-                        <FeedList/>
                     </div>
                 </div>
             </div>

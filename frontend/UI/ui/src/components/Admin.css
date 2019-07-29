@@ -1,38 +1,98 @@
 .adminPage {
     display: flex;
+    flex-direction: row;
+}
+
+/*.progress {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    margin-top: 80px;*/
+/*    color: red;*/
+/*}*/
+
+.dash_container {
+    display: flex;
+    width: 100%;
     flex-direction: column;
-    justify-content: space-around !important;
 }
 
-.progress {
-    display: flex;
+.admin_container {
+    margin-top: 60px;
     justify-content: center;
-    margin-top: 80px;
-    color:red;
-}
-.adminTop {
+    width: 100%;
     display: flex;
     flex-direction: row;
-    margin-top: 100px;
-    justify-content: space-around;
 }
 
-.adminBot {
+.progress_bar {
+    /*display: none;*/
+    /*position: fixed;*/
+    top: 56px;
+    height: 8px !important;
+    width: 100%;
+    /*z-index: 999;*/
+}
+
+.adminLeft {
+    display: flex;
+    flex-direction: column;
+    /*margin-top: 100px;*/
+    flex-grow: 2;
+    /*background: #b4b4b4;*/
+    /*border-left: 80px white;*/
+    /*border-right: 80px white;*/
+}
+
+.adminRight {
+    /*margin-top: 100px;*/
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    flex-grow: 1;
+    /*background: #b4b4b4;*/
+    /*border-right: 80px white;*/
+
+}
+
+.feedlist {
+    width: 160px;
+}
+
+.feedback {
+    background: #9cca61;
+    color: white;
+    border-radius: 7px;
+    margin-top: 40px;
+    /*margin-left: 20px;*/
+    width: 300px;
+    box-shadow: 0 6px 10px -2px rgba(0, 0, 0, .25)
+}
+
+.MuiInput-underline:after {
+    border-bottom: 2px solid #bbbbbb !important;
+}
+
+
+.admin_component {
+background: #8b8b8b;
+color: white;
+border-radius: 7px;
+padding-top: 3px;
+margin-top: 40px;
+margin-left: 20px;
+box-shadow: 0 6px 10px -2px rgba(0, 0, 0, .25)
 }
 
 .adminPageItem {
-    padding-bottom: 15em;
+padding-bottom: 5em;
 }
-
 
 .root {
-    width: 100%;
+width: 100%;
 }
+
 .paper {
-    /*margin-top: theme.spacing(3);*/
+/*margin-top: theme.spacing(3);*/
     width: 100%;
     overflow-x: auto;
     /*marginBottom: theme.spacing(2);*/
@@ -42,13 +102,19 @@
     min-width: 650px;
 }
 
-.table_group{
+.table_group {
     display: flex;
     flex-direction: row;
+    justify-content: center;
 }
 
 input:invalid {
-    background-color: #ffdddd;
+    background-color: #c75450;
+}
+
+.MuiInputBase-inputMarginDense {
+    padding-top: 3px;
+    width: 264.93px !important;
 }
 
 #docURL {
