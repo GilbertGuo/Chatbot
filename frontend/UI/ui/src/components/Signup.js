@@ -95,6 +95,9 @@ class Signup extends Component {
             })
         });
         if (response.status !== 200) {
+            if (response.status === 400) this.setState({
+                errorMsg: "Username or password must be at least 4 characters..."
+            });
             if (response.status === 409) this.setState({
                 errorMsg: "Username has been taken..."
             });
@@ -130,7 +133,7 @@ class Signup extends Component {
             <Container maxWidth="xs" className="SignupContainer">
                 <CssBaseline/>
                 <div className="signup_paper">
-                    <p>{ this.state.errorMsg }</p>
+                    <p className="error_msg">{ this.state.errorMsg }</p>
                     <Typography component="h1" variant="h5">
                         Sign up
                     </Typography>

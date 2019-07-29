@@ -7,7 +7,6 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import './Login.css';
-// import GoogleLogin from 'react-google-login';
 import Cookies from 'js-cookie';
 import Pullbar from "./Menu/Pullbar/Pullbar";
 
