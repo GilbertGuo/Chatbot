@@ -1,8 +1,6 @@
 package com.cscc01.chatbot.backend.querysystem;
 
 import com.ibm.cloud.sdk.core.service.security.IamOptions;
-import com.ibm.watson.natural_language_classifier.v1.model.Classification;
-import com.ibm.watson.natural_language_classifier.v1.model.ClassifyOptions;
 import com.ibm.watson.natural_language_understanding.v1.NaturalLanguageUnderstanding;
 import com.ibm.watson.natural_language_understanding.v1.model.*;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +24,11 @@ public class NauturalLanguageProcessService {
 
     }
 
+    /**
+     * analyze text to get key word via IBM natural language understanding
+     * @param text
+     * @return
+     */
     public AnalysisResults analyzeKeyWords(String text) {
         KeywordsOptions keywords= new KeywordsOptions.Builder()
                 .sentiment(true)
@@ -49,6 +52,11 @@ public class NauturalLanguageProcessService {
         return response;
     }
 
+    /**
+     * sort key word result by relevance
+     * @param results
+     * @return
+     */
     public List<KeywordsResult> sortResultByRelevance(AnalysisResults results) {
         List<KeywordsResult> keywords = results.getKeywords();
         keywords.sort(Comparator.comparing(KeywordsResult::getRelevance).thenComparing(KeywordsResult::getCount));
