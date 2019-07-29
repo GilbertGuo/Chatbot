@@ -5,9 +5,6 @@ import Button from '@material-ui/core/Button';
 import './Feedback.css';
 import Container from '@material-ui/core/Container';
 //import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import {SentimentDissatisfied, SentimentSatisfied, SentimentVeryDissatisfied, SentimentVerySatisfied} from '@material-ui/icons';
 import Hidden from "./Menu/Hidden/Hidden";
 import Background from "./Menu/Background/Background";
 import Pullbar from "./Menu/Pullbar/Pullbar";
@@ -88,40 +85,9 @@ class Feedback extends Component{
                     <ToastContainer />
                 </div>
 
-                <div className="Icon_rate">
-                <h1>HOW IS YOUR FEELING?</h1>
-                <Tooltip title='strongly unsatisfied'>
-                    <IconButton className="Icon_style">
-                        <SentimentVeryDissatisfied fontSize='large'/>
-                    </IconButton >
-                </Tooltip>
-                <Tooltip title='unsatisfied'>
-                    <IconButton aria-label="dislike" className="Icon_style" >
-                         <SentimentDissatisfied fontSize='large'/>
-                    </IconButton>
-                </Tooltip>
-                <Tooltip title="cool">
-                    <IconButton color="secondary" aria-label="Like" className="Icon_style" >
-                        <SentimentSatisfied fontSize='large' />
-                    </IconButton>
-                </Tooltip>
-                <Tooltip title='very good'>
-                    <IconButton color="secondary" aria-label="Like" >
-                        <SentimentVerySatisfied fontSize='large' />
-                    </IconButton>
-                </Tooltip>
-                </div>
                 <h1>Leave Us Feedback</h1>
                 <Container maxWidth="xs" >
                 <form className="feedbackForm" onSubmit={this.handleSubmit}>
-                    <TextField
-                        id="filled-name"
-                        label="Your Name"
-                        value={this.state.name}
-                        onChange={this.handlenameChange}
-                        margin="normal"
-                        variant="filled"
-                    />
                     <TextField
                             id="filled-multiline-static"
                             label="Your feedback"
