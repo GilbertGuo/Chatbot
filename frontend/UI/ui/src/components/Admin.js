@@ -147,6 +147,12 @@ class Admin extends Component {
                     console.log(res);
                     toast.success('Upload file success', { autoClose: 1000 });
 
+                    if(this.state.uploadedFiles.some(v => (v.name === res.data.filename))){
+                        console.log("duplicate");
+                        const uploadedFiles = this.state.uploadedFiles.filter(file => file.name !== res.data.filename);
+                        this.setState({ uploadedFiles: uploadedFiles });
+                    }
+
                     this.setState({uploadedFiles:this.state.uploadedFiles.reverse()});
 
                     /**********************************************************************/
@@ -186,6 +192,12 @@ class Admin extends Component {
                     .then(res => {
                         console.log(res);
                         toast.success('Upload url success', { autoClose: 1000 });
+
+                        if(this.state.uploadedFiles.some(v => (v.name === res.data.filename))){
+                            console.log("duplicate");
+                            const uploadedFiles = this.state.uploadedFiles.filter(file => file.name !== res.data.filename);
+                            this.setState({ uploadedFiles: uploadedFiles });
+                        }
 
                         this.setState({uploadedFiles:this.state.uploadedFiles.reverse()});
 
