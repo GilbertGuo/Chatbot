@@ -156,6 +156,13 @@ class Admin extends Component {
                     toast.success('Upload file success', {autoClose: 1000});
 
                     this.setState({uploadedFiles: this.state.uploadedFiles.reverse()});
+                    if(this.state.uploadedFiles.some(v => (v.name === res.data.filename))){
+                        console.log("duplicate");
+                        const uploadedFiles = this.state.uploadedFiles.filter(file => file.name !== res.data.filename);
+                        this.setState({ uploadedFiles: uploadedFiles });
+                    }
+
+                    this.setState({uploadedFiles:this.state.uploadedFiles.reverse()});
 
                     /**********************************************************************/
                     //need to add response parameters in backend to match username and modified date
@@ -202,6 +209,13 @@ class Admin extends Component {
                         toast.success('Upload url success', {autoClose: 1000});
 
                         this.setState({uploadedFiles: this.state.uploadedFiles.reverse()});
+                        if(this.state.uploadedFiles.some(v => (v.name === res.data.filename))){
+                            console.log("duplicate");
+                            const uploadedFiles = this.state.uploadedFiles.filter(file => file.name !== res.data.filename);
+                            this.setState({ uploadedFiles: uploadedFiles });
+                        }
+
+                        this.setState({uploadedFiles:this.state.uploadedFiles.reverse()});
 
                         /**********************************************************************/
                         //need to add response parameters in backend to match username and modified date
