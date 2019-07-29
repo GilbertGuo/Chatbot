@@ -36,6 +36,12 @@ import java.util.Map;
 public class DocumentRetriever {
     private final static Logger LOGGER = LoggerFactory.getLogger(DocumentRetriever.class);
 
+    /**
+     *  create a Lucene Document from file
+     * @param file
+     * @return
+     * @throws IOException
+     */
     public Document getDocument(File file) throws IOException {
 
         Document document = new Document();
@@ -45,11 +51,17 @@ public class DocumentRetriever {
                 file.getName(), Field.Store.YES));
         document.add(new StringField(LuceneFieldConstants.FILE_PATH.getText(),
                 file.getCanonicalPath(), Field.Store.YES));
-
-        LOGGER.info("Successfully converted pdf " + file.getName());
         return document;
     }
 
+    /**
+     * create a Lucene Document from converted pdf file
+     * @param file
+     * @return
+     * @throws IOException
+     * @throws TikaException
+     * @throws SAXException
+     */
     public Document getPdfDocument(File file) throws IOException, TikaException, SAXException {
         Document document = new Document();
         BodyContentHandler bodyContentHandler = new BodyContentHandler();
@@ -72,6 +84,15 @@ public class DocumentRetriever {
         return document;
     }
 
+
+    /**
+     * create a Lucene Document from doc/docx file
+     * @param file
+     * @return
+     * @throws IOException
+     * @throws TikaException
+     * @throws SAXException
+     */
     public Document getDocDocument(File file) throws IOException, TikaException, SAXException {
         Document document = new Document();
         BodyContentHandler bodyContentHandler = new BodyContentHandler();
@@ -93,6 +114,11 @@ public class DocumentRetriever {
         return document;
     }
 
+    /**
+     * create a Lucene Document from crawler result
+     * @param crawlerResult
+     * @return
+     */
     public Document getCrawlerDocument(Map<CrawlerResultKey, String> crawlerResult) {
         Document document = new Document();
 
@@ -109,6 +135,13 @@ public class DocumentRetriever {
     }
 
 
+    /**
+     * create a DocumentRecord from file so that it can be inserted into db
+     * @param file
+     * @param lastModifiedUser
+     * @param documentId
+     * @return
+     */
     public static DocumentRecord buildDocumentRecord(File file,
                                                      String lastModifiedUser,
                                                      String documentId) {
@@ -119,6 +152,13 @@ public class DocumentRetriever {
         return newDocument;
     }
 
+    /**
+     * create a DocumentRecord from crawlerResult so that it can be inserted into db
+     * @param crawlerResult
+     * @param lastModifiedUser
+     * @param documentId
+     * @return
+     */
     public static DocumentRecord buildDocumentRecord(Map<CrawlerResultKey, String> crawlerResult,
                                                      String lastModifiedUser,
                                                      String documentId) {
@@ -131,6 +171,10 @@ public class DocumentRetriever {
         return newDocument;
     }
 
+    /**
+     * get current timestamp
+     * @return Timestamp
+     */
     private static Timestamp getTimestamp() {
         Date date = new Date();
         long time = date.getTime();

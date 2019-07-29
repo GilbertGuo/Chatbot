@@ -31,6 +31,15 @@ public class DocumentService {
     @Inject
     private WatsonDiscovery watsonDiscovery;
 
+    /**
+     * index a file to watson Discovery and Lucene
+     *  and insert a documentRecord to db
+     * @param file
+     * @throws IOException
+     * @throws TikaException
+     * @throws FileTypeNotSupportedException
+     * @throws SAXException
+     */
     public void addFileDocument(File file) throws IOException, TikaException, FileTypeNotSupportedException, SAXException {
         DocumentRecord documentRecord = documentRecordRepository.findByName(file.getName());
         String documentId = UUID.randomUUID().toString();
@@ -51,6 +60,13 @@ public class DocumentService {
         documentRecordRepository.save(documentRecord);
     }
 
+    /**
+     * crawl a url and index it to watson Discovery and Lucene,
+     * and insert a documentRecord to db
+     * @param url
+     * @return
+     * @throws Exception
+     */
     public String addUrlDocument(String url) throws Exception {
         Map<CrawlerResultKey, String> crawlerResult = crawlerService.startCrawler(url);
         String filename = crawlerResult.get(CrawlerResultKey.TITLE);
@@ -77,6 +93,11 @@ public class DocumentService {
         return filename;
     }
 
+    /**
+     * delete a document and its record by name to watson Discovery and Lucene
+     * @param filename
+     * @throws IOException
+     */
     public void deleteDocument(String filename) throws IOException {
         DocumentRecord documentRecord = documentRecordRepository.findByName(filename);
         if (documentRecord != null) {
