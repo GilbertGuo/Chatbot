@@ -45,8 +45,47 @@
  - Has idea of integration but needs to be polished
  - Front-end solid
  
- 
- ## Week 5: July 29 - August 2
+## Week 4: July 22 - 26
+
+|Question|Expected|Total|
+|--------|-----|----|
+|Show me your progress for previous week|5|5|
+|Show me your progress for week before|5|5|
+|Run me through your testing (or tell me your plans if not present)|5|5|
+|Run the application (technical demo)|5|5|
+
+**Comments**
+
+- last week:
+    - finished login
+    - did ibm watson discovery and assistant integration
+- the week before:
+    - google login
+        - used their own login system instead
+
+- unit testing:
+    - have some unit tests for controllers and services
+        - could leverage mockito to mock some objects
+            - are using some dummy files in assets somewhere
+
+- demo:
+    - login works fine
+    - watson chat looks ok but is slightly buggy
+    - crawler works but is slightly slow
+    - most stuff is okay but is really slow
+        - the crawler and the file upload are pretty slow
+
+- jira:
+    - burndown is going down okay
+    - board is moving okay
+    - next steps
+        - finishing the admin page
+        - debugging
+        - user feedback
+        - some optimizations on the ui
+        - error handling
+
+## Week 5: July 29 - August 2
 
 | Question | Expected | Actual |
 | --- | --- | --- |
