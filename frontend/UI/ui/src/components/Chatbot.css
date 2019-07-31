@@ -31,7 +31,7 @@
 }
 .message_inbox{
     margin-left: 1%;
-    width: 250px;
+    width: 1000px;
     word-wrap: break-word;
 }
 
@@ -39,7 +39,7 @@
     background: #efefef none repeat scroll 0 0;
     border-radius: 10px;
     color: #646464;
-    font-size: 12px;
+    font-size: 14px;
     margin: 0;
     padding: 5px 10px 5px 10px;
     width: 200px;
@@ -47,18 +47,26 @@
 
 }
 .preview{
-    width: 270px;
+    width: 800px;
     margin-left: 1%;
+    word-wrap: break-word;
 }
 
 
 .preview p{
-    font-size: 13px;
-    border-bottom: 1px solid rgba(0, 0, 0, .125);        
+    font-size: 14px;
+    border-bottom: 1px solid rgba(0, 0, 0, .125);
+    word-wrap: break-word;
 }
+
+.MuiExpansionPanelDetails-root p{
+    width: 100%;
+    word-wrap: break-word;
+}
+
 .user_message{
     float: right;
-    width: 200px;
+    width: 1000px;
     margin-right: 1%;
     /*margin-left: 700px;*/
     word-wrap: break-word;
@@ -70,7 +78,7 @@
     background: #007bff none repeat scroll 0 0;
     color: #fff;
     border-radius: 10px;
-    font-size: 12px;
+    font-size: 14px;
     margin: 0;
     padding: 5px 10px 5px 10px;
     width: 200px;
