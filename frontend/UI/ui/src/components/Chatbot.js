@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-// import IconBar from './IconBar.js';
 import { If, Then, Else } from 'react-if-elseif-else-render';
 import Pullbar from "./Menu/Pullbar/Pullbar";
 import Hidden from "./Menu/Hidden/Hidden";
@@ -122,6 +121,7 @@ class Chatbot extends Component {
                 .then(res => {
                     // update result in the state.
 
+                    console.log(res);
                     if (res.status === 200) {
                         if(res.data.message){
                             this.setState((prevState) => ({ chatArray: prevState.chatArray.concat({ from: 'chatbot', msg: res.data.message }) }), () => {
@@ -133,7 +133,7 @@ class Chatbot extends Component {
                                 sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
                             });
                         }
-                        console.log(res);
+
                         // this.setState((prevState) => ({ chatArray: prevState.chatArray.concat({ from: 'chatbot', msg: res.data.documents }) }), () => {
                         //     sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
                         // });
@@ -143,7 +143,7 @@ class Chatbot extends Component {
                                  msg: res.data.documents
                              })
                          });*/
-                        console.log(res);
+
                     } else {
                         console.log("error");
                     }

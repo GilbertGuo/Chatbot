@@ -7,7 +7,6 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import './Login.css';
-// import GoogleLogin from 'react-google-login';
 import Cookies from 'js-cookie';
 import Pullbar from "./Menu/Pullbar/Pullbar";
 
@@ -32,7 +31,12 @@ class Login extends Component {
     componentDidMount() {
         if(Cookies.get('token')){
             const location = {
-                pathname: '/Chatbot',
+                pathname: '/Chatbot'
+            };
+            this.props.history.push(location);
+        } else {
+            const location = {
+                pathname: '/Login'
             };
             this.props.history.push(location);
         }
