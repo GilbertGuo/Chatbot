@@ -46,7 +46,7 @@ public class QuerySystemProcessorTests {
         QueryResult queryResult
                 = Mockito.mock(QueryResult.class);
 
-        Mockito.when(queryResult.get("text")).thenReturn("disvocery result");
+        Mockito.when(queryResult.get("text")).thenReturn("discovery result");
         Mockito.when(queryResult.getTitle()).thenReturn("test");
         Mockito.when(discoveryResponse.getResults()).thenReturn(Arrays.asList(queryResult));
         Mockito.doReturn(discoveryResponse)

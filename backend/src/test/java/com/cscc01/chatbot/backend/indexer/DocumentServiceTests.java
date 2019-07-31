@@ -35,13 +35,6 @@ public class DocumentServiceTests  {
 
     private File resourcesDirectory = new File("src/main/resources");
 
-//    @Test
-//    public void testUploadHtmlFile() throws IOException, TikaException, SAXException, FileTypeNotSupportedException {
-//        Path path = Paths.get(resourcesDirectory.getAbsolutePath() + "/test/Index.html");
-//        File file = path.toFile();
-//        documentService.addFileDocument(file);
-//    }
-
     @Test
     public void testDeleteUploadedHtmlFile() throws IOException, TikaException, SAXException, FileTypeNotSupportedException {
         Path path = Paths.get(resourcesDirectory.getAbsolutePath() + "/test/Index.html");
@@ -51,22 +44,11 @@ public class DocumentServiceTests  {
     }
 
     @Test
-    public void testUploadHtmlFile1() throws FileTypeNotSupportedException, TikaException, SAXException, IOException, ParseException {
+    public void testUploadPdfile1() throws FileTypeNotSupportedException, TikaException, SAXException, IOException {
         Path path = Paths.get(resourcesDirectory.getAbsolutePath() + "/test/ChatBotProject.pdf");
         File file = path.toFile();
         documentService.addFileDocument(file, "someone");
         documentService.deleteDocument(file.getName());
-        QueryResult docs = querySystemProcessor.query("what is chatbot");
-//        System.out.println(docs.getContent());
-    }
-
-    @Test
-    public void testUploadFile2() throws FileTypeNotSupportedException, TikaException, SAXException, IOException, ParseException {
-        Path path = Paths.get(resourcesDirectory.getAbsolutePath() + "/test/index.pdf");
-        File file = path.toFile();
-        documentService.addFileDocument(file, "someone");
-        documentService.deleteDocument(file.getName());
-        QueryResult docs = querySystemProcessor.query("what is chatbot");
     }
 
     // https://www.utoronto.ca/contacts
