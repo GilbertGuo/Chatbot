@@ -49,13 +49,21 @@
 .preview{
     width: 270px;
     margin-left: 1%;
+    word-wrap: break-word;
 }
 
 
 .preview p{
     font-size: 13px;
-    border-bottom: 1px solid rgba(0, 0, 0, .125);        
+    border-bottom: 1px solid rgba(0, 0, 0, .125);
+    word-wrap: break-word;
 }
+
+.MuiExpansionPanelDetails-root p{
+    width: 100%;
+    word-wrap: break-word;
+}
+
 .user_message{
     float: right;
     width: 200px;
