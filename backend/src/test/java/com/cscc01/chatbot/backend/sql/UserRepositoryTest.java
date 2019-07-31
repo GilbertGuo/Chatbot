@@ -2,27 +2,26 @@ package com.cscc01.chatbot.backend.sql;
 
 import static org.junit.Assert.assertEquals;
 
-import javax.annotation.Resource;
-
 import com.cscc01.chatbot.backend.model.User;
 import com.cscc01.chatbot.backend.sql.repositories.UserRepository;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.context.junit4.SpringRunner;
 
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(
-  classes = { DatabaseConfiguration.class }, 
-  loader = AnnotationConfigContextLoader.class)
+
+@RunWith(SpringRunner.class)
 @Transactional
+@DataJpaTest
+@AutoConfigureTestDatabase(replace=AutoConfigureTestDatabase.Replace.NONE)
 public class UserRepositoryTest {
      
-    @Resource
+    @Autowired
     private UserRepository userRepository;
      
     @Test

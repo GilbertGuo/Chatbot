@@ -2,29 +2,27 @@ package com.cscc01.chatbot.backend.sql;
 
 import static org.junit.Assert.assertEquals;
 
-import javax.annotation.Resource;
+import java.util.List;
 
 import com.cscc01.chatbot.backend.model.DocumentRecord;
 import com.cscc01.chatbot.backend.sql.repositories.DocumentRecordRepository;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(
-        classes = {DatabaseConfiguration.class},
-        loader = AnnotationConfigContextLoader.class)
+@RunWith(SpringRunner.class)
 @Transactional
+@DataJpaTest
+@AutoConfigureTestDatabase(replace=AutoConfigureTestDatabase.Replace.NONE)
 public class DocumentRecordRepositoryTest {
 
-    @Resource
+    @Autowired
     private DocumentRecordRepository documentRepository;
 
     @Test
@@ -36,7 +34,6 @@ public class DocumentRecordRepositoryTest {
         assertEquals("testdoc", documentRecord2.getName());
         assertEquals("2018-09-07", documentRecord2.getLastModified());
         List<DocumentRecord> d = documentRepository.findAll();
-        assert d != null;
         assertEquals(1, d.size());
     }
 }
