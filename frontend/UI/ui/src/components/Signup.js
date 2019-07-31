@@ -58,6 +58,14 @@ class Signup extends Component {
             textconfirmpasswordError = "password confirmation does not match your password";
         }
 
+        if (this.state.textusername.length < 4) {
+            textusernameError = "username should be at least 4 characters";
+        }
+
+        if (this.state.textpassword.length < 4) {
+            textpasswordError = "password should be at least 4 characters";
+        }
+
         if (textusernameError || textpasswordError || textconfirmpasswordError) {
             this.setState({textusernameError: textusernameError, textpasswordError: textpasswordError, textconfirmpasswordError: textconfirmpasswordError});
             return false;

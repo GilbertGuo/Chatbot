@@ -232,7 +232,7 @@ class Login extends Component {
                     <CssBaseline />
 
                     <div className="login_paper">
-                        <p>{ this.state.errorMsg }</p>
+                        <p className="loginError">{ this.state.errorMsg }</p>
                         <Typography component="h1" variant="h5">
                             Log in
                         </Typography>

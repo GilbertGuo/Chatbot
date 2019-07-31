@@ -108,8 +108,12 @@ width: 100%;
     justify-content: center;
 }
 
-input:invalid {
-    background-color: #c75450;
+/*input:invalid {*/
+/*    background-color: #c75450;*/
+/*}*/
+
+.accessError {
+    padding-top: 40px;
 }
 
 .MuiInputBase-inputMarginDense {
