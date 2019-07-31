@@ -44,24 +44,28 @@ public class AdminOperationController {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(value = "/api/v1/documents/files", method = RequestMethod.POST, consumes = {"multipart/form-data"})
-    public Map<String, Object> uploadFileDocument(@RequestParam("file") MultipartFile file)
+    public Map<String, Object> uploadFileDocument(@RequestParam("file") MultipartFile file,
+                                                  @RequestParam("lastModifiedUser") String username)
             throws IOException, TikaException, SAXException {
         LOGGER.info("Receive upload document: " + file.getOriginalFilename()
                 + " Type : " + file.getContentType()
                 + " Size : " + file.getSize());
         String tempPath = tempDir + "/" + file.getOriginalFilename();
         File receivedFile = new File(tempPath);
+
         file.transferTo(receivedFile);
         try {
-            documentService.addFileDocument(receivedFile);
+            documentService.addFileDocument(receivedFile, username);
         } catch (FileTypeNotSupportedException f) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "File type is not supported", f);
 
         }
         receivedFile.deleteOnExit();
+
         Map<String, Object> response = new HashMap<>();
         response.put("filename", receivedFile.getName());
+        response.put("file", documentRecordRepository.findByName(receivedFile.getName()));
 
         return response;
     }

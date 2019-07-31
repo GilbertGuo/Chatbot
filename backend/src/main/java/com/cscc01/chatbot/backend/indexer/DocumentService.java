@@ -4,6 +4,7 @@ import com.cscc01.chatbot.backend.crawler.CrawlerResultKey;
 import com.cscc01.chatbot.backend.crawler.CrawlerService;
 import com.cscc01.chatbot.backend.indexer.exception.FileTypeNotSupportedException;
 import com.cscc01.chatbot.backend.model.DocumentRecord;
+import com.cscc01.chatbot.backend.model.User;
 import com.cscc01.chatbot.backend.sql.repositories.DocumentRecordRepository;
 import com.ibm.watson.discovery.v1.model.DocumentAccepted;
 import org.apache.tika.exception.TikaException;
@@ -40,7 +41,7 @@ public class DocumentService {
      * @throws FileTypeNotSupportedException
      * @throws SAXException
      */
-    public void addFileDocument(File file) throws IOException, TikaException, FileTypeNotSupportedException, SAXException {
+    public void addFileDocument(File file, String user) throws IOException, TikaException, FileTypeNotSupportedException, SAXException {
         DocumentRecord documentRecord = documentRecordRepository.findByName(file.getName());
         String documentId = UUID.randomUUID().toString();
         if (documentRecord != null) {
@@ -53,7 +54,7 @@ public class DocumentService {
         if (result.getDocumentId() != null) {
             documentId = result.getDocumentId();
         }
-        documentRecord = DocumentRetriever.buildDocumentRecord(file, "someone", documentId);
+        documentRecord = DocumentRetriever.buildDocumentRecord(file, user, documentId);
         if (documentRecordRepository.findByName(documentRecord.getName()) != null) {
             documentRecordRepository.delete(documentRecord);
         }

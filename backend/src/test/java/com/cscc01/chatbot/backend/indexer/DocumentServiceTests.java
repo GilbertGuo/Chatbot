@@ -46,7 +46,7 @@ public class DocumentServiceTests  {
     public void testDeleteUploadedHtmlFile() throws IOException, TikaException, SAXException, FileTypeNotSupportedException {
         Path path = Paths.get(resourcesDirectory.getAbsolutePath() + "/test/Index.html");
         File file = path.toFile();
-        documentService.addFileDocument(file);
+        documentService.addFileDocument(file, "someone");
         documentService.deleteDocument("0");
     }
 
@@ -54,7 +54,7 @@ public class DocumentServiceTests  {
     public void testUploadHtmlFile1() throws FileTypeNotSupportedException, TikaException, SAXException, IOException, ParseException {
         Path path = Paths.get(resourcesDirectory.getAbsolutePath() + "/test/ChatBotProject.pdf");
         File file = path.toFile();
-        documentService.addFileDocument(file);
+        documentService.addFileDocument(file, "someone");
         documentService.deleteDocument(file.getName());
         QueryResult docs = querySystemProcessor.query("what is chatbot");
 //        System.out.println(docs.getContent());
@@ -64,7 +64,7 @@ public class DocumentServiceTests  {
     public void testUploadFile2() throws FileTypeNotSupportedException, TikaException, SAXException, IOException, ParseException {
         Path path = Paths.get(resourcesDirectory.getAbsolutePath() + "/test/index.pdf");
         File file = path.toFile();
-        documentService.addFileDocument(file);
+        documentService.addFileDocument(file, "someone");
         documentService.deleteDocument(file.getName());
         QueryResult docs = querySystemProcessor.query("what is chatbot");
     }
