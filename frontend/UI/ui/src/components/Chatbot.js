@@ -11,8 +11,8 @@ import { If, Then, Else } from 'react-if-elseif-else-render';
 import Pullbar from "./Menu/Pullbar/Pullbar";
 import Hidden from "./Menu/Hidden/Hidden";
 import Background from "./Menu/Background/Background";
-
-import Microlink from '@microlink/react'
+import Avatar from '@material-ui/core/Avatar';
+import FaceIcon from '@material-ui/icons/Face';
 
 class Chatbot extends Component {
 
@@ -156,32 +156,32 @@ class Chatbot extends Component {
 
 
     /********** test only ***********************/
-    getDocumentList = async () => {
-        // fetch data from mock database
-        const data = require('./List/Mock.json');
-        this.setState((prevState) => ({
-            chatArray: prevState.chatArray.concat({
-                from: 'chatbot',
-                msg: "document name: " + data.documents[0].name + " url: " + data.documents[0].url
-            })
-        }), () => {
-            sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
-        });
-    };
+    // getDocumentList = async () => {
+    //     // fetch data from mock database
+    //     const data = require('./List/Mock.json');
+    //     this.setState((prevState) => ({
+    //         chatArray: prevState.chatArray.concat({
+    //             from: 'chatbot',
+    //             msg: "document name: " + data.documents[0].name + " url: " + data.documents[0].url
+    //         })
+    //     }), () => {
+    //         sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
+    //     });
+    // };
     /********test only *************************/
-    getLinkPreview = async() => {
-        const data = require('./List/Mock.json');
-        const url = data.documents[0].url;
-        const preview = <Microlink url = {url} style={{ display: 'inline-block',}} />
-        this.setState((prevState) => ({
-            chatArray: prevState.chatArray.concat({
-                from: 'chatbot',
-                msg: preview
-            })
-        }), () => {
-            sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
-         });
-    };
+    // getLinkPreview = async() => {
+    //     const data = require('./List/Mock.json');
+    //     const url = data.documents[0].url;
+    //     const preview = <Microlink url = {url} style={{ display: 'inline-block',}} />
+    //     this.setState((prevState) => ({
+    //         chatArray: prevState.chatArray.concat({
+    //             from: 'chatbot',
+    //             msg: preview
+    //         })
+    //     }), () => {
+    //         sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
+    //      });
+    // };
     /************************************************************/
     clickEvent = () => {
 
@@ -259,7 +259,7 @@ class Chatbot extends Component {
                                             <If condition={chat.from === 'chatbot'}>
                                                 <Then>
                                                     <div className={chat.from}>
-                                                        <Chip label={chat.from} variant="outlined" />
+                                                        <Chip avatar={<Avatar src="https://i.pinimg.com/originals/7d/9b/1d/7d9b1d662b28cd365b33a01a3d0288e1.gif" style= {{height: "29px", marginLeft:"1px"}}/>} label={chat.from} variant="outlined" />
                                                         <div className="message_inbox">
                                                             <Typography align='left' variant='body1'>{chat.msg}</Typography>
                                                         </div>
@@ -272,7 +272,7 @@ class Chatbot extends Component {
                                                         <div className="user_message">
                                                             <Typography align='left' variant='body1'>{chat.msg}</Typography>
                                                         </div>
-                                                        <Chip label={chat.from} variant="outlined" />
+                                                        <Chip label={chat.from} icon={<FaceIcon />} variant="outlined"  />
                                                     </div>
                                                         {/*</Then>*/}
                                                     {/*</If>*/}
