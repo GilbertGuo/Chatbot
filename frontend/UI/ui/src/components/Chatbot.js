@@ -13,6 +13,9 @@ import Hidden from "./Menu/Hidden/Hidden";
 import Background from "./Menu/Background/Background";
 import Avatar from '@material-ui/core/Avatar';
 import FaceIcon from '@material-ui/icons/Face';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 
 class Chatbot extends Component {
 
@@ -260,9 +263,29 @@ class Chatbot extends Component {
                                                 <Then>
                                                     <div className={chat.from}>
                                                         <Chip avatar={<Avatar src="https://i.pinimg.com/originals/7d/9b/1d/7d9b1d662b28cd365b33a01a3d0288e1.gif" style= {{height: "29px", marginLeft:"1px"}}/>} label={chat.from} variant="outlined" />
-                                                        <div className="message_inbox">
-                                                            <Typography align='left' variant='body1'>{chat.msg}</Typography>
-                                                        </div>
+                                                       
+                                                            <If condition={chat.msg.length > 100}>
+                                                                <Then>
+                                                                    <div className="preview">
+                                                                        <ExpansionPanel>
+                                                                            <ExpansionPanelSummary aria-controls="panel1d-content" id="panel1d-header"  style ={{fontSizeAdjust:"small"}}>
+                                                                                <Typography align='left' style={{fontSize:"medium"}}>Key Word has been located, please click to view the content</Typography>
+                                                                            </ExpansionPanelSummary>
+                                                                            <ExpansionPanelDetails >
+                                                                                <Typography align='left' variant='body1'>
+                                                                                    {chat.msg}
+                                                                                </Typography>
+                                                                            </ExpansionPanelDetails>
+                                                                        </ExpansionPanel>
+                                                                    </div>
+                                                                </Then>
+                                                                <Else>
+                                                                <div className="message_inbox">
+                                                                    <Typography align='left' variant='body1'>{chat.msg}</Typography>
+                                                                </div>
+                                                                </Else>
+                                                            </If>
+                                                       
                                                     </div>
                                                 </Then>
                                                 <Else>
