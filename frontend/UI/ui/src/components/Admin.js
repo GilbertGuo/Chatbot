@@ -75,7 +75,7 @@ class Admin extends Component {
         try {
             await axios.get('http://localhost:8000/api/v1/documents', {headers: headers})
                 .then(res => {
-                    console.log(res);
+                    //console.log(res);
 
                     res.data.documents.map(doc => {
                         this.setState((prevState) => ({
@@ -93,7 +93,7 @@ class Admin extends Component {
                 });
 
         } catch (err) {
-            console.log(err);
+            //console.log(err);
             toast.error(err, {autoClose: 1000});
         }
     };
@@ -115,7 +115,7 @@ class Admin extends Component {
         }
         if (err !== '') { // if message not same old that mean has error
             event.target.value = null; // discard selected file
-            console.log(err);
+            //console.log(err);
             toast.error(err, {autoClose: 1000});
             return false;
         }

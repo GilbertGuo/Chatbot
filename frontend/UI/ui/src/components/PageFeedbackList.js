@@ -10,7 +10,7 @@ const propTypes = {
 
 const defaultProps = {
     initialPage: 1,
-    pageSize: 5
+    pageSize: 10
 }
 
 class Page extends React.Component {
