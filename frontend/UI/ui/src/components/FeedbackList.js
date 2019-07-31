@@ -50,7 +50,7 @@ export default class ControlledExpansionPanels extends Component {
     try {
       await axios.get('http://localhost:8000/api/v1/feedbacks',{ headers: headers })
           .then(res => {
-            console.log(res);
+            //console.log(res);
 
             res.data.feedbacks.map(feedback=>{
               this.setState((prevState) => ({ feedbackmsg: prevState.feedbackmsg.concat(feedback.message)}));
@@ -62,7 +62,7 @@ export default class ControlledExpansionPanels extends Component {
           });
 
     } catch (err) {
-      console.log(err);
+      //console.log(err);
       toast.error(err, { autoClose: 1000 });
     }
   };
