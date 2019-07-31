@@ -280,8 +280,7 @@ class Chatbot extends Component {
                             className="chatBox"
                             value={textValue}
                             onChange={this.changeTextValue}
-                        />
-                        <div ref={el =>{this.el = el;}} />        
+                        />       
                         <Button variant="contained" color="primary" className="button" onClick={this.clickEvent}>
                             Send
                         </Button>
