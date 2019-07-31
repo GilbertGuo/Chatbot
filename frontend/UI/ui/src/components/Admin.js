@@ -75,7 +75,7 @@ class Admin extends Component {
         try {
             await axios.get('http://localhost:8000/api/v1/documents', {headers: headers})
                 .then(res => {
-                    console.log(res);
+                    //console.log(res);
 
                     res.data.documents.map(doc => {
                         this.setState((prevState) => ({
@@ -93,7 +93,7 @@ class Admin extends Component {
                 });
 
         } catch (err) {
-            console.log(err);
+            //console.log(err);
             toast.error(err, {autoClose: 1000});
         }
     };
@@ -115,7 +115,7 @@ class Admin extends Component {
         }
         if (err !== '') { // if message not same old that mean has error
             event.target.value = null; // discard selected file
-            console.log(err);
+            //console.log(err);
             toast.error(err, {autoClose: 1000});
             return false;
         }
@@ -156,13 +156,13 @@ class Admin extends Component {
                     toast.success('Upload file success', {autoClose: 1000});
 
                     this.setState({uploadedFiles: this.state.uploadedFiles.reverse()});
-                    if(this.state.uploadedFiles.some(v => (v.name === res.data.filename))){
+                    if (this.state.uploadedFiles.some(v => (v.name === res.data.filename))) {
                         console.log("duplicate");
                         const uploadedFiles = this.state.uploadedFiles.filter(file => file.name !== res.data.filename);
-                        this.setState({ uploadedFiles: uploadedFiles });
+                        this.setState({uploadedFiles: uploadedFiles});
                     }
 
-                    this.setState({uploadedFiles:this.state.uploadedFiles.reverse()});
+                    this.setState({uploadedFiles: this.state.uploadedFiles.reverse()});
 
                     /**********************************************************************/
                     //need to add response parameters in backend to match username and modified date
@@ -209,13 +209,13 @@ class Admin extends Component {
                         toast.success('Upload url success', {autoClose: 1000});
 
                         this.setState({uploadedFiles: this.state.uploadedFiles.reverse()});
-                        if(this.state.uploadedFiles.some(v => (v.name === res.data.filename))){
+                        if (this.state.uploadedFiles.some(v => (v.name === res.data.filename))) {
                             console.log("duplicate");
                             const uploadedFiles = this.state.uploadedFiles.filter(file => file.name !== res.data.filename);
-                            this.setState({ uploadedFiles: uploadedFiles });
+                            this.setState({uploadedFiles: uploadedFiles});
                         }
 
-                        this.setState({uploadedFiles:this.state.uploadedFiles.reverse()});
+                        this.setState({uploadedFiles: this.state.uploadedFiles.reverse()});
 
                         /**********************************************************************/
                         //need to add response parameters in backend to match username and modified date
@@ -237,6 +237,7 @@ class Admin extends Component {
                     });
             } else {
                 toast.error('Wrong URL format', {autoClose: 1000});
+                toast.error('URL format should be "https://www.example.com"', {autoClose: 5000});
                 this.setState({isProcessing: false});
             }
         }
@@ -285,99 +286,109 @@ class Admin extends Component {
             close = <Background click={this.closeMenu}/>;
         }
         const {latestFiles, pageOfItems} = this.state;
-        return (
+        if (Cookies.get('username')) {
 
-            <div className="adminPage">
-                <Pullbar clickHandler={this.pullToggle}/>
-                {hidden}
-                {close}
-                <div className="dash_container">
-                    { this.state.isProcessing ?
-                        <LinearProgress className="progress_bar"/>
-                        : null
-                    }
+            return (
 
-                    <div className="admin_container">
-                        <div className="form-group">
-                            <ToastContainer/>
-                        </div>
-                        <div className="adminLeft">
+                <div className="adminPage">
+                    <Pullbar clickHandler={this.pullToggle}/>
+                    {hidden}
+                    {close}
+                    <div className="dash_container">
+                        {this.state.isProcessing ?
+                            <LinearProgress className="progress_bar"/>
+                            : null
+                        }
 
-                            <div>
-                                <div className="uploadFile admin_component adminPageItem">
-                                    <h2>Document Upload</h2>
-                                    <input type="file" onChange={this.fileSelectedHandler}/>
-                                    <Button variant="contained" component="span" onClick={this.fileUploadHandler}>
-                                        Upload
-                                    </Button>
+                        <div className="admin_container">
+                            <div className="form-group">
+                                <ToastContainer/>
+                            </div>
+                            <div className="adminLeft">
+
+                                <div>
+                                    <div className="uploadFile admin_component adminPageItem">
+                                        <h2>Document Upload</h2>
+                                        <input type="file" onChange={this.fileSelectedHandler}/>
+                                        <Button variant="contained" component="span" onClick={this.fileUploadHandler}>
+                                            Upload
+                                        </Button>
+                                    </div>
+
+                                    <div className="createURL admin_component adminPageItem">
+                                        <h2 className="custom_h2">Crawl URL</h2>
+                                        <TextField className="url_fields" type="url" placeholder="Type URL" name="url"
+                                                   id="url"
+                                                   margin="dense" onChange={this.changeURLValue}/>
+                                        <Button className="url_field" variant="contained" component="span"
+                                                onClick={this.URLUploadHandler}>
+                                            Crawl
+                                        </Button>
+                                    </div>
                                 </div>
 
-                                <div className="createURL admin_component adminPageItem">
-                                    <h2 className="custom_h2">Crawl URL</h2>
-                                    <TextField className="url_fields" type="url" placeholder="Type URL" name="url" id="url"
-                                               margin="dense" onChange={this.changeURLValue}/>
-                                    <Button className="url_field" variant="contained" component="span" onClick={this.URLUploadHandler}>
-                                        Crawl
-                                    </Button>
+                                <div className="indexerView admin_component adminPageItem">
+                                    <h2>Uploaded Documents</h2>
+
+                                    <div className="table_group">
+                                        <Paper className="classes.paper">
+
+                                            <Table className="classes.table" size="medium">
+                                                <TableHead>
+                                                    <TableRow>
+                                                        <TableCell>Document</TableCell>
+                                                        <TableCell align="right">User</TableCell>
+                                                        <TableCell align="right">Last_modification</TableCell>
+                                                        <TableCell align="right"></TableCell>
+                                                    </TableRow>
+                                                </TableHead>
+
+                                                {
+                                                    pageOfItems.length ?
+                                                        pageOfItems.map((file, i) =>
+                                                            <TableBody key={i}>
+                                                                <TableRow>
+                                                                    <TableCell component="th" scope="row">
+                                                                        {file.name}
+                                                                    </TableCell>
+                                                                    <TableCell
+                                                                        align="right">{file.lastmodifieduser}</TableCell>
+                                                                    <TableCell
+                                                                        align="right">{file.lastmodified}</TableCell>
+                                                                    <TableCell>
+                                                                        <IconButton aria-label="Delete"
+                                                                                    onClick={this.deleteHandler({file})}>
+                                                                            <DeleteIcon/>
+                                                                        </IconButton>
+                                                                    </TableCell>
+                                                                </TableRow>
+                                                            </TableBody>
+                                                        ) : null
+                                                }
+                                            </Table>
+
+                                        </Paper>
+
+                                        {/*<Button variant="contained" component="span" onClick={this.showEvent}>Show</Button>*/}
+                                    </div>
+                                    <Page items={latestFiles} onChangePage={this.onChangePage}/>
                                 </div>
                             </div>
-
-                            <div className="indexerView admin_component adminPageItem">
-                                <h2>Uploaded Documents</h2>
-
-                                <div className="table_group">
-                                    <Paper className="classes.paper">
-
-                                        <Table className="classes.table" size="medium">
-                                            <TableHead>
-                                                <TableRow>
-                                                    <TableCell>Document</TableCell>
-                                                    <TableCell align="right">User</TableCell>
-                                                    <TableCell align="right">Last_modification</TableCell>
-                                                    <TableCell align="right"></TableCell>
-                                                </TableRow>
-                                            </TableHead>
-
-                                            {
-                                                pageOfItems.length ?
-                                                    pageOfItems.map((file, i) =>
-                                                        <TableBody key={i}>
-                                                            <TableRow>
-                                                                <TableCell component="th" scope="row">
-                                                                    {file.name}
-                                                                </TableCell>
-                                                                <TableCell
-                                                                    align="right">{file.lastmodifieduser}</TableCell>
-                                                                <TableCell align="right">{file.lastmodified}</TableCell>
-                                                                <TableCell>
-                                                                    <IconButton aria-label="Delete"
-                                                                                onClick={this.deleteHandler({file})}>
-                                                                        <DeleteIcon/>
-                                                                    </IconButton>
-                                                                </TableCell>
-                                                            </TableRow>
-                                                        </TableBody>
-                                                    ) : null
-                                            }
-                                        </Table>
-
-                                    </Paper>
-
-                                    {/*<Button variant="contained" component="span" onClick={this.showEvent}>Show</Button>*/}
+                            <div className="adminRight">
+                                <div className="feedback">
+                                    <h2>Feedback box</h2>
+                                    <FeedList/>
                                 </div>
-                                <Page items={latestFiles} onChangePage={this.onChangePage}/>
-                            </div>
-                        </div>
-                        <div className="adminRight">
-                            <div className="feedback">
-                                <h2>Feedback box</h2>
-                                <FeedList />
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        } else {
+            return (<div className="accessError">
+                <h2>401 Access Denied</h2>
+            </div>);
+        }
     }
 }
 
