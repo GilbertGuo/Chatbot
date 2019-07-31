@@ -31,13 +31,8 @@ public interface DocumentRecordRepository extends CrudRepository<DocumentRecord,
     @RestResource(exported = false)
     void deleteAll(Iterable<? extends DocumentRecord> entities);
 
-//    @Override
-//    @RestResource(exported = false)
-//    void deleteById(Long aLong);
-
     @Query("SELECT d FROM DocumentRecord d WHERE d.name = ?1")
     DocumentRecord findByName(@Param("name") String name);
-
 
     @Nullable
     List<DocumentRecord> findAll();

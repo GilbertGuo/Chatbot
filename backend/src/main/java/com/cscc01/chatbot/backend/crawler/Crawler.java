@@ -2,10 +2,10 @@ package com.cscc01.chatbot.backend.crawler;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
@@ -44,21 +44,14 @@ public class Crawler extends WebCrawler {
 
             String text = htmlParseData.getText();
             String html = htmlParseData.getHtml();
-            String title = htmlParseData.getTitle()
-                    ;
+            String title = htmlParseData.getTitle();
             result = new HashMap<>();
             result.put(CrawlerResultKey.TITLE, title);
             result.put(CrawlerResultKey.CONTENT, text);
             result.put(CrawlerResultKey.HTML, html);
             result.put(CrawlerResultKey.URL, url);
 
-            Set<WebURL> links = htmlParseData.getOutgoingUrls();
-
-            // Need to add further parsing steps
-            // htmlParseData.getText() is available to usersystem for convenience
-            // jsoup should be added for more precise parsing
-            // crawler4j is only used for scheduling
-            LOGGER.debug("Text : {}", text);
+            LOGGER.debug("URL: {}", url);
             LOGGER.debug("Text length: {}", text.length());
             LOGGER.debug("Html length: {}", html.length());
         }

@@ -1,7 +1,5 @@
 package com.cscc01.chatbot.backend.model;
 
-import com.cscc01.chatbot.backend.model.Role;
-
 public class UserDto {
 
     private String role;
