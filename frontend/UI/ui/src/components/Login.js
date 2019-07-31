@@ -31,7 +31,12 @@ class Login extends Component {
     componentDidMount() {
         if(Cookies.get('token')){
             const location = {
-                pathname: '/Chatbot',
+                pathname: '/Chatbot'
+            };
+            this.props.history.push(location);
+        } else {
+            const location = {
+                pathname: '/Login'
             };
             this.props.history.push(location);
         }

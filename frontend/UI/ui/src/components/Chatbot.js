@@ -121,6 +121,7 @@ class Chatbot extends Component {
                 .then(res => {
                     // update result in the state.
 
+                    console.log(res);
                     if (res.status === 200) {
                         if(res.data.message){
                             this.setState((prevState) => ({ chatArray: prevState.chatArray.concat({ from: 'chatbot', msg: res.data.message }) }), () => {
@@ -132,7 +133,7 @@ class Chatbot extends Component {
                                 sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
                             });
                         }
-                        console.log(res);
+
                         // this.setState((prevState) => ({ chatArray: prevState.chatArray.concat({ from: 'chatbot', msg: res.data.documents }) }), () => {
                         //     sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
                         // });
@@ -142,7 +143,7 @@ class Chatbot extends Component {
                                  msg: res.data.documents
                              })
                          });*/
-                        console.log(res);
+
                     } else {
                         console.log("error");
                     }
