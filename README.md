@@ -51,9 +51,9 @@ When open the page, users(including admin and normal user) need to either login 
         *  Documents list
     *  User feedback list
     *  Note: we have provided few admin accounts
-        *  Username: dfiadmin Password: admin123
-        *  Username: admin Password: n^:E6JDTR?dhn:#f
-        *  Username: abbas Password: 557?ZcZcQ?}L$n$[
+        *  Username: __dfiadmin__ Password: __admin123__
+        *  Username: __admin__ Password: __n^:E6JDTR?dhn:#f__
+        *  Username: __abbas__ Password: __557?ZcZcQ?}L$n$[__
 *  For normal users, they can login to use chatbot main functionality by querying the information. If the query is not recognized by backend, we will let users know about it. If a document is returned, users can preview the document as well.
 
 ### API
