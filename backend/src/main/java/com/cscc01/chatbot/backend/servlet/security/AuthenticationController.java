@@ -51,7 +51,7 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/users/signup", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, Object>> userSignUp(@RequestBody SignUpDto signUpReq) {
-        return handleUserSignUp(signUpReq, Role.ADMIN);
+        return handleUserSignUp(signUpReq, Role.USER);
     }
 
     @PreAuthorize("hasAuthority(hasRole('ROLE_ADMIN'))")
