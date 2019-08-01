@@ -36,4 +36,16 @@ public class DocumentRecordRepositoryTest {
         List<DocumentRecord> d = documentRepository.findAll();
         assertEquals(1, d.size());
     }
+
+    @Test
+    public void givenDocument_whenSave_thenDeleteOk() {
+        DocumentRecord documentRecord1 = new DocumentRecord("testdoc");
+        documentRecord1.setLastModified("2018-09-07");
+        documentRepository.save(documentRecord1);
+        List<DocumentRecord> d = documentRepository.findAll();
+        assertEquals(1, d.size());
+        documentRepository.delete(documentRecord1);
+        d = documentRepository.findAll();
+        assertEquals(0, d.size());
+    }
 }

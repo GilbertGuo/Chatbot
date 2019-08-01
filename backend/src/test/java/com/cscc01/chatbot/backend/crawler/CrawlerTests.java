@@ -25,7 +25,7 @@ public class CrawlerTests {
     public void testUTSCCrawler() throws Exception {
         String seedUrl = "https://www.utsc.utoronto.ca/home/";
         CrawlerService crawlerService = mock(CrawlerService.class);
-        // when(crawlerService.startCrawler(seedUrl)).thenReturn("");
+        when(crawlerService.startCrawler(seedUrl)).thenReturn("");
         Map<CrawlerResultKey, String> scrapedResult = crawlerService.startCrawler(seedUrl);
         assertTrue(scrapedResult.get(CrawlerResultKey.CONTENT).contains("U of T"));
     }

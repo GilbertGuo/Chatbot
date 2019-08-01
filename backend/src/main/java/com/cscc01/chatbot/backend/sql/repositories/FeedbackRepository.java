@@ -18,22 +18,6 @@ public interface FeedbackRepository extends CrudRepository<Feedback, Long> {
     @RestResource(exported = false)
     <S extends Feedback> S save(S entity);
 
-    @Override
-    @RestResource(exported = false)
-    void delete(Feedback entity);
-
-    @Override
-    @RestResource(exported = false)
-    void deleteAll();
-
-    @Override
-    @RestResource(exported = false)
-    void deleteAll(Iterable<? extends Feedback> entities);
-
-    @Override
-    @RestResource(exported = false)
-    void deleteById(Long aLong);
-
     @Nullable
     List<Feedback> findAll();
 

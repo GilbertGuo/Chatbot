@@ -1,6 +1,7 @@
 package com.cscc01.chatbot.backend.sql;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import com.cscc01.chatbot.backend.model.User;
 import com.cscc01.chatbot.backend.sql.repositories.UserRepository;
@@ -32,5 +33,26 @@ public class UserRepositoryTest {
          
         User user2 = userRepository.findByUsername("test");
         assertEquals("test", user2.getUsername());
+    }
+
+         
+    @Test
+    public void givenUser_whenSave_thenGetAllOk() {
+        User user1 = new User();
+        user1.setUsername("test");
+        userRepository.save(user1);
+         
+        User user2 = userRepository.findAll().iterator().next();
+        assertEquals("test", user2.getUsername());
+    }
+
+    @Test
+    public void givenUser_whenSave_thenDelete() {
+        User user1 = new User();
+        user1.setUsername("test");
+        userRepository.save(user1);
+        userRepository.delete(user1);
+        
+        assertFalse(userRepository.findAll().iterator().hasNext());
     }
 }
