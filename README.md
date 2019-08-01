@@ -28,6 +28,8 @@ As a chatbot, our product has basic funtionality of giving out information based
 
 2. JDK 1.8
 
+3. npm
+
 ### Build and Installation
 
 Run following commands at the same time at root dir.
