@@ -8,11 +8,17 @@ import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 
+/**
+ * This initializer exposed as a Spring Component
+ */
 @Component
 public class CrawlerInitializer {
 
-    // private CrawlController controller;
-
+    /**
+     *  This method configures all the properties that the cralwercontroller needs to have
+     * @return the configured CrawlerController
+     * @throws Exception
+     */
     public CrawlController getCrawlController() throws Exception {
         CrawlConfig config = new CrawlConfig();
 
@@ -45,11 +51,6 @@ public class CrawlerInitializer {
         // rootFolder manually.
         config.setResumableCrawling(CrawlerConfiguration.RESUMABLE_CRAWLING);
 
-        // Set this to true if you want crawling to stop whenever an unexpected error
-        // occurs. You'll probably want this set to true when you first start testing
-        // your crawler, and then set to false once you're ready to let the crawler run
-        // for a long time.
-        // config.setHaltOnError(true);
 
         // Instantiate the controller for this crawl.
         PageFetcher pageFetcher = new PageFetcher(config);

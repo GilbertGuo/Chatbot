@@ -3,6 +3,10 @@ package com.cscc01.chatbot.backend.sql;
 import org.hibernate.MappingException;
 import org.hibernate.dialect.identity.IdentityColumnSupportImpl;
 
+/**
+ * This class further defines the SQLite dialect for Spring JPA and Hibernate
+ * @see SQLiteDialect
+ */
 public class SQLiteIdentityColumnSupport extends IdentityColumnSupportImpl {
 
     @Override

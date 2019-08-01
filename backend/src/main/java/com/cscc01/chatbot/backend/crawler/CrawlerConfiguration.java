@@ -2,6 +2,9 @@ package com.cscc01.chatbot.backend.crawler;
 
 import java.util.regex.Pattern;
 
+/**
+ * This class stores all the configuration that the crawler4j needs
+ */
 public class CrawlerConfiguration {
     
     protected static final Pattern FILTERS = Pattern.compile(

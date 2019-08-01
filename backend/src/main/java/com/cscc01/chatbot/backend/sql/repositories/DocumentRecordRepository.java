@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 
+/**
+ * This class defines CrudRepository specifically for DocumentRecord model
+ * and these methods' signitures are auto-identified by Spring JPA in specific format
+ */
 @CrossOrigin
 @RepositoryRestResource(collectionResourceRel = "documents", path = "documents")
 public interface DocumentRecordRepository extends CrudRepository<DocumentRecord, Long> {

@@ -8,6 +8,10 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import com.cscc01.chatbot.backend.model.User;
 
+/**
+ * This class defines CrudRepository specifically for User model
+ * and these methods' signitures are auto-identified by Spring JPA in specific format
+ */
 @CrossOrigin
 @RepositoryRestResource(collectionResourceRel = "users", path = "users")
 public interface UserRepository extends CrudRepository<User, Long> {
