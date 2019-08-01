@@ -5,7 +5,7 @@
 - [Features](#features)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
+  - [Build and Installation](#build-and-installation)
 - [Usages](#usage)
 - [Major libraries and dependencies](#major-libraries-and-dependencie)
 
@@ -15,7 +15,7 @@ As a chatbot, our product has basic funtionality of giving out information based
 
 
 *  Admins have the ability to view all the anonymous user feedbacks and capabilities to start cralwer, upload and check the documents held on IBM Watson. 
-    *  The crawler is now configured to be single-thread but has the option of multithread, other features can also be configured in CrawlerConfiguration class
+    *  The crawler is now configured to be single-thread but has the option of multithread, other features can also be configured in __backend/src/main/com.cscc01.chatbot.backend.crawlerCrawlerConfiguration__ class, i.e. MAX_PAGES_FETCH for total amount of pages that the crawler will fetech and MAX_DEPTH_CRAWLING for crawling depth
 *  Security of the communication between static frontend and backend is ensured by JWT Oauth token.
 *  Logger is enable on backend as well to ensure backlog if something on backend fails in someway.
 
@@ -30,7 +30,14 @@ As a chatbot, our product has basic funtionality of giving out information based
 
 ### Build and Installation
 
-``<Instatllation code lies here>``
+Run following commands at the same time at root dir.
+
+``sh backend-build.sh``
+
+
+``sh frontend-build.sh``
+
+As a result, the frontend UI will be automatically open in the browser.
 
 ### Usage
 
