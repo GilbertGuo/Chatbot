@@ -38,11 +38,11 @@ When open the page, users(including admin and normal user) need to either login 
 
 
 *  For admins, they can login to have access on the admin dashboard, consisting of two main parts as following:
-  1.  Documents management
-        1.  Cralwer option
-        2.  Document upload
-        3.  Documents list
-  2.  User feedback list
+    *  Documents management
+        *  Cralwer option
+        *  Document upload
+        *  Documents list
+    *  User feedback list
 *  For normal users, they can login to use chatbot main functionality by querying the information. If the query is not recognized by backend, we will let users know about it. If a document is returned, users can preview the document as well.
 
 ### API
