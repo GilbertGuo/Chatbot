@@ -12,10 +12,12 @@
 ## Features
 
 As a chatbot, our product has basic funtionality of giving out information based on user given queries. It is designed to be closed-domain chatbot with information-fetching system. It also has the features specifically for admin and normal users.
-* Admins have the ability to view all the anonymous user feedbacks and capabilities to start cralwer, upload and check the documents held on IBM Watson. 
-    * The crawler is now configured to be single-thread but has the option of multithread, other features can also be configured in CrawlerConfiguration class
-* Security of the communication between static frontend and backend is ensured by JWT Oauth token.
-* Logger is enable on backend as well to ensure backlog if something on backend fails in someway.
+
+
+*  Admins have the ability to view all the anonymous user feedbacks and capabilities to start cralwer, upload and check the documents held on IBM Watson. 
+    *  The crawler is now configured to be single-thread but has the option of multithread, other features can also be configured in CrawlerConfiguration class
+*  Security of the communication between static frontend and backend is ensured by JWT Oauth token.
+*  Logger is enable on backend as well to ensure backlog if something on backend fails in someway.
 
 
 ## Getting Started
@@ -38,9 +40,9 @@ When open the page, users(including admin and normal user) need to either login 
 *  For admins, they can login to have access on the admin dashboard, consisting of two main parts as following:
   1.  Documents management
         1.  Cralwer option
-        1.  Document upload
-        1.  Documents list
-  1.  User feedback list
+        2.  Document upload
+        3.  Documents list
+  2.  User feedback list
 *  For normal users, they can login to use chatbot main functionality by querying the information. If the query is not recognized by backend, we will let users know about it. If a document is returned, users can preview the document as well.
 
 ### API
