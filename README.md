@@ -32,14 +32,16 @@ As a chatbot, our product has basic funtionality of giving out information based
 
 ### Usage
 
-When open the page, users(including admin and normal user) need to either login or signup to has access on their main pages. </br>
-* For admins, they can login to have access on the admin dashboard, consisting of two main parts as following:
-  1. Documents management
-        1. Cralwer option
-        1. Document upload
-        1. Documents list
-  1. User feedback list
-+ For normal users, they can login to use chatbot main functionality by querying the information. If the query is not recognized by backend, we will let users know about it. If a document is returned, users can preview the document as well.
+When open the page, users(including admin and normal user) need to either login or signup to has access on their main pages.
+
+
+*  For admins, they can login to have access on the admin dashboard, consisting of two main parts as following:
+  1.  Documents management
+        1.  Cralwer option
+        1.  Document upload
+        1.  Documents list
+  1.  User feedback list
+*  For normal users, they can login to use chatbot main functionality by querying the information. If the query is not recognized by backend, we will let users know about it. If a document is returned, users can preview the document as well.
 
 ### API
 RESTful API is followed on backend. If API call is needed, do as following:
