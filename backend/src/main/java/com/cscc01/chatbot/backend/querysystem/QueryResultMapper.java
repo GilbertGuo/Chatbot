@@ -28,7 +28,7 @@ public class QueryResultMapper {
     public static QueryResult fromDiscoveryResult(QueryResponse response) {
         return new QueryResult.Builder()
                 .content(response.getResults().get(0).get("text").toString())
-                .filename(LuceneFieldConstants.FILE_NAME.getText())
+                .filename(response.getResults().get(0).getTitle())
                 .build();
     }
 }
