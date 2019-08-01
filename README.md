@@ -30,13 +30,13 @@ As a chatbot, our product has basic funtionality of giving out information
 ## Major libraries and Dependencie
 
 * Frontend
-  * React
+    * React
 * Backend
-  * Spring Boot
-  * Spring JPA & Hibernate
-  * Crawler4j
-  * JWT
-  * Apache Lucene
-  * Tika
-  * Slf4j
-  * IBM Watson SDK
+    * Spring Boot
+    * Spring JPA & Hibernate
+    * Crawler4j
+    * JWT
+    * Apache Lucene
+    * Tika
+    * Slf4j
+    * IBM Watson SDK
