@@ -222,8 +222,8 @@ class Admin extends Component {
                         this.setState((prevState) => ({
                             uploadedFiles: prevState.uploadedFiles.concat({
                                 name: res.data.filename,
-                                lastmodified: '123',
-                                lastmodifieduser: 'someone'
+                                lastmodified: res.data.file.lastModified,
+                                lastmodifieduser: res.data.file.lastModifiedUser
                             })
                         }));
 
