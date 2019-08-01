@@ -7,7 +7,7 @@
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Usages](#usage)
-- [Major libraries and dependencies](#markdown-heading-major-libraries-and-dependencie)
+- [Major libraries and dependencies](#major-libraries-and-dependencie)
 
 ## Features
 
