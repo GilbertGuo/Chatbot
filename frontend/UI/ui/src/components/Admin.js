@@ -162,7 +162,7 @@ class Admin extends Component {
                         this.setState({uploadedFiles: uploadedFiles});
                     }
 
-                    this.setState({uploadedFiles: this.state.uploadedFiles.reverse()});
+                    //this.setState({uploadedFiles: this.state.uploadedFiles.reverse()});
 
                     /**********************************************************************/
                     //need to add response parameters in backend to match username and modified date
@@ -215,7 +215,7 @@ class Admin extends Component {
                             this.setState({uploadedFiles: uploadedFiles});
                         }
 
-                        this.setState({uploadedFiles: this.state.uploadedFiles.reverse()});
+                        //this.setState({uploadedFiles: this.state.uploadedFiles.reverse()});
 
                         /**********************************************************************/
                         //need to add response parameters in backend to match username and modified date
