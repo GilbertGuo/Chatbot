@@ -32,7 +32,7 @@ As a chatbot, our product has basic funtionality of giving out information based
 
 ### Usage
 
-When open the page, users(including admin and normal user) need to either login or signup to has access on their main pages. 
+When open the page, users(including admin and normal user) need to either login or signup to has access on their main pages. </br>
 * For admins, they can login to have access on the admin dashboard, consisting of two main parts as following:
   1. Documents management
         1. Cralwer option
