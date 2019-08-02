@@ -62,7 +62,6 @@ export default class ControlledExpansionPanels extends Component {
           });
 
     } catch (err) {
-      //console.log(err);
       toast.error(err, { autoClose: 1000 });
     }
   };
