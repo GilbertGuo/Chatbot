@@ -90,7 +90,7 @@
 | Question | Expected | Actual |
 | --- | --- | --- |
 | Show me your progress for week 7 | 5 | 5 |
-| Demo Application | 5 |  |
+| Demo Application | 5 | 5 |
 
 **Comments**
 
