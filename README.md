@@ -31,15 +31,37 @@ As a chatbot, our product has basic funtionality of giving out information based
 3. npm
 
 ### Build and Installation
+You can either run provided script or commands below.
 
-Run following commands at the same time at root dir.
+At directory `Backend/` 
+```
+mvn clean install
+mvn spring-boot:run
+```
+Open up a new terminal console, at directory `frontend/UI/ui` 
+```
 
-``sh backend-build.sh``
+npm install
+npm start
+```
+As a result, the frontend UI will be automatically open in the browser.
 
-
-``sh frontend-build.sh``
+To run the provided script run following commands in different terminals at root dir.
+Start backend:
+``
+sh backend-build.sh
+``
+Start frontend:
+``
+sh frontend-build.sh
+``
 
 As a result, the frontend UI will be automatically open in the browser.
+
+### Testing
+Backend tests is under `backend/src/test`, to run backend tests, run command `mvn test`.
+
+Frontend tests is under `frontend/UI/ui/src/__test__`, to run backend tests, run command `npm run test`.
 
 ### Usage
 
