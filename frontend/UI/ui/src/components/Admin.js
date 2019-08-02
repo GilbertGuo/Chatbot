@@ -30,7 +30,6 @@ class Admin extends Component {
         this.state = {
             hiddenStatus: false,
             selectedFile: null,
-            // uploadedFiles: [{ name: null, lastmodified: null, lastmodifieduser: null}],
             uploadedFiles: [],
             latestFiles: [],
             selectedurl: null,
@@ -75,8 +74,6 @@ class Admin extends Component {
         try {
             await axios.get('http://localhost:8000/api/v1/documents', {headers: headers})
                 .then(res => {
-                    //console.log(res);
-
                     res.data.documents.map(doc => {
                         this.setState((prevState) => ({
                             uploadedFiles: prevState.uploadedFiles.concat({
@@ -93,7 +90,6 @@ class Admin extends Component {
                 });
 
         } catch (err) {
-            //console.log(err);
             toast.error(err, {autoClose: 1000});
         }
     };
@@ -115,7 +111,6 @@ class Admin extends Component {
         }
         if (err !== '') { // if message not same old that mean has error
             event.target.value = null; // discard selected file
-            //console.log(err);
             toast.error(err, {autoClose: 1000});
             return false;
         }
@@ -161,8 +156,6 @@ class Admin extends Component {
                         const uploadedFiles = this.state.uploadedFiles.filter(file => file.name !== res.data.filename);
                         this.setState({uploadedFiles: uploadedFiles});
                     }
-
-                    //this.setState({uploadedFiles: this.state.uploadedFiles.reverse()});
 
                     /**********************************************************************/
                     //need to add response parameters in backend to match username and modified date
@@ -214,8 +207,6 @@ class Admin extends Component {
                             const uploadedFiles = this.state.uploadedFiles.filter(file => file.name !== res.data.filename);
                             this.setState({uploadedFiles: uploadedFiles});
                         }
-
-                        //this.setState({uploadedFiles: this.state.uploadedFiles.reverse()});
 
                         /**********************************************************************/
                         //need to add response parameters in backend to match username and modified date
@@ -277,8 +268,6 @@ class Admin extends Component {
 
     render() {
 
-        // const { status, uploadedFiles } = this.state;
-        // //console.log(urlvalue);
         let hidden;
         let close;
         if (this.state.hiddenStatus) {
@@ -368,8 +357,6 @@ class Admin extends Component {
                                             </Table>
 
                                         </Paper>
-
-                                        {/*<Button variant="contained" component="span" onClick={this.showEvent}>Show</Button>*/}
                                     </div>
                                     <Page items={latestFiles} onChangePage={this.onChangePage}/>
                                 </div>
