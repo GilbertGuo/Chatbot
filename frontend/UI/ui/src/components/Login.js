@@ -44,7 +44,6 @@ class Login extends Component {
     }
 
     handleusernameChange(event) {
-        // if (event.target.value)
         this.setState({txtusername: event.target.value});
     }
 
@@ -155,7 +154,6 @@ class Login extends Component {
 
 
     render() {
-        //console.log(this.state.errorMsg);
         return (
             <div>
                 <Pullbar/>

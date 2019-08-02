@@ -4,7 +4,6 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import './Feedback.css';
 import Container from '@material-ui/core/Container';
-//import Icon from '@material-ui/core/Icon';
 import Hidden from "./Menu/Hidden/Hidden";
 import Background from "./Menu/Background/Background";
 import Pullbar from "./Menu/Pullbar/Pullbar";
@@ -13,7 +12,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'js-cookie';
 
 
-/*Fake Feedback UI for testing the API and can be deleted.*/
 class Feedback extends Component {
 
     constructor(props) {
@@ -59,7 +57,7 @@ class Feedback extends Component {
                 if (response.status === 200) {
                     toast.success('Feedback successfully sent!', {autoClose: 1000});
                 }
-                // console.log(response)
+
             })
             .catch(error => {
                 console.log(error);
