@@ -76,6 +76,7 @@ public class AdminOperationController {
         String filename = documentService.addUrlDocument(urlUploadRequest.getUrl());
         Map<String, Object> response = new HashMap<>();
         response.put("filename", filename);
+        response.put("file", documentRecordRepository.findByName(filename));
         return response;
     }
 

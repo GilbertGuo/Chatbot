@@ -5,6 +5,11 @@ import org.hibernate.dialect.identity.IdentityColumnSupport;
 
 import java.sql.Types;
 
+/**
+ * This class defines the dialect of SQLite for Spring JPA and Hibernate
+ * since those two do not support SQLite by default, we have to define the dialect
+ * on our own
+ */
 public class SQLiteDialect extends Dialect {
 
     public SQLiteDialect() {
