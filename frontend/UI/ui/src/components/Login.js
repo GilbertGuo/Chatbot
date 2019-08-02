@@ -17,10 +17,10 @@ class Login extends Component {
         super(props);
         this.state = {
             errorMsg: '',
-            txtusername:'',
-            txtpassword:'',
-            txtusernameError:'',
-            txtpasswordError:''
+            txtusername: '',
+            txtpassword: '',
+            txtusernameError: '',
+            txtpasswordError: ''
         };
 
         this.handleusernameChange = this.handleusernameChange.bind(this);
@@ -29,7 +29,7 @@ class Login extends Component {
     }
 
     componentDidMount() {
-        if(Cookies.get('token')){
+        if (Cookies.get('token')) {
             const location = {
                 pathname: '/Chatbot'
             };
@@ -71,13 +71,14 @@ class Login extends Component {
         return true;
 
     };
+
     // the handler function for login
-    signInSubmit(event){
+    signInSubmit(event) {
         event.preventDefault();
         const isValid = this.validate();
         // get all user inputs
         if (isValid) {
-            const {txtusername,txtpassword} = this.state;
+            const {txtusername, txtpassword} = this.state;
             // send username and password to the backend
             this.sendSignIn(txtusername, txtpassword);
         }
@@ -88,7 +89,7 @@ class Login extends Component {
         const response = await fetch('http://localhost:8000/oauth/token', {
             method: 'POST',
             headers: {
-                "Authorization":"Basic "+ btoa("chatbot:L80eUZjHnafVOG5TWRenSGfiMkPL2j03"),
+                "Authorization": "Basic " + btoa("chatbot:L80eUZjHnafVOG5TWRenSGfiMkPL2j03"),
                 "Content-Type": "application/x-www-form-urlencoded"
             },
             body:
@@ -133,13 +134,13 @@ class Login extends Component {
                 });
 
                 const role_body = await responses.json();
-                if(role_body) {
+                if (role_body) {
                     // console.log(role_body);
                     Cookies.set('role', role_body.role);
                 }
 
 
-                sessionStorage.setItem("chatArray", JSON.stringify([{from:"chatbot",msg:"hi"}]));
+                sessionStorage.setItem("chatArray", JSON.stringify([{from: "chatbot", msg: "hi"}]));
 
 
                 // redirect to Chat page
@@ -150,77 +151,7 @@ class Login extends Component {
             }
         }
 
-
-
-        /***************************test only************************/
-        /*   remove below line after implementing backend for signup */
-       /* const location = {
-            pathname: '/Chatbot',
-            state: this.state
-        };
-        this.props.history.push(location);*/
     };
-
-    /********************************** Google Login section ************************/
-   /* failureGoogle = (error) => {
-        this.setState({
-            errorMsg: 'Google Login Failed'
-        });
-    };
-
-    responseGoogle = (response) => {
-
-        console.log(response);
-        // console.log(response.accessToken);
-        // console.log(response.profileObj.name);
-
-
-        /!************** uncomment this section once finished backend for Google login *******************!/
-
-        const tokenBlob = new Blob([JSON.stringify({access_token: response.accessToken}, null, 2)], {type : 'application/json'});
-
-        const options = {
-            method: 'POST',
-            body: tokenBlob,
-            mode: 'cors',
-            cache: 'default'
-        };
-
-        fetch('http://localhost:8000/api/v1/auth/google', options).then(r => {
-
-            if (r.status === 200) {
-                const token = r.headers.get('x-auth-token');
-                r.json().then(user => {
-                    console.log(token);
-                    if (token) {
-                        Cookies.set('token', token);
-                        Cookies.set('username', user);
-
-                        // redirect to Chat page
-                        const location = {
-                            pathname: '/Chatbot',
-                        };
-                        this.props.history.push(location);
-                    }
-                });
-            } else {
-                console.log("error");
-            }
-        });
-*/
-
-        /***************************test only************************/
-        /*   remove below line after implementing backend for signup */
-        /*this.setState({username:response.profileObj.name, token:response.accessToken});
-
-        const location = {
-            pathname: '/Chatbot',
-            state: this.state
-        };
-        this.props.history.push(location);*/
-
-    //};
-
 
 
     render() {
@@ -229,10 +160,10 @@ class Login extends Component {
             <div>
                 <Pullbar/>
                 <Container maxWidth="xs" className="LoginContainer">
-                    <CssBaseline />
+                    <CssBaseline/>
 
                     <div className="login_paper">
-                        <p className="loginError">{ this.state.errorMsg }</p>
+                        <p className="loginError">{this.state.errorMsg}</p>
                         <Typography component="h1" variant="h5">
                             Log in
                         </Typography>
@@ -271,25 +202,9 @@ class Login extends Component {
                                     variant="contained"
                                     color="primary"
                                     className="LoginSubmit"
-                                        >
-                                        Log In
-                                </Button>
-
-                                {/*<Button
-                                    fullWidth
-                                    color="secondary"
-                                    variant="contained"
-                                    className="GoogleLogin"
                                 >
-                                    Log in with Google
-                                </Button>*/}
-
-                           {/* <GoogleLogin
-                                clientId="385285346936-qodrif2b1q9f53k8ssbb81d2getrf3dd.apps.googleusercontent.com"
-                                buttonText="Log in with Google"
-                                onSuccess={this.responseGoogle}
-                                onFailure={this.failureGoogle}
-                            />*/}
+                                    Log In
+                                </Button>
 
                             </div>
                             <Grid container>
