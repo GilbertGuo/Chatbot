@@ -79,39 +79,6 @@ class Chatbot extends Component {
         this.setState({ textValue: e.target.value });
     };
 
-    /********** test only ***********************/
-    postUserData = () => {
-        const name = { name: this.state.textValue, username: Cookies.get('username') };
-        try {
-            axios.post("https://jsonplaceholder.typicode.com/users", name)
-                // upon request is success sent
-                .then(res => {
-                    // update result in the state.
-                    console.log(res)
-                });
-        } catch (err) {
-            console.log(err);
-        }
-    };
-    /************************************************************/
-
-    /********** test only ***********************/
-    getUserData = async () => {
-        const response = await fetch('https://jsonplaceholder.typicode.com/users');
-        const body = await response.json();
-        if (body) {
-            this.setState((prevState) => ({ chatArray: prevState.chatArray.concat({ from: 'chatbot', msg: body[0].name }) }), () => {
-                sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
-            });
-        } else {
-            console.log("error");
-        }
-    };
-    /************************************************************/
-
-
-
-
     query = () => {
         const message = { message: this.state.textValue, username: Cookies.get('username') };
         let headers = {
@@ -162,11 +129,7 @@ class Chatbot extends Component {
             }), () => {
                 sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
             });
-            /********** test only ***********************/
-            if (this.state.textValue.includes("!")) {
-                this.postUserData();
-                this.getUserData();
-            }
+
             this.query();
 
             if (this.state.textValue !== '') {
