@@ -46,6 +46,4 @@ public class ChatbotController {
         response.put("message", "Feedback successfully sent!");
         return ResponseEntity.ok().body(response);
     }
-
-
 }

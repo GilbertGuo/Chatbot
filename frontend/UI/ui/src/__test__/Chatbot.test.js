@@ -1,8 +1,9 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow,mount } from 'enzyme';
 import Chatbot from '../components/Chatbot';
 import TextField from "@material-ui/core/TextField";
 import Typography from '@material-ui/core/Typography';
+
 
 describe("[UNIT] Testing the Chatbot component", () => {
     let wrapper;
@@ -17,8 +18,11 @@ describe("[UNIT] Testing the Chatbot component", () => {
         });
 
         it('correct input chat textfield change', () => {
-            wrapper.find(TextField).simulate('change', {target: {value: 'how are you'}});
-            expect(wrapper.state('textValue')).toEqual('how are you');
+
+            const wrapper2 = mount(<Chatbot history={historyMock} />)
+            wrapper2.find(TextField).simulate('change', {target: {value: ''}});
+            expect(wrapper2.state('textValue')).toEqual('');
+
         });
 
     });

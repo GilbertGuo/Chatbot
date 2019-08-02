@@ -6,6 +6,9 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+/**
+ * Feedback model
+ */
 @Entity
 public class Feedback {
 
@@ -25,22 +28,37 @@ public class Feedback {
         this.message = message;
     }
 
+    /**
+     * @return current feedback's message
+     */
     public String getMessage() {
         return message;
     }
 
+    /**
+     * @param message the message of the feedback
+     */
     public void setMessage(String message) {
         this.message = message;
     }
 
+    /**
+     * @return current feedback's creation time
+     */
     public LocalDateTime getCreateDateTime(){
         return createDateTime;
     }
 
+    /**
+     * @param createDateTime localtime of the feedback created
+     */
     public void setCreateDateTime(LocalDateTime createDateTime){
         this.createDateTime = createDateTime;
     }
 
+    /**
+     * @return string representation of current feedback
+     */
     @Override
     public String toString(){
         return this.message;

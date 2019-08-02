@@ -8,6 +8,10 @@ import edu.uci.ics.crawler4j.crawler.CrawlController;
 
 import java.util.Map;
 
+/**
+ * Inject the initializer into this class and start all the cralwer instances 
+ * as a Spring Service
+ */
 @Service
 public class CrawlerService{ 
     private CrawlController controller;
@@ -15,6 +19,12 @@ public class CrawlerService{
     @Inject
     private CrawlerInitializer crawlerInitializer;
 
+    /**
+     * Start the crawler and get back some details about the URL provided
+     * @param url the seed url
+     * @return the cralwing result in a map format
+     * @throws Exception
+     */
     public Map<CrawlerResultKey, String> startCrawler(String url) throws Exception {
         this.controller = crawlerInitializer.getCrawlController();
         // For each crawl, you need to add some seed urls. These are the first
