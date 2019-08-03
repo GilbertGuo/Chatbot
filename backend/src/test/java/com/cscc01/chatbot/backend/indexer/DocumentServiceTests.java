@@ -55,7 +55,7 @@ public class DocumentServiceTests  {
 
     @Test
     public void testDeleteUploadedUrl() throws Exception {
-        String filename = documentService.addUrlDocument("https://www.utoronto.ca/contacts");
+        String filename = documentService.addUrlDocument("https://www.utoronto.ca/contacts", "dfiadmin");
         documentService.deleteDocument(filename);
     }
 
