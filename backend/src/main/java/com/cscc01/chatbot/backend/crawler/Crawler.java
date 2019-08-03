@@ -2,10 +2,10 @@ package com.cscc01.chatbot.backend.crawler;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
@@ -14,9 +14,13 @@ import edu.uci.ics.crawler4j.url.WebURL;
 public class Crawler extends WebCrawler {
     private static final Logger LOGGER = LoggerFactory.getLogger(Crawler.class);
     private Map<CrawlerResultKey, String> result;
+
     /**
-     * You should implement this function to specify whether the given url
-     * should be crawled or not (based on your crawling logic).
+     * Override the shouldVisit method inherited frim WebCrawler,
+     * sugguesting which URL should be visited and which should be ignored
+     * @param referringPage the Page object
+     * @param url the WebURL object for the url waited to be determined
+     * @return the boolean stands for whether or not the url should be visited
      */
     @Override
     public boolean shouldVisit(Page referringPage, WebURL url) {
@@ -30,9 +34,10 @@ public class Crawler extends WebCrawler {
         return true;
     }
 
+
     /**
-     * This function is called when a page is fetched and ready to be processed
-     * by your program.
+     * Save the crawled URL's info into a HashMap
+     * @param page 
      */
     @Override
     public void visit(Page page) {
@@ -44,26 +49,23 @@ public class Crawler extends WebCrawler {
 
             String text = htmlParseData.getText();
             String html = htmlParseData.getHtml();
-            String title = htmlParseData.getTitle()
-                    ;
+            String title = htmlParseData.getTitle();
             result = new HashMap<>();
             result.put(CrawlerResultKey.TITLE, title);
             result.put(CrawlerResultKey.CONTENT, text);
             result.put(CrawlerResultKey.HTML, html);
             result.put(CrawlerResultKey.URL, url);
 
-            Set<WebURL> links = htmlParseData.getOutgoingUrls();
-
-            // Need to add further parsing steps
-            // htmlParseData.getText() is available to usersystem for convenience
-            // jsoup should be added for more precise parsing
-            // crawler4j is only used for scheduling
-            LOGGER.debug("Text : {}", text);
+            LOGGER.debug("URL: {}", url);
             LOGGER.debug("Text length: {}", text.length());
             LOGGER.debug("Html length: {}", html.length());
         }
     }
 
+    /**
+     * Get all the info that current URL has
+     * @return all the info about the webiste
+     */
     public Map<CrawlerResultKey, String> getResult(){
         return result;
     }

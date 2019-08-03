@@ -58,6 +58,14 @@ class Signup extends Component {
             textconfirmpasswordError = "password confirmation does not match your password";
         }
 
+        if (this.state.textusername.length < 4) {
+            textusernameError = "username should be at least 4 characters";
+        }
+
+        if (this.state.textpassword.length < 4) {
+            textpasswordError = "password should be at least 4 characters";
+        }
+
         if (textusernameError || textpasswordError || textconfirmpasswordError) {
             this.setState({textusernameError: textusernameError, textpasswordError: textpasswordError, textconfirmpasswordError: textconfirmpasswordError});
             return false;
@@ -82,7 +90,6 @@ class Signup extends Component {
 
     sendSignUp = async (username, password) => {
 
-        /************** uncomment this section once finished backend for signup *******************/
         const response = await fetch('http://localhost:8000/users/signup', {
             method: 'POST',
             headers: {
@@ -95,6 +102,9 @@ class Signup extends Component {
             })
         });
         if (response.status !== 200) {
+            if (response.status === 400) this.setState({
+                errorMsg: "Username or password must be at least 4 characters..."
+            });
             if (response.status === 409) this.setState({
                 errorMsg: "Username has been taken..."
             });
@@ -119,9 +129,6 @@ class Signup extends Component {
             }
         }
 
-        /***************************test only************************/
-        /*   remove below line after implementing backend for signup */
-        //this.props.history.push('/Login');
     };
 
 
@@ -130,7 +137,7 @@ class Signup extends Component {
             <Container maxWidth="xs" className="SignupContainer">
                 <CssBaseline/>
                 <div className="signup_paper">
-                    <p>{ this.state.errorMsg }</p>
+                    <p className="error_msg">{ this.state.errorMsg }</p>
                     <Typography component="h1" variant="h5">
                         Sign up
                     </Typography>

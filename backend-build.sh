@@ -1,2 +1,4 @@
 #!/bin/bash
-mvn clean install -f backend/pom.xml
+cd backend
+mvn clean install
+mvn spring-boot:run

@@ -7,13 +7,15 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-// import IconBar from './IconBar.js';
 import { If, Then, Else } from 'react-if-elseif-else-render';
 import Pullbar from "./Menu/Pullbar/Pullbar";
 import Hidden from "./Menu/Hidden/Hidden";
 import Background from "./Menu/Background/Background";
-
-import Microlink from '@microlink/react'
+import Avatar from '@material-ui/core/Avatar';
+import FaceIcon from '@material-ui/icons/Face';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 
 class Chatbot extends Component {
 
@@ -22,11 +24,10 @@ class Chatbot extends Component {
         this.state = {
             hiddenStatus: false,
             textValue: '',
-            //chatArray: [{ from: null, msg: null }]
             chatArray: []
         };
-
         this.clickEvent = this.clickEvent.bind(this);
+        this.messagesEndRef = React.createRef();
     }
 
     pullToggle = () =>{
@@ -46,7 +47,6 @@ class Chatbot extends Component {
             };
             this.props.history.push(location);
         } else {
-
             if(sessionStorage.getItem('chatArray')!==null) {
                 let prechatArray = JSON.parse(sessionStorage.getItem('chatArray'));
                 prechatArray.map(chat => {
@@ -68,46 +68,16 @@ class Chatbot extends Component {
             }
         }
     }
+    componentDidUpdate(){
+      this.scrollToBottom();
+    };
 
+    scrollToBottom = () =>{
+        this.messagesEndRef.current.scrollIntoView({behavior:"smooth"});
+    };
     changeTextValue = e => {
         this.setState({ textValue: e.target.value });
     };
-
-    changeMsg = () => {
-        // {this.chat.msg}
-    };
-    /********** test only ***********************/
-    postUserData = () => {
-        const name = { name: this.state.textValue, username: Cookies.get('username') };
-        try {
-            axios.post("https://jsonplaceholder.typicode.com/users", name)
-                // upon request is success sent
-                .then(res => {
-                    // update result in the state.
-                    console.log(res)
-                });
-        } catch (err) {
-            console.log(err);
-        }
-    };
-    /************************************************************/
-
-    /********** test only ***********************/
-    getUserData = async () => {
-        const response = await fetch('https://jsonplaceholder.typicode.com/users');
-        const body = await response.json();
-        if (body) {
-            this.setState((prevState) => ({ chatArray: prevState.chatArray.concat({ from: 'chatbot', msg: body[0].name }) }), () => {
-                sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
-            });
-        } else {
-            console.log("error");
-        }
-    };
-    /************************************************************/
-
-
-
 
     query = () => {
         const message = { message: this.state.textValue, username: Cookies.get('username') };
@@ -122,6 +92,7 @@ class Chatbot extends Component {
                 .then(res => {
                     // update result in the state.
 
+                    console.log(res);
                     if (res.status === 200) {
                         if(res.data.message){
                             this.setState((prevState) => ({ chatArray: prevState.chatArray.concat({ from: 'chatbot', msg: res.data.message }) }), () => {
@@ -133,17 +104,6 @@ class Chatbot extends Component {
                                 sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
                             });
                         }
-                        console.log(res);
-                        // this.setState((prevState) => ({ chatArray: prevState.chatArray.concat({ from: 'chatbot', msg: res.data.documents }) }), () => {
-                        //     sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
-                        // });
-                        /* this.setState({
-                             chatArray: this.state.chatArray.concat({
-                                 from: 'chatbot',
-                                 msg: res.data.documents
-                             })
-                         });*/
-                        console.log(res);
                     } else {
                         console.log("error");
                     }
@@ -154,44 +114,13 @@ class Chatbot extends Component {
 
     };
 
-
-    /********** test only ***********************/
-    getDocumentList = async () => {
-        // fetch data from mock database
-        const data = require('./List/Mock.json');
-        this.setState((prevState) => ({
-            chatArray: prevState.chatArray.concat({
-                from: 'chatbot',
-                msg: "document name: " + data.documents[0].name + " url: " + data.documents[0].url
-            })
-        }), () => {
-            sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
-        });
-    };
-    /********test only *************************/
-    getLinkPreview = async() => {
-        const data = require('./List/Mock.json');
-        const url = data.documents[0].url;
-        const preview = <Microlink url = {url} style={{ display: 'inline-block',}} />
-        this.setState((prevState) => ({
-            chatArray: prevState.chatArray.concat({
-                from: 'chatbot',
-                msg: preview
-            })
-        }), () => {
-            sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
-         });
-    };
-    /************************************************************/
     clickEvent = () => {
-
         if (!Cookies.get('token')) {
             const location = {
                 pathname: '/Login'
             };
             this.props.history.push(location);
         } else {
-
             this.setState((prevState) => ({
                 chatArray: prevState.chatArray.concat({
                     from: Cookies.get('username'),
@@ -200,23 +129,6 @@ class Chatbot extends Component {
             }), () => {
                 sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
             });
-
-
-            /********** test only ***********************/
-            if (this.state.textValue.includes("!")) {
-                this.postUserData();
-                this.getUserData();
-            }
-
-            if (this.state.textValue.includes("document")) {
-                this.postUserData();
-                this.getDocumentList();
-            }
-             if (this.state.textValue.includes("Ins")) {
-                this.postUserData();
-                this.getLinkPreview();
-            }
-            /************************************************************/
 
             this.query();
 
@@ -227,9 +139,7 @@ class Chatbot extends Component {
     };
 
     render() {
-        //console.log(this.props.location);
         const { textValue, chatArray } = this.state;
-        //console.log(chatArray);
         let hidden;
         let close;
         if(this.state.hiddenStatus){
@@ -246,9 +156,6 @@ class Chatbot extends Component {
                     <Typography variant="h4" component="h4">
                         Chatbot
                     </Typography>
-                    {/*<Typography variant="h5" component="h5">*/}
-                    {/*DFI*/}
-                    {/*</Typography>*/}
                     <div className="flex">
                         <div className="chatWindow">
                             {
@@ -259,23 +166,39 @@ class Chatbot extends Component {
                                             <If condition={chat.from === 'chatbot'}>
                                                 <Then>
                                                     <div className={chat.from}>
-                                                        <Chip label={chat.from} variant="outlined" />
-                                                        <div className="message_inbox">
-                                                            <Typography align='left' variant='body1'>{chat.msg}</Typography>
-                                                        </div>
+                                                        <div ref={this.messagesEndRef} />
+                                                        <Chip avatar={<Avatar src="https://i.pinimg.com/originals/7d/9b/1d/7d9b1d662b28cd365b33a01a3d0288e1.gif" style= {{height: "29px", marginLeft:"1px"}}/>} label={chat.from} variant="outlined" />
+                                                            <If condition={chat.msg.length > 100}>
+                                                                <Then>
+                                                                    <div className="preview">
+                                                                        <ExpansionPanel>
+                                                                            <ExpansionPanelSummary aria-controls="panel1d-content" id="panel1d-header"  style ={{fontSizeAdjust:"small"}}>
+                                                                                <Typography variant='body2' align='left' style={{fontSize:"medium"}}> {"Key Word Summary: (".concat(chat.msg.slice(0,30).concat("...)"))} </Typography>
+                                                                            </ExpansionPanelSummary>
+                                                                            <ExpansionPanelDetails >
+                                                                                <Typography align='left' variant='body1'>
+                                                                                    {chat.msg}
+                                                                                </Typography>
+                                                                            </ExpansionPanelDetails>
+                                                                        </ExpansionPanel>
+                                                                    </div>
+                                                                </Then>
+                                                                <Else>
+                                                                <div className="message_inbox">
+                                                                    <Typography align='left' variant='body1'>{chat.msg}</Typography>
+                                                                </div>
+                                                                </Else>
+                                                            </If>
+                                                       
                                                     </div>
                                                 </Then>
                                                 <Else>
-                                                    {/*<If condition={chat.from !== null}>*/}
-                                                        {/*<Then>*/}
                                                     <div className="user">
                                                         <div className="user_message">
                                                             <Typography align='left' variant='body1'>{chat.msg}</Typography>
                                                         </div>
-                                                        <Chip label={chat.from} variant="outlined" />
+                                                        <Chip label={chat.from} icon={<FaceIcon />} variant="outlined"  />
                                                     </div>
-                                                        {/*</Then>*/}
-                                                    {/*</If>*/}
                                                 </Else>
                                             </If>
                                         </div>
@@ -290,10 +213,11 @@ class Chatbot extends Component {
                             className="chatBox"
                             value={textValue}
                             onChange={this.changeTextValue}
-                        />
+                        />       
                         <Button variant="contained" color="primary" className="button" onClick={this.clickEvent}>
                             Send
                         </Button>
+                        <div ref={this.messagesEndRef} />
                     </div>
                 </Paper>
             </div>

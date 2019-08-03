@@ -6,13 +6,18 @@ import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.Query;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 
 public class QueryTranslator {
 
+    /**
+     * create a  lucene query from key word result
+     * @param keywordsResults
+     * @return
+     * @throws ParseException
+     */
     public static Query fromKeyword(List<KeywordsResult> keywordsResults) throws ParseException {
         StringBuilder queryStringBuilder = new StringBuilder();
         for (KeywordsResult keywordsResult : keywordsResults) {
@@ -23,6 +28,12 @@ public class QueryTranslator {
         return query;
     }
 
+    /**
+     * create a lucene query from key word map
+     * @param keywords
+     * @return
+     * @throws ParseException
+     */
     public static Query fromMap(Map<String, Integer> keywords) throws ParseException {
         StringBuilder queryStringBuilder = new StringBuilder();
         keywords.forEach((keyword, frequency) -> {

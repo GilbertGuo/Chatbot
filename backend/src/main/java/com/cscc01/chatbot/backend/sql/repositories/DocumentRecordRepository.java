@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 
+/**
+ * This class defines CrudRepository specifically for DocumentRecord model
+ * and these methods' signitures are auto-identified by Spring JPA in specific format
+ */
 @CrossOrigin
 @RepositoryRestResource(collectionResourceRel = "documents", path = "documents")
 public interface DocumentRecordRepository extends CrudRepository<DocumentRecord, Long> {
@@ -31,13 +35,8 @@ public interface DocumentRecordRepository extends CrudRepository<DocumentRecord,
     @RestResource(exported = false)
     void deleteAll(Iterable<? extends DocumentRecord> entities);
 
-//    @Override
-//    @RestResource(exported = false)
-//    void deleteById(Long aLong);
-
     @Query("SELECT d FROM DocumentRecord d WHERE d.name = ?1")
     DocumentRecord findByName(@Param("name") String name);
-
 
     @Nullable
     List<DocumentRecord> findAll();
