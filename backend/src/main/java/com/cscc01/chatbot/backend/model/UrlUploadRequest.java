@@ -4,20 +4,20 @@ package com.cscc01.chatbot.backend.model;
 public class UrlUploadRequest {
 
     private String url;
-    private String admin;
+    private String lastModifiedUser;
 
     UrlUploadRequest() {}
 
-    UrlUploadRequest(String url, String admin) {
+    UrlUploadRequest(String url, String lastModifiedUser) {
         this.url = url;
-        this.admin = admin;
+        this.lastModifiedUser = lastModifiedUser;
     }
 
     public String getUrl() {
         return url;
     }
 
-    public String getAdmin(){
-        return admin;
+    public String getLastModifiedUser(){
+        return lastModifiedUser;
     }
 }

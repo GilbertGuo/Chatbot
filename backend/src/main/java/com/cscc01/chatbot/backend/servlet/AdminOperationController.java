@@ -73,7 +73,8 @@ public class AdminOperationController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(value = "/api/v1/documents/urls", method = RequestMethod.POST)
     public Map<String, Object> uploadUrlDocument(@RequestBody UrlUploadRequest urlUploadRequest) throws Exception {
-        String filename = documentService.addUrlDocument(urlUploadRequest.getUrl(), urlUploadRequest.getAdmin());
+        LOGGER.info(urlUploadRequest.getLastModifiedUser());
+        String filename = documentService.addUrlDocument(urlUploadRequest.getUrl(), urlUploadRequest.getLastModifiedUser());
         Map<String, Object> response = new HashMap<>();
         response.put("filename", filename);
         response.put("file", documentRecordRepository.findByName(filename));
