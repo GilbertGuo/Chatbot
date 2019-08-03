@@ -5,16 +5,13 @@
 
 .flex{
     display: flex;
-    height: 500px;
+    height: 83%;
     overflow:auto;
 }
 
 .flex2{
-    position: relative;
-    bottom: 0;
     display: flex;
-    height: 40px;
-    padding-top: 100px;
+    padding-top: 1%;
 
 }
 

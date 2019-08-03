@@ -24,7 +24,6 @@ class Chatbot extends Component {
         this.state = {
             hiddenStatus: false,
             textValue: '',
-            //chatArray: [{ from: null, msg: null }]
             chatArray: []
         };
         this.clickEvent = this.clickEvent.bind(this);
@@ -79,47 +78,6 @@ class Chatbot extends Component {
     changeTextValue = e => {
         this.setState({ textValue: e.target.value });
     };
-    // componentDidUpdate(){
-    //     const element = document.getElementById(this.state.chatArray);
-    //     element.scrollIntoView({behavior:"smooth"});
-
-    // };
-
-    changeMsg = () => {
-        // {this.chat.msg}
-    };
-    /********** test only ***********************/
-    postUserData = () => {
-        const name = { name: this.state.textValue, username: Cookies.get('username') };
-        try {
-            axios.post("https://jsonplaceholder.typicode.com/users", name)
-                // upon request is success sent
-                .then(res => {
-                    // update result in the state.
-                    console.log(res)
-                });
-        } catch (err) {
-            console.log(err);
-        }
-    };
-    /************************************************************/
-
-    /********** test only ***********************/
-    getUserData = async () => {
-        const response = await fetch('https://jsonplaceholder.typicode.com/users');
-        const body = await response.json();
-        if (body) {
-            this.setState((prevState) => ({ chatArray: prevState.chatArray.concat({ from: 'chatbot', msg: body[0].name }) }), () => {
-                sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
-            });
-        } else {
-            console.log("error");
-        }
-    };
-    /************************************************************/
-
-
-
 
     query = () => {
         const message = { message: this.state.textValue, username: Cookies.get('username') };
@@ -146,17 +104,6 @@ class Chatbot extends Component {
                                 sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
                             });
                         }
-
-                        // this.setState((prevState) => ({ chatArray: prevState.chatArray.concat({ from: 'chatbot', msg: res.data.documents }) }), () => {
-                        //     sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
-                        // });
-                        /* this.setState({
-                             chatArray: this.state.chatArray.concat({
-                                 from: 'chatbot',
-                                 msg: res.data.documents
-                             })
-                         });*/
-
                     } else {
                         console.log("error");
                     }
@@ -182,12 +129,7 @@ class Chatbot extends Component {
             }), () => {
                 sessionStorage.setItem("chatArray", JSON.stringify(this.state.chatArray));
             });
-            /********** test only ***********************/
-            if (this.state.textValue.includes("!")) {
-                this.postUserData();
-                this.getUserData();
-            }
-            /************************************************************/
+
             this.query();
 
             if (this.state.textValue !== '') {
@@ -197,9 +139,7 @@ class Chatbot extends Component {
     };
 
     render() {
-        //console.log(this.props.location);
         const { textValue, chatArray } = this.state;
-        //console.log(chatArray);
         let hidden;
         let close;
         if(this.state.hiddenStatus){
@@ -216,9 +156,6 @@ class Chatbot extends Component {
                     <Typography variant="h4" component="h4">
                         Chatbot
                     </Typography>
-                    {/*<Typography variant="h5" component="h5">*/}
-                    {/*DFI*/}
-                    {/*</Typography>*/}
                     <div className="flex">
                         <div className="chatWindow">
                             {
@@ -256,16 +193,12 @@ class Chatbot extends Component {
                                                     </div>
                                                 </Then>
                                                 <Else>
-                                                    {/*<If condition={chat.from !== null}>*/}
-                                                        {/*<Then>*/}
                                                     <div className="user">
                                                         <div className="user_message">
                                                             <Typography align='left' variant='body1'>{chat.msg}</Typography>
                                                         </div>
                                                         <Chip label={chat.from} icon={<FaceIcon />} variant="outlined"  />
                                                     </div>
-                                                        {/*</Then>*/}
-                                                    {/*</If>*/}
                                                 </Else>
                                             </If>
                                         </div>

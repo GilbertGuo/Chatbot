@@ -62,7 +62,6 @@ export default class ControlledExpansionPanels extends Component {
           });
 
     } catch (err) {
-      //console.log(err);
       toast.error(err, { autoClose: 1000 });
     }
   };
@@ -78,7 +77,6 @@ export default class ControlledExpansionPanels extends Component {
               pageOfItems.map((feedback, i) =>
                   <ExpansionPanel key={i} expanded={expanded === i} onChange={this.changeHandler(i)}>
                     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>} id={i}>
-                      {/*<Typography className="User">User</Typography>*/}
                       <Typography className="User_Feedback">User's feedback</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
@@ -92,47 +90,6 @@ export default class ControlledExpansionPanels extends Component {
         }
         <Page items={latestFeedback} onChangePage={this.onChangePage} />
         </div>
-
-        /*<div className="feedback_list">
-          <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.changeHandler('panel1')}>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>} id="user1">
-              <Typography className="User">User1</Typography>
-              <Typography className="User_Feedback">User1's feedback</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-              <Typography>
-                I love it!
-              </Typography>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-          <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.changeHandler('panel2')}>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>} id="user2">
-              <Typography className="User">User2</Typography>
-              <Typography className="User_Feedback">
-                User2's feedback
-              </Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-              <Typography>
-                I love it!
-              </Typography>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-          <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.changeHandler('panel3')}>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>} id="user3"
-            >
-              <Typography className="User">User3</Typography>
-              <Typography className="User_Feedback">
-                User3's feedback
-              </Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-              <Typography>
-                I love it!
-              </Typography>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-        </div>*/
     );
   }
 }
