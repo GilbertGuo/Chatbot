@@ -195,7 +195,7 @@ class Admin extends Component {
             if (isUrl(this.state.selectedurl)) {
                 console.log(this.state.selectedurl);
 
-                const data = {url: this.state.selectedurl};
+                const data = {url: this.state.selectedurl, lastModifiedUser: Cookies.get('username')};
                 axios.post("http://localhost:8000/api/v1/documents/urls", data, {headers: headers})
                     .then(res => {
                         console.log(res);

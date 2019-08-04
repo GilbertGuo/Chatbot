@@ -40,7 +40,7 @@ public class DocumentServiceTests  {
         Path path = Paths.get(resourcesDirectory.getAbsolutePath() + "/test/Index.html");
         File file = path.toFile();
         documentService.addFileDocument(file, "someone");
-        documentService.deleteDocument("0");
+        documentService.deleteDocument(file.getName());
     }
 
     @Test
@@ -55,7 +55,7 @@ public class DocumentServiceTests  {
 
     @Test
     public void testDeleteUploadedUrl() throws Exception {
-        String filename = documentService.addUrlDocument("https://www.utoronto.ca/contacts");
+        String filename = documentService.addUrlDocument("https://www.utoronto.ca/contacts", "dfiadmin");
         documentService.deleteDocument(filename);
     }
 
