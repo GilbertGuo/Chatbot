@@ -68,7 +68,7 @@ public class DocumentService {
      * @return
      * @throws Exception
      */
-    public String addUrlDocument(String url) throws Exception {
+    public String addUrlDocument(String url, String user) throws Exception {
         Map<CrawlerResultKey, String> crawlerResult = crawlerService.startCrawler(url);
         String filename = crawlerResult.get(CrawlerResultKey.TITLE);
         DocumentRecord documentRecord = documentRecordRepository.findByName(filename);
@@ -86,7 +86,7 @@ public class DocumentService {
             documentId = result.getDocumentId();
         }
 
-        documentRecord = DocumentRetriever.buildDocumentRecord(crawlerResult, null, documentId);
+        documentRecord = DocumentRetriever.buildDocumentRecord(crawlerResult, user, documentId);
         if (documentRecordRepository.findByName(documentRecord.getName()) != null) {
             documentRecordRepository.delete(documentRecord);
         }
