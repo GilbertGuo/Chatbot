@@ -118,3 +118,6 @@ curl http://localhost:8080/query/ -H “Authorization: Bearer GENERATED_AUTH_TOK
     * Tika
     * Slf4j
     * IBM Watson SDK
+
+## Video link
+https://www.youtube.com/watch?v=CHGvs_rvlfI&feature=youtu.be
